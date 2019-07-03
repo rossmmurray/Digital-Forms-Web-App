@@ -1,0 +1,20 @@
+import React from 'react';
+import './scss/App.scss';
+
+const FreeTextField = ({name, placeholder, required, _handleChange }) => (
+    <div>
+        <input
+            className="nhsuk-input"
+            type='text'
+            name={name}
+            required={required}
+            autoComplete='off'
+            placeholder={placeholder}
+            // onChange={_handleChange}
+        />
+    </div>
+);
+
+export default FreeTextField;
+
+
