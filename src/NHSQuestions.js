@@ -9,16 +9,17 @@ class NHSQuestions extends Component {
             drugs: '',
             sexuality: 'heterosexual'
         };
-        this.handleChangeGeneric = this.handleChangeGeneric.bind(this);
+        // todo: not need
+        // this.handleChangeGeneric = this.handleChangeGeneric.bind(this);
     }
 
-    handleChangeGeneric(event) {
+    handleChangeGeneric  = (event) => {
         //todo: delete the below field before releasing to production
         event.persist();
         this.setState({[event.target.name]: event.target.value});
         console.log(event.target.value);
         console.log(event);
-    }
+    };
 
     // here is our UI
     // it is easy to understand their functions when you

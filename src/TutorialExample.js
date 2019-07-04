@@ -5,6 +5,7 @@ import './scss/App.scss';
 
 class TutorialExample extends Component {
     // initialize our state
+    base_url = 'http://localhost:3001/api';
     state = {
         data: [],
         id: 0,
@@ -43,7 +44,7 @@ class TutorialExample extends Component {
     // our first get method that uses our backend api to
     // fetch data from our data base
     getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getData')
+        fetch( this.base_url + '/getData')
             .then((data) => data.json())
             .then((res) => this.setState({ data: res.data }));
     };
@@ -57,7 +58,7 @@ class TutorialExample extends Component {
             ++idToBeAdded;
         }
 
-        axios.post('http://localhost:3001/api/putData', {
+        axios.post(this.base_url + '/putData', {
             id: idToBeAdded,
             message: message,
         });
@@ -74,7 +75,7 @@ class TutorialExample extends Component {
             }
         });
 
-        axios.delete('http://localhost:3001/api/deleteData', {
+        axios.delete(this.base_url + '/deleteData', {
             data: {
                 id: objIdToDelete,
             },
@@ -92,7 +93,7 @@ class TutorialExample extends Component {
             }
         });
 
-        axios.post('http://localhost:3001/api/updateData', {
+        axios.post(this.base_url + '/updateData', {
             id: objIdToUpdate,
             update: { message: updateToApply },
         });
