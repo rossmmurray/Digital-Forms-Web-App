@@ -1,6 +1,6 @@
 // /client/App.js
 import React, {Component} from 'react';
-// import TutorialExample from './TutorialExample'
+import TutorialExample from './TutorialExample'
 import NHSHeader from './NHSHeader';
 import './scss/App.scss';
 import NHSQuestions from './NHSQuestions';
@@ -17,7 +17,7 @@ class App extends Component {
                     <div className="mh_header">
                         <NHSHeader/>
                     </div>
-                    {/*<TutorialExample/>*/}
+                    <TutorialExample/>
                     <div className="mh_body">
                         <div className="nhsuk-width-container">
                             <Route exact path="/" component={Start}/>
