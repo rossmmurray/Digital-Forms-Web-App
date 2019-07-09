@@ -15,6 +15,7 @@ class App extends Component {
             <Router>
                 <div className="mh_container">
                     <div className="mh_header">
+
                         <NHSHeader/>
                     </div>
                     <TutorialExample/>
