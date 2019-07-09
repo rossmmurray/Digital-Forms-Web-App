@@ -5,7 +5,8 @@ import './css/App.css';
 
 class TutorialExample extends Component {
     // initialize our state
-    base_url = 'http://localhost:3001/api';
+    // base_url = 'http://localhost:3001/api';
+    base_url = 'https://mhtriagebackend.azurewebsites.net/api/';
     state = {
         data: [],
         id: 0,
