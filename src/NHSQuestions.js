@@ -1,6 +1,6 @@
 // /client/App.js
 import React, {Component} from 'react';
-import './scss/App.scss';
+import './css/App.css';
 
 class NHSQuestions extends Component {
     constructor(props) {

@@ -1,7 +1,7 @@
 // /client/App.js
 import React, { Component } from 'react';
 import axios from 'axios';
-import './scss/App.scss';
+import './css/App.css';
 
 class TutorialExample extends Component {
     // initialize our state

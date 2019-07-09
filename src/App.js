@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import TutorialExample from './TutorialExample'
 import NHSHeader from './NHSHeader';
-import './scss/App.scss';
+import './css/App.css';
 import NHSQuestions from './NHSQuestions';
 import NHSFooter from './NHSFooter';
 import {BrowserRouter as Router, Route} from "react-router-dom";

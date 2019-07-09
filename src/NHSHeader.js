@@ -1,5 +1,5 @@
 import React from 'react';
-import './scss/App.scss';
+import './css/App.css';
 import logo from './img/NHS-Logo.svg';
 import nhsuk_header from '../node_modules/nhsuk-frontend/packages/components/header/header';
 

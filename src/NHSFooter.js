@@ -1,5 +1,5 @@
 import React from 'react';
-import './scss/App.scss';
+import './css/App.css';
 
 const NHSFooter = () => (
     <div>
