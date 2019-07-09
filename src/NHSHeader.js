@@ -1,11 +1,11 @@
 import React from 'react';
 import './css/App.css';
 import logo from './img/NHS-Logo.svg';
-import nhsuk_header from '../node_modules/nhsuk-frontend/packages/components/header/header';
+// import nhsuk_header from '../node_modules/nhsuk-frontend/packages/components/header/header';
 
 const NHSHeader = () => (
     <div>
-        {nhsuk_header()}
+        {/*{nhsuk_header()}*/}
         <header className="nhsuk-header" role="banner">
             <div className="nhsuk-width-container nhsuk-header__container">
 
