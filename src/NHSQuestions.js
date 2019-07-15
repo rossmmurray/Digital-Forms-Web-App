@@ -1,6 +1,7 @@
 // /client/App.js
 import React, {Component} from 'react';
 import './css/App.css';
+import axios from "axios";
 
 class NHSQuestions extends Component {
     constructor(props) {
@@ -19,6 +20,20 @@ class NHSQuestions extends Component {
         this.setState({[event.target.name]: event.target.value});
         console.log(event.target.value);
         console.log(event);
+    };
+
+
+    putDataToDB = (message) => {
+        let currentIds = this.state.data.map((data) => data.id);
+        let idToBeAdded = 0;
+        while (currentIds.includes(idToBeAdded)) {
+            ++idToBeAdded;
+        }
+
+        axios.post(this.base_url + '/putData', {
+            id: idToBeAdded,
+            message: message,
+        });
     };
 
     // here is our UI
