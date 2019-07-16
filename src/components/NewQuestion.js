@@ -1,13 +1,33 @@
 import React, {Component} from 'react';
+import axios from "axios";
+import { base_url } from "../connections";
+
 
 class NewQuestion extends Component {
+    // base_url = 'https://mhtriagebackend.azurewebsites.net/api/';
     state = {
         questionText: ''
     };
 
     saveQuestionToDB = (questionText) => {
+        axios.post(base_url + '/putQuestion', {
+            questionText: questionText
+        })
 
     };
+
+    // putDataToDB = (message) => {
+    //     let currentIds = this.state.data.map((data) => data.id);
+    //     let idToBeAdded = 0;
+    //     while (currentIds.includes(idToBeAdded)) {
+    //         ++idToBeAdded;
+    //     }
+    //
+    //     axios.post(this.base_url + '/putData', {
+    //         id: idToBeAdded,
+    //         message: message,
+    //     });
+    // };
 
     render() {
         return (

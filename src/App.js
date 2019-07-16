@@ -18,7 +18,7 @@ class App extends Component {
 
                         <NHSHeader/>
                     </div>
-                    <TutorialExample/>
+                    {/*<TutorialExample/>*/}
                     <div className="mh_body">
                         <div className="nhsuk-width-container">
                             <Route exact path="/" component={Start}/>
