@@ -40,7 +40,7 @@ class NHSQuestions extends Component {
     // it is easy to understand their functions when you
     // see them render into our screen
     render() {
-        const {data} = this.state;
+        // const {data} = this.state;
         return (
             <div>
                 <h1>NHS Unified Mental Health Triage Tool</h1>

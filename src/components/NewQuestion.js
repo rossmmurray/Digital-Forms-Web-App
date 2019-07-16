@@ -10,9 +10,13 @@ class NewQuestion extends Component {
     };
 
     saveQuestionToDB = (questionText) => {
+        console.log("saving question");
         axios.post(base_url + '/putQuestion', {
             questionText: questionText
         })
+            .catch( (err) => {
+                console.log(err);
+            })
 
     };
 
@@ -44,7 +48,7 @@ class NewQuestion extends Component {
                                 onChange={(e) => this.setState({ questionText: e.target.value })}
                                 placeholder="enter new question text"
                             />
-                            <button className="nhsuk-button" onClick={() => this.deleteFromDB(this.state.idToDelete)}>
+                            <button className="nhsuk-button" onClick={() => this.saveQuestionToDB(this.state.questionText)}>
                                 Add Question
                             </button>
                         </div>

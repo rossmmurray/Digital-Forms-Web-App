@@ -1,6 +1,6 @@
 import React from 'react';
 import './css/App.css';
-import logo from './img/NHS-Logo.svg';
+// import logo from './img/NHS-Logo.svg';
 import {Link} from "react-router-dom";
 // import nhsuk_header from '../node_modules/nhsuk-frontend/packages/components/header/header';
 
@@ -12,8 +12,7 @@ const NHSHeader = () => (
 
                 {/* Logo stuff */}
                 <div className='nhsuk-header__logo'>
-                    <Link to="/">
-                        <a className="nhsuk-header__link nhsuk-header__link--service" aria-label="NHS homepage">
+                    <Link to="/" className="nhsuk-header__link nhsuk-header__link--service" aria-label="NHS homepage">
                             <svg className="nhsuk-logo nhsuk-logo--white"
                                  role="presentation" focusable="false" viewBox="0 0 40 16">
                                 <path fill="#fff" d="M0 0h40v16H0z"/>
@@ -24,7 +23,6 @@ const NHSHeader = () => (
                             <span className="nhsuk-header__service-name">
                             Digital Mental Health Service
                         </span>
-                        </a>
                     </Link>
                 </div>
 
@@ -42,10 +40,10 @@ const NHSHeader = () => (
                      aria-label="Primary navigation" aria-labelledby="label-navigation">
                     <ul className="nhsuk-header__navigation-list">
                         <li className="nhsuk-header__navigation-item">
-                            <Link to="/admin/newQuestion">
-                                <a className="nhsuk-header__navigation-link">
-                                    Care and support
-                                </a>
+                            <Link className="nhsuk-header__navigation-link" to="/admin/newQuestion">
+                                {/*<a className="nhsuk-header__navigation-link">*/}
+                                    Add Question
+                                {/*</a>*/}
                             </Link>
 
                         </li>

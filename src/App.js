@@ -1,6 +1,6 @@
 // /client/App.js
 import React, {Component} from 'react';
-import TutorialExample from './TutorialExample'
+// import TutorialExample from './TutorialExample'
 import NHSHeader from './NHSHeader';
 import './css/App.css';
 import NHSQuestions from './NHSQuestions';
