@@ -36,8 +36,8 @@ class NewQuestion extends Component {
             })
             .catch( (err) => {
                 console.log(err);
-                this.setState( {saveMessage: 'Error: ' + err});
-                NotificationManager.warning('Error: ' + err);
+                this.setState( {saveMessage:err});
+                NotificationManager.warning(err);
             })
 
     };
@@ -66,10 +66,8 @@ class NewQuestion extends Component {
 
                 </div>
 
-                {/*<MHAlert>{this.state.saveMessage}</MHAlert>*/}
                 <NotificationContainer/>
 
-                <h1>{this.state.saveMessage}</h1>
 
             </div>
 
