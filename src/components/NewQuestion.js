@@ -13,31 +13,32 @@ class NewQuestion extends Component {
         saveMessage: ''
     };
 
-
+    componentDidUpdate() {
+        // console.log("did update");
+        // console.log(this.state.questionText);
+    };
 
     saveQuestionToDB = (questionText) => {
-        console.log("saving question");
+        // console.log("saving question");
         axios.post(base_url + '/putQuestion', {
             questionText: questionText
         })
             .then( response => {
-                console.log(JSON.stringify(response));
+                // can't do the below because response is a circular object itself
+                // console.log(JSON.stringify(response));
                 if (response.data.success) {
-                    // this.setState( {saveMessage: 'Saved new question: ' + questionText});
-                    // this.createNotification('success');
-                    NotificationManager.success('Saved new question: ' + questionText);
+                    let successMessage = 'Saved new question: ' + questionText;
+                    this.setState( {saveMessage: successMessage});
+                    NotificationManager.success(successMessage);
                 } else {
-                    console.log(JSON.stringify(response));
-                    this.setState( {saveMessage: 'Error, try again'});
-                    NotificationManager.warning('Error, try again');
-
+                    // console.log(JSON.stringify(response));
+                    // this.setState( {saveMessage: 'Error, try again'});
+                    NotificationManager.warning('Error: ' + err.message);
                 }
-                console.log('saved');
+                // console.log('saved');
             })
             .catch( (err) => {
-                console.log(err);
-                this.setState( {saveMessage:err});
-                NotificationManager.warning(err);
+                NotificationManager.warning("Error: " + err.message);
             })
 
     };
@@ -67,7 +68,8 @@ class NewQuestion extends Component {
                 </div>
 
                 <NotificationContainer/>
-
+                {/*blah blah*/}
+                {/*<h3>{this.state.saveMessage}</h3>*/}
 
             </div>
 
