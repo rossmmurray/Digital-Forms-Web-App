@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
     "formik": "^1.5.7",
     "nhsuk-frontend": "^2.1.0",
     "react": "^16.8.6",
@@ -18,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "scss": "node-sass src/scss -o src/css"
+    "scss": "node-sass src/scss -o src/css",
+    "debug": "node $NODE_DEBUG_OPTION ./src/App.js"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,3 +1,4 @@
-const local_mode = true;
+require('dotenv').config();
 
-export const base_url = (local_mode) ? 'http://localhost:3001/api' : 'https://mhtriagebackend.azurewebsites.net/api';
+export const base_url = process.env.REACT_APP_LOCAL_BACKEND_URL || 'https://mhtriagebackend.azurewebsites.net/api';
+//djakl

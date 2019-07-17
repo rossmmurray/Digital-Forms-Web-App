@@ -8,7 +8,6 @@ import 'react-notifications/lib/notifications.css';
 
 
 class NewQuestion extends Component {
-    // base_url = 'https://mhtriagebackend.azurewebsites.net/api/';
     state = {
         questionText: '',
         saveMessage: ''
