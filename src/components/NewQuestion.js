@@ -33,7 +33,7 @@ class NewQuestion extends Component {
                 } else {
                     // console.log(JSON.stringify(response));
                     // this.setState( {saveMessage: 'Error, try again'});
-                    NotificationManager.warning('Error: ' + err.message);
+                    NotificationManager.warning('Error: ' + response.data);
                 }
                 // console.log('saved');
             })
