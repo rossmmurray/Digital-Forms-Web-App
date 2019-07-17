@@ -6,7 +6,7 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
 
-
+// /*eslint no-undef: 1*/
 class NewQuestion extends Component {
     state = {
         questionText: '',
@@ -25,7 +25,7 @@ class NewQuestion extends Component {
         })
             .then( response => {
                 // can't do the below because response is a circular object itself
-                // console.log(JSON.stringify(response));
+                console.log("Data sent to: " + response.config.url);
                 if (response.data.success) {
                     let successMessage = 'Saved new question: ' + questionText;
                     this.setState( {saveMessage: successMessage});

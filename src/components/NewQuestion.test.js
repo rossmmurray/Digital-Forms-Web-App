@@ -6,6 +6,9 @@ import TestRenderer from 'react-test-renderer'; // ES6
 import ReactDOM from 'react-dom'
 import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 
+/*eslint no-undef: 2*/
+
+
 test('submit question and get notification', async  () => {
     const testQuestion = "This is the test questions";
     const {getByLabelText, getByText, findByText} = render(<NewQuestion/>);
@@ -32,5 +35,10 @@ test("test for render", () => {
     renderer.render(<NewQuestion />);
     const result = renderer.getRenderOutput();
     console.log(result.props);
+});
+
+it('renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(<NewQuestion />, div);
 });
 
