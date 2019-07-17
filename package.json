@@ -11,6 +11,7 @@
     "react-notifications": "^1.4.3",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-test-renderer": "^16.8.6",
     "reactstrap": "^8.0.1",
     "styled-components": "^4.3.2"
   },
@@ -20,7 +21,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "scss": "node-sass src/scss -o src/css",
-    "debug": "node $NODE_DEBUG_OPTION ./src/App.js"
+    "debug": "node $NODE_DEBUG_OPTION ./src/App.js",
+    "lint": "./node_modules/.bin/eslint ./src/**/*.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +41,13 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.0.0",
-    "@testing-library/react": "^8.0.5"
+    "@testing-library/react": "^8.0.5",
+    "eslint": "^6.0.1",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.14.2",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }
