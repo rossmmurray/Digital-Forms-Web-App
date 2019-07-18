@@ -19,6 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test1": "react-scripts test --env=node api",
     "eject": "react-scripts eject",
     "scss": "node-sass src/scss -o src/css",
     "debug": "node $NODE_DEBUG_OPTION ./src/App.js",

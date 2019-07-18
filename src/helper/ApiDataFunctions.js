@@ -7,3 +7,8 @@ export const getQuestionsFromAPI = () => {
             return response;
         });
 };
+
+export const getQuestions = async () => {
+    const questionsApiData = await getQuestionsFromAPI();
+    return questionsApiData.data.data;
+};

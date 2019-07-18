@@ -4,12 +4,6 @@ import {base_url} from "../connections";
 
 class GetQuestions extends Component {
 
-    static getQuestionsFromAPI = () => {
-        return axios.get(base_url + '/getQuestions')
-            .then( response => {
-                return response;
-            });
-    };
 
     render() {
         return (
@@ -20,10 +14,6 @@ class GetQuestions extends Component {
     }
 
 }
-
-export const testFun1 = () => {
-    return 5;
-};
 
 export default GetQuestions;
 
