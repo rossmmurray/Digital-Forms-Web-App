@@ -25,7 +25,7 @@ class NewQuestion extends Component {
         })
             .then( response => {
                 // can't do the below because response is a circular object itself
-                console.log("Data sent to: " + response.config.url);
+                // console.log("Data sent to: " + response.config.url);
                 if (response.data.success) {
                     let successMessage = 'Saved new question: ' + questionText;
                     this.setState( {saveMessage: successMessage});

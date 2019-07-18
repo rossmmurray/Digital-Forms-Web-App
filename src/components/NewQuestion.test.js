@@ -34,7 +34,6 @@ test("test for render", () => {
     const renderer = new ShallowRenderer();
     renderer.render(<NewQuestion />);
     const result = renderer.getRenderOutput();
-    console.log(result.props);
 });
 
 it('renders without crashing', () => {
