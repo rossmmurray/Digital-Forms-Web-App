@@ -1,11 +1,9 @@
 import axios from 'axios';
 import {base_url} from "../connections";
 
-export const getQuestionsFromAPI = () => {
-    return axios.get(base_url + '/getQuestions')
-        .then( response => {
-            return response;
-        });
+export const getQuestionsFromAPI = async () => {
+    const response = await axios.get(base_url + '/getQuestions');
+    return response;
 };
 
 export const getQuestions = async () => {

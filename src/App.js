@@ -8,7 +8,7 @@ import NHSFooter from './NHSFooter';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
-
+import ShowQuestions from './components/ShowQuestions'
 
 class App extends Component {
     render() {
@@ -28,6 +28,7 @@ class App extends Component {
                             {/*<Route exact path="/about" component={MHQuestions} />*/}
                             <Route exact path="/questions1" component={NHSQuestions} />
                             <Route exact path="/admin/newQuestion" component={NewQuestion} />
+                            <ShowQuestions/>
                         </div>
                     </div>
                     <div className="mh_footer">
