@@ -21,5 +21,9 @@ class GetQuestions extends Component {
 
 }
 
+export const testFun1 = () => {
+    return 5;
+};
+
 export default GetQuestions;
 
