@@ -1,11 +1,14 @@
 import React from 'react'
-import {render, fireEvent} from '@testing-library/react'
+import {render} from '@testing-library/react'
 import App from './App'
 import '@testing-library/jest-dom/extend-expect'
 
-test('test for render', async  () => {
-    const {getByLabelText, getByText, findByText} = render(<App/>);
-    const input = getByText(/digital/i);
+test('test for render', () => {
+        // const { findByText } = render(<App/>);
+        // const input = await findByText(/digital/i);
+        // expect(input).toBeInTheDocument();
+        // console.log("placeholder")
+
 
     //
     // // check value of notification

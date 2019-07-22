@@ -18,8 +18,6 @@ class NHSQuestions extends Component {
         //todo: delete the below field before releasing to production
         event.persist();
         this.setState({[event.target.name]: event.target.value});
-        console.log(event.target.value);
-        console.log(event);
     };
 
 

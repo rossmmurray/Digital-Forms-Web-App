@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
 import ShowQuestions from './components/ShowQuestions'
+import Login from './components/Login'
 
 class App extends Component {
     render() {
@@ -28,6 +29,8 @@ class App extends Component {
                             {/*<Route exact path="/about" component={MHQuestions} />*/}
                             <Route exact path="/questions1" component={NHSQuestions} />
                             <Route exact path="/admin/newQuestion" component={NewQuestion} />
+                            <Route exact path="/login" component={Login} />
+                            {/* <Route exact path="/register" component={Register} /> */}
                             <ShowQuestions/>
                         </div>
                     </div>

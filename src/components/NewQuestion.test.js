@@ -33,7 +33,6 @@ test("test for render", () => {
     // ReactDOM.render(<NewQuestion/>, container);
     const renderer = new ShallowRenderer();
     renderer.render(<NewQuestion />);
-    const result = renderer.getRenderOutput();
 });
 
 it('renders without crashing', () => {

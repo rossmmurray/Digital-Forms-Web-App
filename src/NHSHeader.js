@@ -45,7 +45,20 @@ const NHSHeader = () => (
                                     Add Question
                                 {/*</a>*/}
                             </Link>
-
+                        </li>
+                        <li className="nhsuk-header__navigation-item">
+                            <Link className="nhsuk-header__navigation-link" to="/Login">
+                                {/*<a className="nhsuk-header__navigation-link">*/}
+                                    Login
+                                {/*</a>*/}
+                            </Link>
+                        </li>
+                        <li className="nhsuk-header__navigation-item">
+                            <Link className="nhsuk-header__navigation-link" to="/Register">
+                                {/*<a className="nhsuk-header__navigation-link">*/}
+                                    Register
+                                {/*</a>*/}
+                            </Link>
                         </li>
                     </ul>
                 </nav>
