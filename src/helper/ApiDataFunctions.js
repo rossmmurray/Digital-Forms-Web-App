@@ -1,13 +1,14 @@
 import axios from 'axios';
 import {base_url} from "../connections";
 
-export const getQuestionsFromAPI = async () => {
-    const response = await axios.get(base_url + '/getQuestions');
-    return response;
-};
+// export const getQuestionsFromAPI = async () => {
+    
+//     return response;
+// };
 
 export const getQuestions = async () => {
-    const questionsApiData = await getQuestionsFromAPI();
+    // const response = await 
+    const questionsApiData = await axios.get(base_url + '/getQuestions');
     return questionsApiData.data.data;
 };
 
@@ -21,4 +22,4 @@ export const saveQuestion = async (questionText) => {
     } else {
         throw 'Did not save';
     }
-}
+};

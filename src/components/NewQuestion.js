@@ -4,6 +4,7 @@ import { base_url } from "../connections";
 // import MHAlert from './MHAlert';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import { saveQuestion } from '../helper/ApiDataFunctions'
 
 
 // /*eslint no-undef: 1*/
@@ -18,29 +19,14 @@ class NewQuestion extends Component {
         // console.log(this.state.questionText);
     };
 
-    saveQuestionToDB = (questionText) => {
-        // console.log("saving question");
-        axios.post(base_url + '/putQuestion', {
-            questionText: questionText
-        })
-            .then( response => {
-                // can't do the below because response is a circular object itself
-                // console.log("Data sent to: " + response.config.url);
-                if (response.data.success) {
-                    let successMessage = 'Saved new question: ' + questionText;
-                    this.setState( {saveMessage: successMessage});
-                    NotificationManager.success(successMessage);
-                } else {
-                    // console.log(JSON.stringify(response));
-                    // this.setState( {saveMessage: 'Error, try again'});
-                    NotificationManager.warning('Error: ' + response.data);
-                }
-                // console.log('saved');
-            })
-            .catch( (err) => {
-                NotificationManager.warning("Error: " + err.message);
-            })
-
+    saveQuestionToDB = async (questionText) => {
+        try {
+            const savedQuestion = await saveQuestion(questionText);
+            let successMessage = 'Saved new question: ' + savedQuestion.questionText;
+            NotificationManager.success(successMessage)
+        } catch (err) {
+            NotificationManager.warning('Error: ' + err); 
+        }
     };
 
     render() {
