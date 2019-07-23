@@ -1,5 +1,5 @@
 import React from 'react';
-import { getQuestions } from '../helper/ApiDataFunctions'
+import { getQuestions, deleteQuestion } from '../helper/ApiDataFunctions'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -8,15 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit'
+import RefreshIcon from '@material-ui/icons/Refresh'
 
-
-function generate(element) {
-    return [0, 1, 2, 3, 4].map(value =>
-        React.cloneElement(element, {
-            key: value,
-        }),
-    );
-}
 
 // TODO: change this to a class based component
 class ShowQuestions extends React.Component {
@@ -27,36 +20,49 @@ class ShowQuestions extends React.Component {
         visibleQuestionsArray: []
     }
 
-    async componentDidMount() {
+    refreshData = async () => {
         const allQuestions = await getQuestions();
         const questionSublist = allQuestions.slice(0, 10);
-        this.setState({visibleQuestionsArray: questionSublist});
-        const questions = questionSublist.map(questionObject =>
-            <li key={questionObject._id}>
-                {questionObject.questionText}
-            </li>
-        )
-        this.setState({ visibleQuestions: questions })
+        this.setState({ visibleQuestionsArray: questionSublist });
+        // const questions = questionSublist.map(questionObject =>
+        //     <li key={questionObject._id}>
+        //         {questionObject.questionText}
+        //     </li>
+        // )
+        // this.setState({ visibleQuestions: questions })
+    }
+
+    componentDidMount() {
+        this.refreshData();
+    }
+
+    deleteQuestionFromPage = async (questionId) => {
+        await deleteQuestion(questionId);
+        this.refreshData();
+
     }
 
     render() {
         return (
             <div>
                 <h1>Show Questions Component</h1>
+                <IconButton edge="end" aria-label="Delete" onClick={this.refreshData}>
+                    <RefreshIcon/>
+                </IconButton>
                 <Grid container spaceing={2}>
                     <Grid item xs={12} md={6}>
                         <div>
                             <List>
-                                {this.state.visibleQuestionsArray.map(questionObject => 
+                                {this.state.visibleQuestionsArray.map(questionObject =>
                                     <ListItem key={questionObject._id}>
                                         <ListItemText
                                             primary={questionObject.questionText}
                                         />
                                         <ListItemSecondaryAction>
-                                            <IconButton edge="end" aria-label="Delete">
+                                            <IconButton edge="end" aria-label="Edit">
                                                 <EditIcon />
                                             </IconButton>
-                                            <IconButton edge="end" aria-label="Delete">
+                                            <IconButton edge="end" aria-label="Delete" onClick={() => this.deleteQuestionFromPage(questionObject._id)}>
                                                 <DeleteIcon />
                                             </IconButton>
                                         </ListItemSecondaryAction>
