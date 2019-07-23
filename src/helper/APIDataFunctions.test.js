@@ -25,5 +25,5 @@ test('delete question (with post before)', async () => {
     const createdQuestionId = result._id;
     const deletedResponse = await deleteQuestion(createdQuestionId);
     expect(deletedResponse.success).toEqual(true);
-    expect(deletedResponse.deletedQuestionId).toEqual(createdQuestionId)
+    expect(deletedResponse.deletedQuestionId).toEqual(createdQuestionId);
 })
