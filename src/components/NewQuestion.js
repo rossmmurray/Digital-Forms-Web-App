@@ -45,7 +45,7 @@ class NewQuestion extends Component {
                                 placeholder="enter new question text"
                             />
                             <button className="nhsuk-button" onClick={() => this.saveQuestionToDB(this.state.questionText)}>
-                                Add Question
+                                Save
                             </button>
                         {/*</div>*/}
 

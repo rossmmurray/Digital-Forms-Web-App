@@ -26,4 +26,8 @@ export const deleteQuestion = async (questionId) => {
     });
     const resData = response.data
     return resData;
-}
+};
+
+export const deleteAllQuestions = async () => {
+    const response = await axios.delete(base_url + '/questions');
+};

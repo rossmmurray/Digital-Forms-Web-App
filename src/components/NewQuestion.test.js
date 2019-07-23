@@ -5,6 +5,9 @@ import '@testing-library/jest-dom/extend-expect'
 import TestRenderer from 'react-test-renderer'; // ES6
 import ReactDOM from 'react-dom'
 import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
+import ShowQuestions from './ShowQuestions'
+import '@testing-library/jest-dom/extend-expect'
+import { getQuestions } from '../helper/ApiDataFunctions'
 
 /*eslint no-undef: 2*/
 
@@ -18,7 +21,7 @@ test('submit question and get notification', async  () => {
     fireEvent.change(input, {target: {value: testQuestion}});
 
     // press button
-    fireEvent.click(getByText(/add question/i));
+    fireEvent.click(getByText(/save/i));
 
     // check value of notification
     const re = new RegExp("Saved .*" + testQuestion, "i");
@@ -40,3 +43,10 @@ it('renders without crashing', () => {
     ReactDOM.render(<NewQuestion />, div);
 });
 
+test('shows at least first question from api', async () => {
+    const questions = await getQuestions();
+    const firstQuestion = questions[0].questionText;
+    const { findAllByText } = render(<ShowQuestions/>);
+    const foundElement = await findAllByText(firstQuestion)
+    expect(foundElement.length).toBeGreaterThanOrEqual(1);
+})
