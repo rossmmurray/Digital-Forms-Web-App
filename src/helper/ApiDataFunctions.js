@@ -1,11 +1,6 @@
 import axios from 'axios';
 import {base_url} from "../connections";
 
-// export const getQuestionsFromAPI = async () => {
-    
-//     return response;
-// };
-
 export const getQuestions = async () => {
     // const response = await 
     const questionsApiData = await axios.get(base_url + '/getQuestions');
@@ -23,3 +18,12 @@ export const saveQuestion = async (questionText) => {
         throw 'Did not save';
     }
 };
+
+export const deleteQuestion = async (questionId) => {
+    // should return true if worked, false if not
+    const response = await axios.delete(base_url + '/question', {
+        data: {id: questionId}
+    });
+    const resData = response.data
+    return resData;
+}

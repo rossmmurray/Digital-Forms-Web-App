@@ -1,4 +1,4 @@
-import { getQuestionsFromAPI, getQuestions, saveQuestion} from './APIDataFunctions'
+import { getQuestions, saveQuestion, deleteQuestion} from './APIDataFunctions'
 
 // test('apidata get success message from api', async () => {
 //     const result = await getQuestionsFromAPI();
@@ -17,4 +17,13 @@ test('post question', async () => {
     const result = await saveQuestion(questionText);
     const resultID = result._id;
     expect(resultID.length).not.toEqual(0);
+})
+
+test('delete question (with post before)', async () => {
+    const questionText = "Added a question";
+    const result = await saveQuestion(questionText);
+    const createdQuestionId = result._id;
+    const deletedResponse = await deleteQuestion(createdQuestionId);
+    expect(deletedResponse.success).toEqual(true);
+    expect(deletedResponse.deletedQuestionId).toEqual(createdQuestionId)
 })
