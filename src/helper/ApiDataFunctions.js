@@ -29,8 +29,13 @@ export const deleteQuestion = async (questionId) => {
 };
 
 export const updateQuestion = async (questionId, questionText) => {
-    const response = await axios.put(base_url + '/updateQuestion/' + questionId, { questionText: questionText });
-    return response.data;
+    try {
+        const response = await axios.put(base_url + '/updateQuestion/' + questionId, { questionText: questionText });
+        return response.data;
+    } catch(err) {
+        console.log(err)
+        return err;
+    }
 };
 
 export const deleteAllQuestions = async () => {
