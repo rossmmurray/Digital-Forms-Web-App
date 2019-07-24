@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {base_url} from "../connections";
+import { base_url } from "../connections";
 
 export const getQuestions = async () => {
     // const response = await 
@@ -20,14 +20,19 @@ export const saveQuestion = async (questionText) => {
 };
 
 export const deleteQuestion = async (questionId) => {
-    // should return true if worked, false if not
+    // strangley, the body goes into a data param for axios.delete
     const response = await axios.delete(base_url + '/question', {
-        data: {id: questionId}
+        data: { id: questionId }
     });
     const resData = response.data
     return resData;
 };
 
+export const updateQuestion = async (questionId, questionText) => {
+    const response = await axios.put(base_url + '/updateQuestion/' + questionId, { questionText: questionText });
+    return response.data;
+};
+
 export const deleteAllQuestions = async () => {
-    const response = await axios.delete(base_url + '/questions');
+    axios.delete(base_url + '/questions');
 };

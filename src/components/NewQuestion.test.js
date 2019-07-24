@@ -7,7 +7,7 @@ import ReactDOM from 'react-dom'
 import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 import ShowQuestions from './ShowQuestions'
 import '@testing-library/jest-dom/extend-expect'
-import { getQuestions } from '../helper/ApiDataFunctions'
+import { getQuestions, saveQuestion } from '../helper/ApiDataFunctions'
 
 /*eslint no-undef: 2*/
 
@@ -43,7 +43,9 @@ it('renders without crashing', () => {
     ReactDOM.render(<NewQuestion />, div);
 });
 
+// todo: doesn't always work because I think first question not alwalys shown (make desc)
 test('shows at least first question from api', async () => {
+    await saveQuestion('This is the test questions')
     const questions = await getQuestions();
     const firstQuestion = questions[0].questionText;
     const { findAllByText } = render(<ShowQuestions/>);
