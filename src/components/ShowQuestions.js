@@ -25,7 +25,7 @@ class ShowQuestions extends React.Component {
 
     refreshData = async () => {
         const allQuestions = await getQuestions();
-        const questionSublist = allQuestions.slice(0, 10);
+        const questionSublist = allQuestions.slice(0, 100);
         this.setState({ visibleQuestionsArray: questionSublist });
         // this.setState({editQuestionId: null});
         // const questions = questionSublist.map(questionObject =>

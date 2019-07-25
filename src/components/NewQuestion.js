@@ -18,6 +18,8 @@ class NewQuestion extends Component {
         updateFlag: this.props.question ? true : false
     };
 
+
+
     componentDidUpdate() {
         // console.log("did update");
         // console.log(this.state.questionText);
