@@ -12,6 +12,16 @@ import ShowQuestions from './components/ShowQuestions'
 import Login from './components/Login'
 
 class App extends Component {
+
+    myNewQuestion = (props) => {
+        const myProps = {
+            question: {questionText: "hello there"}
+        }
+        return (
+            <NewQuestion {...myProps}/>
+        )
+    };
+
     render() {
         return (
             <Router>
@@ -30,8 +40,13 @@ class App extends Component {
                             <Route exact path="/questions1" component={NHSQuestions} />
                             <Route exact path="/admin/newQuestion" component={NewQuestion} />
                             <Route exact path="/login" component={Login} />
+                            <Route exact path="/editQuestions" component={ShowQuestions} />
+
+                            {/* render={(routeProps) => (
+    <MyComponent {...routeProps} {...props} />
+  )} */}
                             {/* <Route exact path="/register" component={Register} /> */}
-                            <ShowQuestions/>
+                            {/* <ShowQuestions/> */}
                         </div>
                     </div>
                     <div className="mh_footer">

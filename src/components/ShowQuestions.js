@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit'
 import RefreshIcon from '@material-ui/icons/Refresh'
+import NewQuestion from './NewQuestion';
 
 
 // TODO: change this to a class based component
@@ -17,13 +18,16 @@ class ShowQuestions extends React.Component {
         visibleQuestions: '',
         dense: false,
         secondary: false,
-        visibleQuestionsArray: []
+        visibleQuestionsArray: [],
+        editQuestionsComponent: <div></div>,
+        editQuestionId: null
     }
 
     refreshData = async () => {
         const allQuestions = await getQuestions();
         const questionSublist = allQuestions.slice(0, 10);
         this.setState({ visibleQuestionsArray: questionSublist });
+        // this.setState({editQuestionId: null});
         // const questions = questionSublist.map(questionObject =>
         //     <li key={questionObject._id}>
         //         {questionObject.questionText}
@@ -32,9 +36,32 @@ class ShowQuestions extends React.Component {
         // this.setState({ visibleQuestions: questions })
     }
 
+    showEditQuestion(question) {
+        const myProps = {
+            question: question,
+            parentRefresh: this.refreshData,
+            parentStopEdit: this.stopEditingQuestion
+        }
+        this.setState({editQuestionsComponent: 
+            <NewQuestion {...myProps}/>
+        })
+        this.setState({editQuestionId: question._id})
+        this.refreshData();
+    }
+
+    // arrow function required since it's passed to child component 
+    // and called (diff context so binding required)
+    stopEditingQuestion = () => {
+        this.setState({ editQuestionId: null })
+    }
+
     componentDidMount() {
         this.refreshData();
     }
+    
+    // componentDidUpdate() {
+    //     this.refreshData();
+    // }
 
     deleteQuestionFromPage = async (questionId) => {
         await deleteQuestion(questionId);
@@ -45,28 +72,36 @@ class ShowQuestions extends React.Component {
     render() {
         return (
             <div>
-                <h1>Show Questions Component</h1>
+                <h1>Edit Questions</h1>
                 <IconButton edge="end" aria-label="Delete" onClick={this.refreshData}>
-                    <RefreshIcon/>
+                    <RefreshIcon />
                 </IconButton>
                 <Grid container spaceing={2}>
                     <Grid item xs={12} md={6}>
                         <div>
                             <List>
                                 {this.state.visibleQuestionsArray.map(questionObject =>
-                                    <ListItem key={questionObject._id}>
-                                        <ListItemText
-                                            primary={questionObject.questionText}
-                                        />
-                                        <ListItemSecondaryAction>
-                                            <IconButton edge="end" aria-label="Edit">
-                                                <EditIcon />
-                                            </IconButton>
-                                            <IconButton edge="end" aria-label="Delete" onClick={() => this.deleteQuestionFromPage(questionObject._id)}>
-                                                <DeleteIcon />
-                                            </IconButton>
-                                        </ListItemSecondaryAction>
-                                    </ListItem>,
+                                    <div key={questionObject._id}>
+                                        <ListItem >
+                                            <ListItemText
+                                                primary={questionObject.questionText}
+                                            />
+                                            <ListItemSecondaryAction>
+                                                <IconButton edge="end" aria-label="Edit" onClick={() => this.showEditQuestion(questionObject)}>
+                                                    <EditIcon />
+                                                </IconButton>
+                                                <IconButton edge="end" aria-label="Delete" onClick={() => this.deleteQuestionFromPage(questionObject._id)}>
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                            </ListItemSecondaryAction>
+
+                                        </ListItem>
+                                        <ListItem>
+                                            {/* if questionObject._id === state.edit_question then show the below */}
+                                            {/* {this.state.editQuestionsComponent} */}
+                                            {(questionObject._id === this.state.editQuestionId) ? this.state.editQuestionsComponent : null}
+                                        </ListItem>
+                                    </div>
                                 )}
                             </List>
                         </div>

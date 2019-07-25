@@ -46,6 +46,9 @@ const NHSHeader = () => (
                                 {/*</a>*/}
                             </Link>
                         </li>
+                            <Link className="nhsuk-header__navigation-link" to="/editQuestions">
+                                    Edit Questions
+                            </Link>
                         <li className="nhsuk-header__navigation-item">
                             <Link className="nhsuk-header__navigation-link" to="/Login">
                                 {/*<a className="nhsuk-header__navigation-link">*/}
