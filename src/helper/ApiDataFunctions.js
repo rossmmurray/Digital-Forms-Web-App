@@ -15,7 +15,7 @@ export const saveQuestion = async (questionText) => {
     if (response.data.success) {
         return response.data.questionAdded;
     } else {
-        throw 'Did not save';
+        throw response;
     }
 };
 

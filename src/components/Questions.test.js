@@ -15,6 +15,8 @@ import { getQuestions, saveQuestion } from '../helper/ApiDataFunctions'
 test('submit question and get notification', async  () => {
     const testQuestion = "This is the test questions";
     const {getByLabelText, getByText, findByText} = render(<NewQuestion/>);
+
+    // find the 
     const input = getByLabelText(/question text/i);
 
     // enter text
@@ -45,10 +47,25 @@ it('renders without crashing', () => {
 
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
 test('shows at least first question from api', async () => {
-    await saveQuestion('This is the test questions')
-    const questions = await getQuestions();
+    let questions = [];
+    try {
+        await saveQuestion('This is the test questions')
+        questions = await getQuestions();
+    } catch (err) {
+        console.log(err)
+        throw err
+    }
     const firstQuestion = questions[0].questionText;
     const { findAllByText } = render(<ShowQuestions/>);
     const foundElement = await findAllByText(firstQuestion)
     expect(foundElement.length).toBeGreaterThanOrEqual(1);
-})
+});
+
+test('update existing test', async () => {
+    await saveQuestion('This is some test question')
+    const { findAllByLabelText } = render(<ShowQuestions/>);
+    const foundElement = await findAllByLabelText(/edit/i)
+
+
+                    
+});
