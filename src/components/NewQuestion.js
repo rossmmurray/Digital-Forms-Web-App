@@ -4,7 +4,7 @@ import { base_url } from "../connections";
 // import MHAlert from './MHAlert';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import { saveQuestion, updateQuestion } from '../helper/ApiDataFunctions'
+import { saveQuestionRequestToApi, updateQuestion } from '../helper/ApiDataFunctions'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
     button: {
-        margin: theme.spacing(1),
+        // margin: theme.spacing(1),
     },
     input: {
         display: 'none',
@@ -25,24 +25,25 @@ function NewQuestion(props) {
     const [questionText, setQuestionText] = useState(props.question ? props.question.questionText : '')
     const updateFlag = props.question ? true : false;
 
-    const saveQuestionToDB = async (questionText) => {
+    // todo: rename these functions
+    const saveQuestionToDB = async (question) => {
         if (updateFlag) {
-            await updateQuestion(props.question._id, questionText);
+            await updateQuestion(props.question._id, question.questionText);
             props.parentRefresh();
             props.parentStopEdit();
         } else {
-            saveNewQuestionToDB(questionText);
+            saveNewQuestionToDB(question);
         }
-        
     };
 
-    const saveNewQuestionToDB = async (questionText) => {
+    const saveNewQuestionToDB = async (question) => {
         try {
-            const savedQuestion = await saveQuestion(questionText);
+            const savedQuestion = await saveQuestionRequestToApi(question);
             let successMessage = 'Saved new question: ' + savedQuestion.questionText;
             NotificationManager.success(successMessage)
         } catch (err) {
-            NotificationManager.warning('Error: ' + err);
+            console.log(err.data.error.messge)
+            NotificationManager.warning('Error: ' + err.data.error.message);
         }
     };
 
@@ -59,7 +60,7 @@ function NewQuestion(props) {
                 margin="normal"
             />
             <br />
-            <Button variant="contained" onClick={() => saveQuestionToDB(questionText)}>Save</Button>
+            <Button variant="contained" onClick={() => saveQuestionToDB({questionText: questionText})}>Save</Button>
             <NotificationContainer />
         </div>
     )

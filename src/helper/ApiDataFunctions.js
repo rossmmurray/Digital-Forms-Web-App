@@ -7,8 +7,9 @@ export const getQuestions = async () => {
     return questionsApiData.data.data;
 };
 
-export const saveQuestion = async (questionText) => {
+export const saveQuestionRequestToApi = async (question) => {
     // should return saved question if successful
+    const questionText = question.questionText
     const response = await axios.post(base_url + '/putQuestion', {
         questionText: questionText
     })

@@ -1,10 +1,14 @@
-import { getQuestions, saveQuestion, deleteQuestion, deleteAllQuestions, updateQuestion} from './APIDataFunctions'
-import { async } from 'q';
+import { getQuestions, saveQuestionRequestToApi, deleteQuestion, deleteAllQuestions, updateQuestion} from './APIDataFunctions'
 
 // test('apidata get success message from api', async () => {
 //     const result = await getQuestionsFromAPI();
 //     expect(result.data.success).toEqual(true)
 // });
+
+const freeTextQuestion = {
+    questionText: "Standard qustions text",
+    answerType: 'free'
+}
 
 test('get questions array', async () => {
     const result = await getQuestions();
@@ -14,15 +18,15 @@ test('get questions array', async () => {
 });
 
 test('post question', async () => {
-    const questionText = "Added a question";
-    const result = await saveQuestion(questionText);
+    // const questionText = "Added a question";
+    const result = await saveQuestionRequestToApi(freeTextQuestion);
     const resultID = result._id;
     expect(resultID.length).not.toEqual(0);
 })
 
 test('delete question (with post before)', async () => {
     const questionText = "Added a question";
-    const result = await saveQuestion(questionText);
+    const result = await saveQuestionRequestToApi(freeTextQuestion);
     const createdQuestionId = result._id;
     const deletedResponse = await deleteQuestion(createdQuestionId);
     expect(deletedResponse.success).toEqual(true);
@@ -30,7 +34,7 @@ test('delete question (with post before)', async () => {
 })
 
 test('update question (with post before)', async () => {
-    const newQuestion = await saveQuestion("Question text to be updated");
+    const newQuestion = await saveQuestionRequestToApi(freeTextQuestion);
     const newQuestionId = newQuestion._id
     const updateResponse = await updateQuestion(newQuestionId, 'Updated question text');
     expect(updateResponse.success).toEqual(true);
