@@ -68,6 +68,7 @@ test('shows at least first question from api', async () => {
     try {
         await saveQuestionRequestToApi(freeTextQuestion)
         questions = await getQuestions();
+        console.log(questions)
     } catch (err) {
         console.log(err.Error)
         throw err

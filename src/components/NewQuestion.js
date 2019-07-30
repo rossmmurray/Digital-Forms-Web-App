@@ -26,21 +26,64 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(0),
         minWidth: 250,
-      },
+    },
 }));
 
-function NewQuestion(props) {
-    const classes = useStyles();
-    const [questionText, setQuestionText] = useState(props.question ? props.question.questionText : '')
-    const [answerType, setAnswerType] = useState(props.question ? props.question.answerType : '')
-    const updateFlag = props.question ? true : false;
+const MHTextField = (props) => {
+    // turn label into id
+    const label = props.label;
+    const labalId = label.toLowerCase().replace(" ", "-");
 
+    return (
+        <TextField
+            id={labalId}
+            multiline
+            variant="outlined"
+            {...props}
+        />
+    )
+}
+
+const MHSelectField = (props) => {
+    // turn label into id
+    const label = props.label;
+    const labalId = label.toLowerCase().replace(" ", "-");
+    const classes = useStyles();
 
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
     React.useEffect(() => {
-      setLabelWidth(inputLabel.current.offsetWidth);
+        setLabelWidth(inputLabel.current.offsetWidth);
     }, []);
+
+    return (
+        <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel ref={inputLabel} htmlFor={labalId}>{label}</InputLabel>
+            <Select
+                // must be set to native = true so real options elements can be used (for testing)
+                native={true}
+                id={labalId}
+                input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
+                value={props.value}
+                onChange={props.onChange}
+            >
+                <option value="" disabled></option>
+                {   
+                    // render passed options
+                    props.options.map(option => {
+                    return <option key={option.value} value={option.value}>{option.displayText}</option>
+                })}
+            </Select>
+        </FormControl>
+    )
+}
+
+
+function NewQuestion(props) {
+    const [questionText, setQuestionText] = useState(props.question ? props.question.questionText : '')
+    const [answerType, setAnswerType] = useState(props.question ? props.question.answerType : '')
+    const updateFlag = props.question ? true : false;
+
 
     // todo: rename these functions
     const saveQuestionToDB = async (question) => {
@@ -72,38 +115,23 @@ function NewQuestion(props) {
 
     return (
         <div>
-            <FormControl className={classes.formControl}>
-            <TextField
-                id="question-text"
-                onChange={(e) => setQuestionText(e.target.value)}
+            <MHTextField
                 label="Question Text"
-                multiline
-                // fullWidth
+                onChange={(e) => setQuestionText(e.target.value)}
                 value={questionText}
-                variant="outlined"
-                // margin="normal"
             />
-            </FormControl>
-            <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel ref={inputLabel} htmlFor="answer-type">Answer Type</InputLabel>
-                <Select
-                    // must be set to native = true so real options elements can be used (for testing)
-                    native={true}
-                    id="answer-type"
-                    onChange={(e) => setAnswerType(e.target.value)}
-                    input={<OutlinedInput labelWidth={labelWidth} name="answerType" id="answer-type" />}
-                    value={answerType}
-                >
-                    <option value="">
-                        {/* <em>None</em> */}
-                    </option>
-                    <option value='option'>Option</option>
-                    <option value='free'>Free Text</option>
-                    <option value='boolean'>Boolean (true/false)</option>
-                    <option value='date'>Date</option>
-                    <option value='number'>Number</option>
-                </Select>
-            </FormControl>
+            <MHSelectField
+                onChange={(e) => setAnswerType(e.target.value)}
+                label="Answer Type"
+                value={answerType}
+                options={[
+                    { value: 'free', displayText: 'Free Text' },
+                    { value: 'boolean', displayText: 'True/False' },
+                    { value: 'option', displayText: 'Options' },
+                    { value: 'date', displayText: 'Date' },
+                    { value: 'number', displayText: 'Number' },
+                ]}
+            />
             <br />
             <Button variant="contained" onClick={() => saveQuestionToDB({ questionText: questionText, answerType: answerType })}>Save</Button>
             <NotificationContainer />
