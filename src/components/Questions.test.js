@@ -8,26 +8,43 @@ import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 import ShowQuestions from './ShowQuestions'
 import '@testing-library/jest-dom/extend-expect'
 import { getQuestions, saveQuestionRequestToApi } from '../helper/ApiDataFunctions'
+import selectEvent from 'react-select-event'
 
 /*eslint no-undef: 2*/
 
-test('submit question and get notification', async  () => {
-    const testQuestion = "This is the test questions";
-    const {getByLabelText, getByText, findByText} = render(<NewQuestion/>);
+const freeTextQuestion = {
+    questionText: "Standard qustions text",
+    answerType: 'free'
+}
 
-    // find the input box
+test('submit question and get notification', async  () => {
+    const testQuestionText = "This is the test questions";
+    const {getByLabelText, getByText, findByText, getByTestId} = render(<NewQuestion/>);
+
+    // find the input boxes
     const input = getByLabelText(/question text/i);
+    const answerTypeInput = getByLabelText(/answer type/i)
+    // const answerTypeInput = getByTestId("select-answer-type")
+    
+    // expect(answerTypeInput).toHaveFormValues({ food: "" });
 
     // enter text
-    fireEvent.change(input, {target: {value: testQuestion}});
+    fireEvent.change(input, {target: {value: testQuestionText}});
+    // await fireEvent.click(answerTypeInput);
+    // await fireEvent.click(await findByText(/free/i))
+    fireEvent.change(answerTypeInput, {target: {value: 'free'}})
+
+    // await selectEvent.select(answerTypeInput, /free/i)
 
     // press button
     fireEvent.click(getByText(/save/i));
 
     // check value of notification
-    const re = new RegExp("Saved .*" + testQuestion, "i");
+    const re = new RegExp("Saved .*" + testQuestionText, "i");
     const notification =  await findByText(re);
-    expect(notification).toHaveTextContent(testQuestion);
+    expect(notification).not.toHaveTextContent(/fail/i)
+    expect(notification).toHaveTextContent(testQuestionText);
+    
 });
 
 test("test for render", () => {
@@ -44,11 +61,12 @@ it('renders without crashing', () => {
     ReactDOM.render(<NewQuestion />, div);
 });
 
+
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
 test('shows at least first question from api', async () => {
     let questions = [];
     try {
-        await saveQuestionRequestToApi('This is the test questions')
+        await saveQuestionRequestToApi(freeTextQuestion)
         questions = await getQuestions();
     } catch (err) {
         console.log(err.Error)
@@ -62,7 +80,7 @@ test('shows at least first question from api', async () => {
 
 test('modify existing test text', async () => {
     // create single question
-    await saveQuestionRequestToApi('This is some test question')
+    await saveQuestionRequestToApi(freeTextQuestion)
     const { findAllByLabelText, getByLabelText, getAllByText, findByText } = render(<ShowQuestions/>);
 
     // click first found edit button
