@@ -27,7 +27,7 @@ export const deleteQuestion = async (questionId) => {
     return resData;
 };
 
-export const updateQuestion = async (questionId, question) => {
+export const updateQuestionRequestToApi = async (questionId, question) => {
     try {
         const response = await axios.put(base_url + '/updateQuestion/' + questionId, question);
         return response.data;

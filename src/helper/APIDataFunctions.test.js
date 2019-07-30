@@ -1,4 +1,4 @@
-import { getQuestions, saveQuestionRequestToApi, deleteQuestion, deleteAllQuestions, updateQuestion} from './APIDataFunctions'
+import { getQuestions, saveQuestionRequestToApi, deleteQuestion, deleteAllQuestions, updateQuestionRequestToApi} from './APIDataFunctions'
 
 // test('apidata get success message from api', async () => {
 //     const result = await getQuestionsFromAPI();
@@ -45,7 +45,7 @@ test('update question (with post before)', async () => {
         questionText:'Updated question text',
         answerType: 'number' 
     }
-    const updateResponse = await updateQuestion(someQuestionId, updatedQuestion).catch(error => {
+    const updateResponse = await updateQuestionRequestToApi(someQuestionId, updatedQuestion).catch(error => {
         console.log(error);
     });
     expect(updateResponse.success).toEqual(true);

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import { saveQuestionRequestToApi, updateQuestion } from '../helper/ApiDataFunctions'
+import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/ApiDataFunctions'
 import Button from '@material-ui/core/Button';
 import { MHSelectField, MHTextField } from './Fields'
+import { async } from 'q';
 
 
 function NewQuestion(props) {
@@ -20,27 +21,42 @@ function NewQuestion(props) {
 
     // todo: rename these functions
     const saveQuestionToDB = async (question) => {
-        if (updateFlag) {
-            await updateQuestion(props.question._id, question);
-            props.parentRefresh();
-            props.parentStopEdit();
-        } else {
-            saveNewQuestionToDB(question);
+        let successResponse = '';
+        try {
+            if (updateFlag) {
+                successResponse = await saveExistingQuestionToDB(question);
+            } else {
+                successResponse = await saveNewQuestionToDB(question);
+            }
+            NotificationManager.success(successResponse)
+        } catch (error) {
+            NotificationManager.warning(error)
         }
     };
+
+    const saveExistingQuestionToDB = async (question) => {
+        const response = await updateQuestionRequestToApi(props.question._id, question);
+        props.parentRefresh();
+        props.parentStopEdit();
+        // todo: make it output a nice message
+        return response.question.questionText;
+    }
 
     const saveNewQuestionToDB = async (question) => {
         try {
             const savedQuestion = await saveQuestionRequestToApi(question);
             let successMessage = 'Saved new question: ' + savedQuestion.questionText;
-            NotificationManager.success(successMessage)
+            // NotificationManager.success(successMessage)
+            return successMessage;
         } catch (err) {
             if (err.data) {
                 console.log(err.data.error.messge)
-                NotificationManager.warning('Error: ' + err.data.error.message);
+                // NotificationManager.warning('Error: ' + err.data.error.message);
+                throw 'Error: ' + err.data.error.message 
             } else {
                 console.log(err)
-                NotificationManager.warning('Error: ' + err);
+                // NotificationManager.warning('Error: ' + err);
+                throw 'Error: ' + err
             }
         }
     };
@@ -63,6 +79,8 @@ function NewQuestion(props) {
             <NotificationContainer />
         </div>
     )
+
+  
 }
 
 export default NewQuestion;
