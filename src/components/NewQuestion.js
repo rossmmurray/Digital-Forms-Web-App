@@ -1,89 +1,15 @@
-import React, { Component, useState } from 'react';
-import axios from "axios";
-import { base_url } from "../connections";
-// import MHAlert from './MHAlert';
+import React, { useState } from 'react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { saveQuestionRequestToApi, updateQuestion } from '../helper/ApiDataFunctions'
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import option from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-
-
-const useStyles = makeStyles(theme => ({
-    button: {
-        // margin: theme.spacing(1),
-    },
-    input: {
-        display: 'none',
-    },
-    formControl: {
-        margin: theme.spacing(0),
-        minWidth: 250,
-    },
-}));
-
-const MHTextField = (props) => {
-    // turn label into id
-    const label = props.label;
-    const labalId = label.toLowerCase().replace(" ", "-");
-
-    return (
-        <TextField
-            id={labalId}
-            multiline
-            variant="outlined"
-            {...props}
-        />
-    )
-}
-
-const MHSelectField = (props) => {
-    // turn label into id
-    const label = props.label;
-    const labalId = label.toLowerCase().replace(" ", "-");
-    const classes = useStyles();
-
-    const inputLabel = React.useRef(null);
-    const [labelWidth, setLabelWidth] = React.useState(0);
-    React.useEffect(() => {
-        setLabelWidth(inputLabel.current.offsetWidth);
-    }, []);
-
-    return (
-        <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel ref={inputLabel} htmlFor={labalId}>{label}</InputLabel>
-            <Select
-                // must be set to native = true so real options elements can be used (for testing)
-                native={true}
-                id={labalId}
-                input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
-                value={props.value}
-                onChange={props.onChange}
-            >
-                <option value="" disabled></option>
-                {   
-                    // render passed options
-                    props.options.map(option => {
-                    return <option key={option.value} value={option.value}>{option.displayText}</option>
-                })}
-            </Select>
-        </FormControl>
-    )
-}
+import { MHSelectField, MHTextField } from './Fields'
 
 
 function NewQuestion(props) {
     const [questionText, setQuestionText] = useState(props.question ? props.question.questionText : '')
     const [answerType, setAnswerType] = useState(props.question ? props.question.answerType : '')
     const updateFlag = props.question ? true : false;
-
 
     // todo: rename these functions
     const saveQuestionToDB = async (question) => {
