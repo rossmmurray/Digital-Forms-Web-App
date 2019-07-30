@@ -35,11 +35,19 @@ function NewQuestion(props) {
     };
 
     const saveExistingQuestionToDB = async (question) => {
-        const response = await updateQuestionRequestToApi(props.question._id, question);
-        props.parentRefresh();
-        props.parentStopEdit();
-        // todo: make it output a nice message
-        return response.question.questionText;
+        const response = await updateQuestionRequestToApi(props.question._id, question).catch(error => {
+            console.log(error)
+            throw error;
+        });
+        if (response.success) {
+            props.parentRefresh();
+            props.parentStopEdit();
+            const successMessage = "Updated question: " + response.question.questionText;
+            return successMessage;
+        } else {
+            const failureMessage = "Error: " + response.error.message;
+            return failureMessage;
+        }
     }
 
     const saveNewQuestionToDB = async (question) => {

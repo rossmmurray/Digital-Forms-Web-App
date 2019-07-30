@@ -32,7 +32,7 @@ export const updateQuestionRequestToApi = async (questionId, question) => {
         const response = await axios.put(base_url + '/updateQuestion/' + questionId, question);
         return response.data;
     } catch(err) {
-        console.log(err)
+        console.error(err)
         throw new Error(err);
     }
 };

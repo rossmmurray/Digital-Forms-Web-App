@@ -2,13 +2,12 @@ import React from 'react'
 import {render, fireEvent} from '@testing-library/react'
 import NewQuestion from './NewQuestion'
 import '@testing-library/jest-dom/extend-expect'
-import TestRenderer from 'react-test-renderer'; // ES6
 import ReactDOM from 'react-dom'
 import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 import ShowQuestions from './ShowQuestions'
 import '@testing-library/jest-dom/extend-expect'
-import { getQuestions, saveQuestionRequestToApi } from '../helper/ApiDataFunctions'
-import selectEvent from 'react-select-event'
+import { saveQuestionRequestToApi } from '../helper/ApiDataFunctions'
+import { deleteAllQuestions } from '../helper/ApiDataFunctions'
 
 /*eslint no-undef: 2*/
 
@@ -56,21 +55,22 @@ it('renders without crashing', () => {
 
 
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
-test('shows at least first question from api', async () => {
+test('shows at least one question from api', async () => {
     let questions = [];
     let createQuestionResult = '';
     let firstQuestion = '';
     try {
         createQuestionResult = await saveQuestionRequestToApi(freeTextQuestion)
-        questions = await getQuestions();
-        firstQuestion = questions[0].questionText;
+        // questions = await getQuestions();
+        // firstQuestion = questions[0].questionText;
     } catch (err) {
+        console.log("\n\n\n\n testing testing \n\n\n")
         console.log(createQuestionResult)
-        console.log(err.Error)
+        console.log(err)
         throw err
     }
     const { findAllByText } = render(<ShowQuestions/>);
-    const foundElement = await findAllByText(firstQuestion).catch(error => {
+    const foundElement = await findAllByText(freeTextQuestion.questionText).catch(error => {
         console.error(error)
     })
     expect(foundElement.length).toBeGreaterThanOrEqual(1);
@@ -102,4 +102,8 @@ test('modify existing test text', async () => {
     // todo: also test for answer text change (needs notifications first for update)
     const notification =  await findByText(updatedText);
     expect(notification).toHaveTextContent(updatedText);
+});
+
+afterAll(() => {
+    deleteAllQuestions();
 });
