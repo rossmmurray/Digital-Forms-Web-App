@@ -27,13 +27,13 @@ export const deleteQuestion = async (questionId) => {
     return resData;
 };
 
-export const updateQuestion = async (questionId, questionText) => {
+export const updateQuestion = async (questionId, question) => {
     try {
-        const response = await axios.put(base_url + '/updateQuestion/' + questionId, { questionText: questionText });
+        const response = await axios.put(base_url + '/updateQuestion/' + questionId, question);
         return response.data;
     } catch(err) {
         console.log(err)
-        return err;
+        throw new Error(err);
     }
 };
 

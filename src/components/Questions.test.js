@@ -24,17 +24,10 @@ test('submit question and get notification', async  () => {
     // find the input boxes
     const input = getByLabelText(/question text/i);
     const answerTypeInput = getByLabelText(/answer type/i)
-    // const answerTypeInput = getByTestId("select-answer-type")
     
-    // expect(answerTypeInput).toHaveFormValues({ food: "" });
-
     // enter text
     fireEvent.change(input, {target: {value: testQuestionText}});
-    // await fireEvent.click(answerTypeInput);
-    // await fireEvent.click(await findByText(/free/i))
     fireEvent.change(answerTypeInput, {target: {value: 'free'}})
-
-    // await selectEvent.select(answerTypeInput, /free/i)
 
     // press button
     fireEvent.click(getByText(/save/i));
@@ -65,17 +58,21 @@ it('renders without crashing', () => {
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
 test('shows at least first question from api', async () => {
     let questions = [];
+    let createQuestionResult = '';
+    let firstQuestion = '';
     try {
-        await saveQuestionRequestToApi(freeTextQuestion)
+        createQuestionResult = await saveQuestionRequestToApi(freeTextQuestion)
         questions = await getQuestions();
-        console.log(questions)
+        firstQuestion = questions[0].questionText;
     } catch (err) {
+        console.log(createQuestionResult)
         console.log(err.Error)
         throw err
     }
-    const firstQuestion = questions[0].questionText;
     const { findAllByText } = render(<ShowQuestions/>);
-    const foundElement = await findAllByText(firstQuestion)
+    const foundElement = await findAllByText(firstQuestion).catch(error => {
+        console.error(error)
+    })
     expect(foundElement.length).toBeGreaterThanOrEqual(1);
 });
 
@@ -88,17 +85,21 @@ test('modify existing test text', async () => {
     const foundEditButton = await findAllByLabelText(/edit/i)
     fireEvent.click(foundEditButton[0])
 
-    // then find question text input
+    // find question text and answer type inputs
     const input = getByLabelText(/question text/i);
+    const answerTypeInput = getByLabelText(/answer type/i);
 
-    // enter text
+    // enter values
     const updatedText = "Updated question Text";
     fireEvent.change(input, {target: {value: updatedText}});
+    fireEvent.change(answerTypeInput, {target: {value: 'free'}});
 
     // press button second (edit) button if there is already a new question button on the screen
     const saveButtons = getAllByText(/save/i)
     const buttonIndex = saveButtons.length -1
     fireEvent.click(saveButtons[buttonIndex]); 
+
+    // todo: also test for answer text change (needs notifications first for update)
     const notification =  await findByText(updatedText);
     expect(notification).toHaveTextContent(updatedText);
 });

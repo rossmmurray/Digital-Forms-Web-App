@@ -10,11 +10,18 @@ function NewQuestion(props) {
     const [questionText, setQuestionText] = useState(props.question ? props.question.questionText : '')
     const [answerType, setAnswerType] = useState(props.question ? props.question.answerType : '')
     const updateFlag = props.question ? true : false;
+    const answerTypeOptions = [
+        { value: 'free', displayText: 'Free Text' },
+        { value: 'boolean', displayText: 'True/False' },
+        { value: 'option', displayText: 'Options' },
+        { value: 'date', displayText: 'Date' },
+        { value: 'number', displayText: 'Number' },
+    ]
 
     // todo: rename these functions
     const saveQuestionToDB = async (question) => {
         if (updateFlag) {
-            await updateQuestion(props.question._id, question.questionText);
+            await updateQuestion(props.question._id, question);
             props.parentRefresh();
             props.parentStopEdit();
         } else {
@@ -35,7 +42,6 @@ function NewQuestion(props) {
                 console.log(err)
                 NotificationManager.warning('Error: ' + err);
             }
-
         }
     };
 
@@ -50,20 +56,13 @@ function NewQuestion(props) {
                 onChange={(e) => setAnswerType(e.target.value)}
                 label="Answer Type"
                 value={answerType}
-                options={[
-                    { value: 'free', displayText: 'Free Text' },
-                    { value: 'boolean', displayText: 'True/False' },
-                    { value: 'option', displayText: 'Options' },
-                    { value: 'date', displayText: 'Date' },
-                    { value: 'number', displayText: 'Number' },
-                ]}
+                options={answerTypeOptions}
             />
             <br />
             <Button variant="contained" onClick={() => saveQuestionToDB({ questionText: questionText, answerType: answerType })}>Save</Button>
             <NotificationContainer />
         </div>
     )
-
 }
 
 export default NewQuestion;

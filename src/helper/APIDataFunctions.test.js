@@ -39,9 +39,15 @@ test('delete question (with post before)', async () => {
 })
 
 test('update question (with post before)', async () => {
-    const newQuestion = await saveQuestionRequestToApi(freeTextQuestion);
-    const newQuestionId = newQuestion._id;
-    const updateResponse = await updateQuestion(newQuestionId, 'Updated question text');
+    const someQuestion = await saveQuestionRequestToApi(freeTextQuestion);
+    const someQuestionId = someQuestion._id;
+    const updatedQuestion = {
+        questionText:'Updated question text',
+        answerType: 'number' 
+    }
+    const updateResponse = await updateQuestion(someQuestionId, updatedQuestion).catch(error => {
+        console.log(error);
+    });
     expect(updateResponse.success).toEqual(true);
 })
 
