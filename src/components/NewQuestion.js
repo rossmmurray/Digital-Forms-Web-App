@@ -4,7 +4,6 @@ import 'react-notifications/lib/notifications.css';
 import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/ApiDataFunctions'
 import Button from '@material-ui/core/Button';
 import { MHSelectField, MHTextField } from './Fields'
-import { async } from 'q';
 
 
 function NewQuestion(props) {
@@ -60,11 +59,11 @@ function NewQuestion(props) {
             if (err.data) {
                 console.log(err.data.error.messge)
                 // NotificationManager.warning('Error: ' + err.data.error.message);
-                throw 'Error: ' + err.data.error.message 
+                throw new Error(err.data.error.message) 
             } else {
                 console.log(err)
                 // NotificationManager.warning('Error: ' + err);
-                throw 'Error: ' + err
+                throw new Error(err)
             }
         }
     };

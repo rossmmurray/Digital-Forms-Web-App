@@ -9,7 +9,6 @@ export const getQuestions = async () => {
 
 export const saveQuestionRequestToApi = async (question) => {
     // should return saved question if successful
-    const questionText = question.questionText
     const response = await axios.post(base_url + '/putQuestion', question)
     if (response.data.success) {
         return response.data.questionAdded;
