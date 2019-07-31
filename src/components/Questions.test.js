@@ -18,7 +18,7 @@ const freeTextQuestion = {
 
 test('submit question and get notification', async  () => {
     const testQuestionText = "This is the test questions";
-    const {getByLabelText, getByText, findByText, getByTestId} = render(<NewQuestion/>);
+    const {getByLabelText, getByText, findByText} = render(<NewQuestion/>);
 
     // find the input boxes
     const input = getByLabelText(/question text/i);
@@ -42,7 +42,7 @@ test('submit question and get notification', async  () => {
 test("test for render", () => {
     // let container = document.createElement("div");
     // const testRenderer = TestRenderer.create(<NewQuestion />);
-    // // console.log(testRenderer.toJSON());
+    // // console.error(testRenderer.toJSON());
     // ReactDOM.render(<NewQuestion/>, container);
     const renderer = new ShallowRenderer();
     renderer.render(<NewQuestion />);
@@ -56,17 +56,14 @@ it('renders without crashing', () => {
 
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
 test('shows at least one question from api', async () => {
-    let questions = [];
     let createQuestionResult = '';
-    let firstQuestion = '';
     try {
         createQuestionResult = await saveQuestionRequestToApi(freeTextQuestion)
         // questions = await getQuestions();
         // firstQuestion = questions[0].questionText;
     } catch (err) {
-        console.log("\n\n\n\n testing testing \n\n\n")
-        console.log(createQuestionResult)
-        console.log(err)
+        console.error(createQuestionResult)
+        console.error(err)
         throw err
     }
     const { findAllByText } = render(<ShowQuestions/>);

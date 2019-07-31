@@ -4,6 +4,7 @@ import 'react-notifications/lib/notifications.css';
 import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/ApiDataFunctions'
 import Button from '@material-ui/core/Button';
 import { MHSelectField, MHTextField } from './Fields'
+import PropTypes from 'prop-types';
 
 
 function NewQuestion(props) {
@@ -35,7 +36,7 @@ function NewQuestion(props) {
 
     const saveExistingQuestionToDB = async (question) => {
         const response = await updateQuestionRequestToApi(props.question._id, question).catch(error => {
-            console.log(error)
+            console.error(error)
             throw error;
         });
         if (response.success) {
@@ -57,11 +58,11 @@ function NewQuestion(props) {
             return successMessage;
         } catch (err) {
             if (err.data) {
-                console.log(err.data.error.messge)
+                console.error(err.data.error.messge)
                 // NotificationManager.warning('Error: ' + err.data.error.message);
                 throw new Error(err.data.error.message) 
             } else {
-                console.log(err)
+                console.error(err)
                 // NotificationManager.warning('Error: ' + err);
                 throw new Error(err)
             }
@@ -86,8 +87,16 @@ function NewQuestion(props) {
             <NotificationContainer />
         </div>
     )
-
-  
 }
+
+NewQuestion.propTypes = {
+    question: PropTypes.shape({
+        questionText: PropTypes.string,
+        answerType: PropTypes.string,
+        _id: PropTypes.string
+    }),
+    parentRefresh: PropTypes.func,
+    parentStopEdit: PropTypes.func
+};
 
 export default NewQuestion;

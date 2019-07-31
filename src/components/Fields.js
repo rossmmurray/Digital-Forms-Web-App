@@ -5,6 +5,8 @@ import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types'
+
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -68,3 +70,17 @@ export const MHSelectField = (props) => {
     )
 }
 
+// type checking props
+MHSelectField.propTypes = {
+    label: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        value: PropTypes.string,
+        displayText: PropTypes.string
+    })),
+    value: PropTypes.string,
+    onChange: PropTypes.func
+}
+
+MHTextField.propTypes = {
+    label: PropTypes.string
+}

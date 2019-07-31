@@ -7,7 +7,7 @@ test('test for render', () => {
         // const { findByText } = render(<App/>);
         // const input = await findByText(/digital/i);
         // expect(input).toBeInTheDocument();
-        // console.log("placeholder")
+        // console.error("placeholder")
 
 
     //

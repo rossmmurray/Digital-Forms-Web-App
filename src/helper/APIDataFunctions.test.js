@@ -1,4 +1,4 @@
-import { getQuestions, saveQuestionRequestToApi, deleteQuestion, deleteAllQuestions, updateQuestionRequestToApi } from './APIDataFunctions'
+import { getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
 
 // test('apidata get success message from api', async () => {
 //     const result = await getQuestionsFromAPI();
@@ -25,7 +25,7 @@ test('post question', async () => {
     } catch (err) {
         throw new Error(err)
     }
-    // console.log(result)
+    // console.error(result)
     const resultID = result._id;
     expect(resultID.length).not.toEqual(0);
 })
@@ -46,7 +46,7 @@ test('update question (with post before)', async () => {
         answerType: 'number'
     }
     const updateResponse = await updateQuestionRequestToApi(someQuestionId, updatedQuestion).catch(error => {
-        console.log(error);
+        console.error(error);
     });
     expect(updateResponse.success).toEqual(true);
 })
