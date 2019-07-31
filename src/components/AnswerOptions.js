@@ -1,6 +1,7 @@
 import React from 'react';
 import { MHSelectField, MHTextField } from './Fields'
 import PropTypes from 'prop-types';
+import { SingleAnswerOption } from './SingleAnswerOption'
 
 
 export const AnswerOptions = (props) => {
@@ -9,17 +10,26 @@ export const AnswerOptions = (props) => {
     // put new function (inside or use state) within updateField
     // new function must push on
 
+    const ExistingOptions = () => {
+        return (
+            <div>
+                {props.question.answerOptions.map(answerOption => 
+                    <div key={answerOption.optionName}>
+                        <SingleAnswerOption answerOption={answerOption}/>
+                    </div>
+                )}
+            </div>
+        )
+    }
+
     return (
         <div>
-            <MHTextField
-                label="Answer"
-                onChange={(e) => props.updateField(e.target.value, "answerOptions" )}
-                value="this is answer options"
-            />
+            {/* AnswerOptions Component */}
+            {props.question.answerOptions ? ExistingOptions() : null}
         </div>
-        
     )
 }
+
 
 AnswerOptions.propTypes = {
     question: PropTypes.shape({

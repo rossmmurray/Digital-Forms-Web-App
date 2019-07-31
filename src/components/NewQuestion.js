@@ -17,18 +17,8 @@ function NewQuestion(props) {
         { value: 'date', displayText: 'Date' },
         { value: 'number', displayText: 'Number' },
     ]
-    const [unsavedQuestion, setUnsavedQuestionField] = useState({
-        // todo: put if statement here
-        questionText: props.question ? props.question.questionText : '', 
-        answerType: props.question ? props.question.answerType : '' ,
-        _id: props.question && props.question._id || undefined
-    })
 
-    // useEffect(() => {
-    //     // only runs when the prop question changes (first time)
-    //     console.log("props must have changed")
-
-    // }, [props.question])
+    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || {})
 
     const updateField = (value, propertyToUpdate) => {
         setUnsavedQuestionField({
@@ -37,8 +27,6 @@ function NewQuestion(props) {
         });
       };
 
-
-    // todo: rename these functions
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
         let errorMessage = '';
@@ -101,7 +89,7 @@ function NewQuestion(props) {
             <MHSelectField
                 onChange={(e) => updateField(e.target.value, 'answerType')}
                 label="Answer Type"
-                value={unsavedQuestion.answerType}
+                value={unsavedQuestion.answerType || ''}
                 options={answerTypeOptions}
             />
             <br />
