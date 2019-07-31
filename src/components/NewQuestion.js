@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/ApiDataFunctions'
@@ -9,8 +9,6 @@ import { AnswerOptions } from './AnswerOptions'
 
 
 function NewQuestion(props) {
-    const [questionText, setQuestionText] = useState(props.question ? props.question.questionText : '')
-    const [answerType, setAnswerType] = useState(props.question ? props.question.answerType : '')
     const updateFlag = props.question ? true : false;
     const answerTypeOptions = [
         { value: 'free', displayText: 'Free Text' },
@@ -19,6 +17,19 @@ function NewQuestion(props) {
         { value: 'date', displayText: 'Date' },
         { value: 'number', displayText: 'Number' },
     ]
+    const [unsavedQuestion, setUnsavedQuestionField] = useState({
+        questionText: props.question ? props.question.questionText : '', 
+        answerType: props.question ? props.question.answerType : '' ,
+        _id: props.question && props.question._id || undefined 
+    })
+
+    const updateField = (e, propertyToUpdate) => {
+        setUnsavedQuestionField({
+          ...unsavedQuestion,
+          [propertyToUpdate]: e.target.value
+        });
+      };
+
 
     // todo: rename these functions
     const saveQuestionToDB = async (question) => {
@@ -43,12 +54,11 @@ function NewQuestion(props) {
 
     const saveExistingQuestionToDB = async (question) => {
         // we have the id here but not when saving exisitng question
-        const response = await updateQuestionRequestToApi(props.question._id, question).catch(error => {
+        const response = await updateQuestionRequestToApi(question._id, question).catch(error => {
             console.error(error)
             throw error;
         });
         if (response.success) {
-            props.parentRefresh();
             props.parentStopEdit();
             const successMessage = "Updated question: " + response.question.questionText;
             return successMessage;
@@ -62,16 +72,13 @@ function NewQuestion(props) {
         try {
             const savedQuestion = await saveQuestionRequestToApi(question);
             let successMessage = 'Saved new question: ' + savedQuestion.questionText;
-            // NotificationManager.success(successMessage)
             return successMessage;
         } catch (err) {
             if (err.data) {
                 console.error(err.data.error.messge)
-                // NotificationManager.warning('Error: ' + err.data.error.message);
-                throw new Error(err.data.error.message) 
+                throw new Error(err.data.error.message)
             } else {
                 console.error(err)
-                // NotificationManager.warning('Error: ' + err);
                 throw new Error(err)
             }
         }
@@ -81,19 +88,19 @@ function NewQuestion(props) {
         <div>
             <MHTextField
                 label="Question Text"
-                onChange={(e) => setQuestionText(e.target.value)}
-                value={questionText}
+                onChange={(e) => updateField(e, 'questionText')}
+                value={unsavedQuestion.questionText}
             />
             <MHSelectField
-                onChange={(e) => setAnswerType(e.target.value)}
+                onChange={(e) => updateField(e, 'answerType')}
                 label="Answer Type"
-                value={answerType}
+                value={unsavedQuestion.answerType}
                 options={answerTypeOptions}
             />
             <br />
             <AnswerOptions />
 
-            <Button variant="contained" onClick={() => saveQuestionToDB({ questionText: questionText, answerType: answerType })}>Save</Button>
+            <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
     )
