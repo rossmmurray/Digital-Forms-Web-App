@@ -5,6 +5,7 @@ import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/
 import Button from '@material-ui/core/Button';
 import { MHSelectField, MHTextField } from './Fields'
 import PropTypes from 'prop-types';
+import { AnswerOptions } from './AnswerOptions'
 
 
 function NewQuestion(props) {
@@ -41,6 +42,7 @@ function NewQuestion(props) {
     };
 
     const saveExistingQuestionToDB = async (question) => {
+        // we have the id here but not when saving exisitng question
         const response = await updateQuestionRequestToApi(props.question._id, question).catch(error => {
             console.error(error)
             throw error;
@@ -89,6 +91,8 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
+            <AnswerOptions />
+
             <Button variant="contained" onClick={() => saveQuestionToDB({ questionText: questionText, answerType: answerType })}>Save</Button>
             <NotificationContainer />
         </div>
