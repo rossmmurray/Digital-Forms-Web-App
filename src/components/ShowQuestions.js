@@ -86,6 +86,7 @@ class ShowQuestions extends React.Component {
     render() {
         return (
             <div>
+                <NewQuestion parentRefresh={this.refreshData} />
                 <h1>Edit Questions</h1>
                 <IconButton edge="end" aria-label="Delete" onClick={this.refreshData}>
                     <RefreshIcon />

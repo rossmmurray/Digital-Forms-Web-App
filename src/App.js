@@ -34,7 +34,6 @@ class App extends Component {
                     <div className="mh_body">
                         <div className="nhsuk-width-container">
                             <Route exact path="/" component={Start}/>
-                            <NewQuestion/>
 
                             {/*<Link to="/what"><h1>Some other link</h1></Link>*/}
                             {/*<Route exact path="/about" component={MHQuestions} />*/}

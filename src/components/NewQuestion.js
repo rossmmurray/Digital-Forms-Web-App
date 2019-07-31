@@ -22,6 +22,7 @@ function NewQuestion(props) {
     // todo: rename these functions
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
+        let errorMessage = '';
         try {
             if (updateFlag) {
                 successResponse = await saveExistingQuestionToDB(question);
@@ -29,8 +30,13 @@ function NewQuestion(props) {
                 successResponse = await saveNewQuestionToDB(question);
             }
             NotificationManager.success(successResponse)
+            if (typeof props.parentRefresh == 'function') {
+                props.parentRefresh()
+            }
         } catch (error) {
-            NotificationManager.warning(error)
+            errorMessage = error.message ? error.message : error;
+            console.error(error)
+            NotificationManager.warning(errorMessage)
         }
     };
 
