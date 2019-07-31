@@ -18,15 +18,22 @@ function NewQuestion(props) {
         { value: 'number', displayText: 'Number' },
     ]
     const [unsavedQuestion, setUnsavedQuestionField] = useState({
+        // todo: put if statement here
         questionText: props.question ? props.question.questionText : '', 
         answerType: props.question ? props.question.answerType : '' ,
-        _id: props.question && props.question._id || undefined 
+        _id: props.question && props.question._id || undefined
     })
 
-    const updateField = (e, propertyToUpdate) => {
+    // useEffect(() => {
+    //     // only runs when the prop question changes (first time)
+    //     console.log("props must have changed")
+
+    // }, [props.question])
+
+    const updateField = (value, propertyToUpdate) => {
         setUnsavedQuestionField({
           ...unsavedQuestion,
-          [propertyToUpdate]: e.target.value
+          [propertyToUpdate]: value
         });
       };
 
@@ -88,18 +95,17 @@ function NewQuestion(props) {
         <div>
             <MHTextField
                 label="Question Text"
-                onChange={(e) => updateField(e, 'questionText')}
+                onChange={(e) => updateField(e.target.value, 'questionText')}
                 value={unsavedQuestion.questionText}
             />
             <MHSelectField
-                onChange={(e) => updateField(e, 'answerType')}
+                onChange={(e) => updateField(e.target.value, 'answerType')}
                 label="Answer Type"
                 value={unsavedQuestion.answerType}
                 options={answerTypeOptions}
             />
             <br />
-            <AnswerOptions />
-
+            <AnswerOptions question={unsavedQuestion} updateField={updateField}/>
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
