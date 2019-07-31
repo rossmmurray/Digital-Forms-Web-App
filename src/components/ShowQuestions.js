@@ -27,13 +27,6 @@ class ShowQuestions extends React.Component {
         const allQuestions = await getQuestions();
         const questionSublist = allQuestions.slice(0, 100);
         this.setState({ visibleQuestionsArray: questionSublist });
-        // this.setState({editQuestionId: null});
-        // const questions = questionSublist.map(questionObject =>
-        //     <li key={questionObject._id}>
-        //         {questionObject.questionText}
-        //     </li>
-        // )
-        // this.setState({ visibleQuestions: questions })
     }
 
     showEditQuestion(question) {
