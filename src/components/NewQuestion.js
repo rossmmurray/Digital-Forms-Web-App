@@ -41,7 +41,7 @@ function NewQuestion(props) {
             ...unsavedQuestion,
             answerOptions: [
                 ...unsavedQuestion.answerOptions,
-                [unsavedQuestion.answerOptions[optionIndex].]: newAnswerOption.optionName,
+                {[unsavedQuestion.answerOptions[optionIndex].optionName]: newAnswerOption.optionName},
                 {[unsavedQuestion.answerOptions[optionIndex].questionLink]: newAnswerOption.questionLink}
             ]
         })
