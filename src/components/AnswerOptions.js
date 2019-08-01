@@ -16,7 +16,7 @@ export const AnswerOptions = (props) => {
         return (
             <div>
                 {props.question.answerOptions.map( (answerOption, optionIndex) => 
-                    <div key={answerOption.optionName}>
+                    <div key={answerOption._id}>
                         <SingleAnswerOption answerOption={answerOption} optionIndex={optionIndex} updateAnswerOption={props.updateAnswerOption}/>
                     </div>
                 )}

@@ -9,12 +9,12 @@ export const SingleAnswerOption = (props) => {
         <div>
              <MHTextField
                 label="Option Name"
-                onChange={(e) => props.updateAnswerOption(props.optionIndex, {optionName: e.target.value, questionLink: props.answerOption.questionLink})}
+                onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'optionName' )}
                 value={props.answerOption.optionName}
             />
                <MHTextField
                 label="Question Link"
-                onChange={(e) => props.updateAnswerOption(e.target.value, {optionName: props.answerOption.optionName, questionLink: e.target.value})}
+                onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'questionLink')}
                 value={props.answerOption.questionLink}
             />
         </div>

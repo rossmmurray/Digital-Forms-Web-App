@@ -27,23 +27,20 @@ function NewQuestion(props) {
         });
     };
 
-    const updateAnswerOption = (optionIndex, newAnswerOption) => {
-        // answer options may need { instead of [ ?
+    const updateAnswerOption = (optionIndex, newValue, property) => {
         console.log({
             ...unsavedQuestion,
-            answerOptions: [
-                ...unsavedQuestion.answerOptions,
-                [unsavedQuestion.answerOptions[optionIndex].optionName]: newAnswerOption.optionName,
-                [unsavedQuestion.answerOptions[optionIndex].questionLink]: newAnswerOption.questionLink
-            ]
+            answerOptions:
+                unsavedQuestion.answerOptions.map((option, index) =>
+                    index == optionIndex ? {...option, [property]: newValue} : option
+                )
         })
         setUnsavedQuestionField({
             ...unsavedQuestion,
-            answerOptions: [
-                ...unsavedQuestion.answerOptions,
-                {[unsavedQuestion.answerOptions[optionIndex].optionName]: newAnswerOption.optionName},
-                {[unsavedQuestion.answerOptions[optionIndex].questionLink]: newAnswerOption.questionLink}
-            ]
+            answerOptions:
+                unsavedQuestion.answerOptions.map((option, index) =>
+                    index == optionIndex ? {...option, [property]: newValue} : option
+                )
         })
     }
 
