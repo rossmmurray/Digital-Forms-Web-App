@@ -5,11 +5,6 @@ import { SingleAnswerOption } from './SingleAnswerOption'
 
 
 export const AnswerOptions = (props) => {
-    // todo: see below
-    // put functions etc in here to update answer options
-    // put new function (inside or use state) within updateField
-    // new function must push on
-    
 
     const ExistingOptions = () => {
         console.log(props.question.answerOptions)
@@ -26,8 +21,7 @@ export const AnswerOptions = (props) => {
 
     return (
         <div>
-            {/* AnswerOptions Component */}
-            {props.question.answerOptions ? ExistingOptions() : null}
+            {props.question.answerOptions && props.question.answerOptions.length > 0 ? ExistingOptions() : null}
         </div>
     )
 }

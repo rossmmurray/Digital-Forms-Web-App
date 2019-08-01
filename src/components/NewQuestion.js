@@ -28,13 +28,6 @@ function NewQuestion(props) {
     };
 
     const updateAnswerOption = (optionIndex, newValue, property) => {
-        console.log({
-            ...unsavedQuestion,
-            answerOptions:
-                unsavedQuestion.answerOptions.map((option, index) =>
-                    index == optionIndex ? {...option, [property]: newValue} : option
-                )
-        })
         setUnsavedQuestionField({
             ...unsavedQuestion,
             answerOptions:
