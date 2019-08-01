@@ -9,13 +9,15 @@ export const AnswerOptions = (props) => {
     // put functions etc in here to update answer options
     // put new function (inside or use state) within updateField
     // new function must push on
+    
 
     const ExistingOptions = () => {
+        console.log(props.question.answerOptions)
         return (
             <div>
-                {props.question.answerOptions.map(answerOption => 
+                {props.question.answerOptions.map( (answerOption, optionIndex) => 
                     <div key={answerOption.optionName}>
-                        <SingleAnswerOption answerOption={answerOption}/>
+                        <SingleAnswerOption answerOption={answerOption} optionIndex={optionIndex} updateAnswerOption={props.updateAnswerOption}/>
                     </div>
                 )}
             </div>
@@ -42,5 +44,5 @@ AnswerOptions.propTypes = {
         }))
     }),
     parentRefresh: PropTypes.func,
-    updateField: PropTypes.func
+    updateAnswerOption: PropTypes.func
 };

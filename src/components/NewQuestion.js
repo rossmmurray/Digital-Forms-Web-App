@@ -22,10 +22,30 @@ function NewQuestion(props) {
 
     const updateField = (value, propertyToUpdate) => {
         setUnsavedQuestionField({
-          ...unsavedQuestion,
-          [propertyToUpdate]: value
+            ...unsavedQuestion,
+            [propertyToUpdate]: value
         });
-      };
+    };
+
+    const updateAnswerOption = (optionIndex, newAnswerOption) => {
+        // answer options may need { instead of [ ?
+        console.log({
+            ...unsavedQuestion,
+            answerOptions: [
+                ...unsavedQuestion.answerOptions,
+                [unsavedQuestion.answerOptions[optionIndex].optionName]: newAnswerOption.optionName,
+                [unsavedQuestion.answerOptions[optionIndex].questionLink]: newAnswerOption.questionLink
+            ]
+        })
+        setUnsavedQuestionField({
+            ...unsavedQuestion,
+            answerOptions: [
+                ...unsavedQuestion.answerOptions,
+                [unsavedQuestion.answerOptions[optionIndex].]: newAnswerOption.optionName,
+                {[unsavedQuestion.answerOptions[optionIndex].questionLink]: newAnswerOption.questionLink}
+            ]
+        })
+    }
 
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
@@ -93,7 +113,7 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
-            <AnswerOptions question={unsavedQuestion} updateField={updateField}/>
+            <AnswerOptions question={unsavedQuestion} updateAnswerOption={updateAnswerOption} />
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
@@ -104,7 +124,11 @@ NewQuestion.propTypes = {
     question: PropTypes.shape({
         questionText: PropTypes.string,
         answerType: PropTypes.string,
-        _id: PropTypes.string
+        _id: PropTypes.string,
+        answerOptions: PropTypes.arrayOf(PropTypes.shape({
+            optionName: PropTypes.string,
+            questionLink: PropTypes.string
+        }))
     }),
     parentRefresh: PropTypes.func,
     parentStopEdit: PropTypes.func
