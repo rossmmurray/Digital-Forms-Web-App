@@ -52,8 +52,10 @@ function NewQuestion(props) {
             }
         } catch (error) {
             errorMessage = error.message ? error.message : error;
-            console.error(error)
-            NotificationManager.warning(errorMessage)
+            // console.error(error)
+            NotificationManager.warning(errorMessage).catch((error) => {
+                console.log(error)
+            })
         }
     };
 
@@ -80,10 +82,10 @@ function NewQuestion(props) {
             return successMessage;
         } catch (err) {
             if (err.data) {
-                console.error(err.data.error.messge)
+                // console.error(err.data.error.messge)
                 throw new Error(err.data.error.message)
             } else {
-                console.error(err)
+                // console.error(err)
                 throw new Error(err)
             }
         }

@@ -59,8 +59,6 @@ test('shows at least one question from api', async () => {
     let createQuestionResult = '';
     try {
         createQuestionResult = await saveQuestionRequestToApi(freeTextQuestion)
-        // questions = await getQuestions();
-        // firstQuestion = questions[0].questionText;
     } catch (err) {
         console.error(createQuestionResult)
         console.error(err)
@@ -102,5 +100,5 @@ test('modify existing test text', async () => {
 });
 
 afterAll(() => {
-    deleteAllQuestions();
+    // deleteAllQuestions();
 });

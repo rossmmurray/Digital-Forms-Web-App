@@ -3,8 +3,14 @@ import { base_url } from "../connections";
 
 export const getQuestions = async () => {
     // const response = await 
-    const questionsApiData = await axios.get(base_url + '/getQuestions');
-    return questionsApiData.data.data;
+    let questionsApiData = {};
+    try {
+        questionsApiData = await axios.get(base_url + '/getQuestions');
+        return questionsApiData.data.data;
+    } catch (error) {
+        console.erorr(error)
+        return {};
+    }
 };
 
 export const saveQuestionRequestToApi = async (question) => {

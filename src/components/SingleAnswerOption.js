@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 
 export const SingleAnswerOption = (props) => {
-    console.log(props)
     return (
         <div>
             <MHTextField
