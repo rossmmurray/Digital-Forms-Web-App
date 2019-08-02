@@ -39,19 +39,19 @@ test('submit question and get notification', async  () => {
     
 });
 
-test("test for render", () => {
-    // let container = document.createElement("div");
-    // const testRenderer = TestRenderer.create(<NewQuestion />);
-    // // console.error(testRenderer.toJSON());
-    // ReactDOM.render(<NewQuestion/>, container);
-    const renderer = new ShallowRenderer();
-    renderer.render(<NewQuestion />);
-});
+// test("test for render", () => {
+//     // let container = document.createElement("div");
+//     // const testRenderer = TestRenderer.create(<NewQuestion />);
+//     // // console.error(testRenderer.toJSON());
+//     // ReactDOM.render(<NewQuestion/>, container);
+//     const renderer = new ShallowRenderer();
+//     renderer.render(<NewQuestion />);
+// });
 
-it('renders without crashing', () => {
-    const div = document.createElement('div');
-    ReactDOM.render(<NewQuestion />, div);
-});
+// it('renders without crashing', () => {
+//     const div = document.createElement('div');
+//     ReactDOM.render(<NewQuestion />, div);
+// });
 
 
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
