@@ -7,15 +7,16 @@ export const SingleAnswerOption = (props) => {
     console.log(props)
     return (
         <div>
-             <MHTextField
+            <MHTextField
                 label="Option Name"
-                onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'optionName' )}
+                onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'optionName')}
                 value={props.answerOption.optionName}
             />
-               <MHTextField
-                label="Question Link"
+            <MHSelectField
                 onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'questionLink')}
+                label="Question Link"
                 value={props.answerOption.questionLink}
+                options={props.allQuestions}
             />
         </div>
     )
@@ -27,5 +28,6 @@ SingleAnswerOption.propTypes = {
         questionLink: PropTypes.string
     }),
     optionIndex: PropTypes.number,
-    updateAnswerOption: PropTypes.func
+    updateAnswerOption: PropTypes.func,
+    allQuestions: PropTypes.array
 };

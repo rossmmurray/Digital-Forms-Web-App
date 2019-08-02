@@ -5,14 +5,20 @@ import { SingleAnswerOption } from './SingleAnswerOption'
 
 
 export const AnswerOptions = (props) => {
+    // todo: show all questions in dropdown
 
     const ExistingOptions = () => {
-        console.log(props.question.answerOptions)
         return (
             <div>
                 {props.question.answerOptions.map( (answerOption, optionIndex) => 
                     <div key={answerOption._id}>
-                        <SingleAnswerOption answerOption={answerOption} optionIndex={optionIndex} updateAnswerOption={props.updateAnswerOption}/>
+                        <SingleAnswerOption 
+                            answerOption={answerOption} 
+                            optionIndex={optionIndex} 
+                            updateAnswerOption={props.updateAnswerOption}
+                            allQuestions={props.allQuestions}
+                            />
+                      
                     </div>
                 )}
             </div>
@@ -38,5 +44,6 @@ AnswerOptions.propTypes = {
         }))
     }),
     parentRefresh: PropTypes.func,
-    updateAnswerOption: PropTypes.func
+    updateAnswerOption: PropTypes.func,
+    allQuestions: PropTypes.array
 };

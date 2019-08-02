@@ -10,6 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import NewQuestion from './NewQuestion';
+import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 
 
 // TODO: change this to a class based component
@@ -25,15 +26,18 @@ class ShowQuestions extends React.Component {
 
     refreshData = async () => {
         const allQuestions = await getQuestions();
-        const questionSublist = allQuestions.slice(0, 100);
-        this.setState({ visibleQuestionsArray: questionSublist });
+        this.setState({ visibleQuestionsArray: allQuestions });
     }
 
+    // todo: get rid of visibleQuestionsArray
     showEditQuestion(question) {
+        const questionsDropdownData = getQuestionsDropdown(this.state.visibleQuestionsArray)
+
         const myProps = {
             question: question,
             parentRefresh: this.refreshData,
-            parentStopEdit: this.stopEditingQuestion
+            parentStopEdit: this.stopEditingQuestion,
+            allQuestions: questionsDropdownData
         }
         this.setState({
             editQuestionsComponent:

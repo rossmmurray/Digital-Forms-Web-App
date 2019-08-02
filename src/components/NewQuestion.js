@@ -103,7 +103,7 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
-            <AnswerOptions question={unsavedQuestion} updateAnswerOption={updateAnswerOption} />
+            <AnswerOptions question={unsavedQuestion} updateAnswerOption={updateAnswerOption} allQuestions={props.allQuestions}/>
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
@@ -121,7 +121,8 @@ NewQuestion.propTypes = {
         }))
     }),
     parentRefresh: PropTypes.func,
-    parentStopEdit: PropTypes.func
+    parentStopEdit: PropTypes.func,
+    allQuestions: PropTypes.array
 };
 
 export default NewQuestion;
