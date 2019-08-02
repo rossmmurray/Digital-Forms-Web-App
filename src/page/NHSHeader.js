@@ -1,12 +1,9 @@
 import React from 'react';
-import './css/App.css';
-// import logo from './img/NHS-Logo.svg';
+import '../css/App.css';
 import {Link} from "react-router-dom";
-// import nhsuk_header from '../node_modules/nhsuk-frontend/packages/components/header/header';
 
 const NHSHeader = () => (
     <div>
-        {/*{nhsuk_header()}*/}
         <header className="nhsuk-header" role="banner">
             <div className="nhsuk-width-container nhsuk-header__container">
 

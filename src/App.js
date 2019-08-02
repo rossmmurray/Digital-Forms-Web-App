@@ -1,10 +1,9 @@
 // /client/App.js
 import React, {Component} from 'react';
 // import TutorialExample from './TutorialExample'
-import NHSHeader from './NHSHeader';
+import NHSHeader from './page/NHSHeader';
 import './css/App.css';
-import NHSQuestions from './NHSQuestions';
-import NHSFooter from './NHSFooter';
+import NHSFooter from './page/NHSFooter';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
@@ -43,7 +42,6 @@ class App extends Component {
 
                             {/*<Link to="/what"><h1>Some other link</h1></Link>*/}
                             {/*<Route exact path="/about" component={MHQuestions} />*/}
-                            <Route exact path="/questions1" component={NHSQuestions} />
                             <Route exact path="/admin/newQuestion" component={NewQuestion} />
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/editQuestions" component={ShowQuestions} />
