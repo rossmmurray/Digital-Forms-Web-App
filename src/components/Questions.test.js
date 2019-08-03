@@ -2,14 +2,14 @@ import React from 'react'
 import {render, fireEvent} from '@testing-library/react'
 import NewQuestion from './NewQuestion'
 import '@testing-library/jest-dom/extend-expect'
-import ReactDOM from 'react-dom'
-import ShallowRenderer from 'react-test-renderer/shallow'; // ES6
 import ShowQuestions from './ShowQuestions'
 import '@testing-library/jest-dom/extend-expect'
 import { saveQuestionRequestToApi } from '../helper/ApiDataFunctions'
 import { deleteAllQuestions } from '../helper/ApiDataFunctions'
 
 /*eslint no-undef: 2*/
+// mocking doesn't work here (i think after all is different)
+// jest.mock("../helper/APIDataFunctions.js");
 
 const freeTextQuestion = {
     questionText: "Standard qustions text",
@@ -100,5 +100,5 @@ test('modify existing test text', async () => {
 });
 
 afterAll(() => {
-    // deleteAllQuestions();
+    deleteAllQuestions();
 });

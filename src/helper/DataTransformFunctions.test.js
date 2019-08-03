@@ -1,6 +1,8 @@
 import { getQuestionsDropdown } from './DataTransformFunctions'
 import { getQuestions } from './APIDataFunctions'
 
+jest.mock('./APIDataFunctions.js')
+
 test('transform questions into dropdown data', async () => {
     const allQuestions = await getQuestions();
     const transformedData = getQuestionsDropdown(allQuestions);

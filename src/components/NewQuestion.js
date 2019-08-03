@@ -53,9 +53,7 @@ function NewQuestion(props) {
         } catch (error) {
             errorMessage = error.message ? error.message : error;
             // console.error(error)
-            NotificationManager.warning(errorMessage).catch((error) => {
-                console.log(error)
-            })
+            NotificationManager.warning(errorMessage)
         }
     };
 
