@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import { MHSelectField, MHTextField } from './Fields'
 import PropTypes from 'prop-types';
 import { AnswerOptions } from './AnswerOptions'
+import { questionType } from '../propTypes/propTypes'
 
 
 function NewQuestion(props) {
@@ -32,7 +33,7 @@ function NewQuestion(props) {
             ...unsavedQuestion,
             answerOptions:
                 unsavedQuestion.answerOptions.map((option, index) =>
-                    index == optionIndex ? {...option, [property]: newValue} : option
+                    index == optionIndex ? { ...option, [property]: newValue } : option
                 )
         })
     }
@@ -59,17 +60,21 @@ function NewQuestion(props) {
 
     const saveExistingQuestionToDB = async (question) => {
         // we have the id here but not when saving exisitng question
-        const response = await updateQuestionRequestToApi(question._id, question).catch(error => {
-            console.error(error)
-            throw error;
-        });
-        if (response.success) {
-            props.parentStopEdit();
-            const successMessage = "Updated question: " + response.question.questionText;
-            return successMessage;
-        } else {
-            const failureMessage = "Error: " + response.error.message;
-            return failureMessage;
+        try {
+            const response = await updateQuestionRequestToApi(question._id, question).catch(error => {
+                console.error(error)
+                throw error;
+            });
+            if (response.success) {
+                props.parentStopEdit();
+                const successMessage = "Updated question: " + response.question.questionText;
+                return successMessage;
+            } else {
+                const failureMessage = "Error: " + response.error.message;
+                return failureMessage;
+            }
+        } catch (error) {
+            throw new Error(error)
         }
     }
 
@@ -103,7 +108,7 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
-            <AnswerOptions question={unsavedQuestion} updateAnswerOption={updateAnswerOption} allQuestions={props.allQuestions}/>
+            <AnswerOptions question={unsavedQuestion} updateAnswerOption={updateAnswerOption} allQuestions={props.allQuestions} />
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
@@ -111,18 +116,10 @@ function NewQuestion(props) {
 }
 
 NewQuestion.propTypes = {
-    question: PropTypes.shape({
-        questionText: PropTypes.string,
-        answerType: PropTypes.string,
-        _id: PropTypes.string,
-        answerOptions: PropTypes.arrayOf(PropTypes.shape({
-            optionName: PropTypes.string,
-            questionLink: PropTypes.string
-        }))
-    }),
+    question: questionType,
     parentRefresh: PropTypes.func,
     parentStopEdit: PropTypes.func,
-    allQuestions: PropTypes.array
+    allQuestions: PropTypes.arrayOf(questionType)
 };
 
 export default NewQuestion;

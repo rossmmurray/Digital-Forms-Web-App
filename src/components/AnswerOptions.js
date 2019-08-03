@@ -2,6 +2,7 @@ import React from 'react';
 import { MHSelectField, MHTextField } from './Fields'
 import PropTypes from 'prop-types';
 import { SingleAnswerOption } from './SingleAnswerOption'
+import { questionType } from '../propTypes/propTypes'
 
 
 export const AnswerOptions = (props) => {
@@ -34,16 +35,8 @@ export const AnswerOptions = (props) => {
 
 
 AnswerOptions.propTypes = {
-    question: PropTypes.shape({
-        questionText: PropTypes.string,
-        answerType: PropTypes.string,
-        _id: PropTypes.string,
-        answerOptions: PropTypes.arrayOf(PropTypes.shape({
-            optionName: PropTypes.string,
-            questionLink: PropTypes.string
-        }))
-    }),
+    question: questionType,
     parentRefresh: PropTypes.func,
     updateAnswerOption: PropTypes.func,
-    allQuestions: PropTypes.array
+    allQuestions: PropTypes.arrayOf(questionType)
 };
