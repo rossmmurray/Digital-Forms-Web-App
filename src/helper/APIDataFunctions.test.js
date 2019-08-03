@@ -1,34 +1,7 @@
 import { getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
 
-// test('apidata get success message from api', async () => {
-//     const result = await getQuestionsFromAPI();
-//     expect(result.data.success).toEqual(true)
-// });
 
-// jest.mock("./APIDataFunctions.js");
-
-// todo: continue with mocks
-
-const questionsMocked = [{
-    _id: '5d446dd365aed852d0223db7',
-    questionText: 'Updated question text',
-    answerType: 'number',
-    answerOptions: [],
-    createdAt: '2019-08-02T17:07:31.486Z',
-    updatedAt: '2019-08-02T17:07:31.506Z',
-    __v: 0
-},
-{
-    _id: '5d446dd365aed852d0223db3',
-    questionText: 'Standard qustions text',
-    answerType: 'free',
-    answerOptions: [],
-    createdAt: '2019-08-02T17:07:31.421Z',
-    updatedAt: '2019-08-02T17:07:31.421Z',
-    __v: 0
-}]
-
-// getQuestions.mockImplementation(() => questionsMocked)
+jest.mock("./APIDataFunctions.js");
 
 const freeTextQuestion = {
     questionText: "Standard qustions text",
@@ -70,9 +43,13 @@ test('update question (with post before)', async () => {
         questionText: 'Updated question text',
         answerType: 'number'
     }
-    const updateResponse = await updateQuestionRequestToApi(someQuestionId, updatedQuestion).catch(error => {
-        console.error(error);
-    });
+    let updateResponse = {};
+    try {
+        updateResponse = await updateQuestionRequestToApi(someQuestionId, updatedQuestion)
+    } catch (err) {
+        throw new Error(err)
+    }
+   
     expect(updateResponse.success).toEqual(true);
 })
 
