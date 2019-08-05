@@ -111,12 +111,12 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
-            <h6>Answers</h6>
-            <AnswerOptions
+            
+            {updateFlag ? <AnswerOptions
                 question={unsavedQuestion}
                 updateAnswerOption={updateAnswerOption}
                 allQuestions={props.allQuestions}
-            />
+            /> : null}
 
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />

@@ -13,6 +13,7 @@ import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
+import AddCircle from '@material-ui/icons/AddCircle'
 
 
 const useStyles = makeStyles(theme => ({
@@ -28,12 +29,14 @@ const ShowQuestions = () => {
     const [visibleQuestionsArray, setVisibleQuestionsArray] = useState([])
     const [editQuestionsComponent, setEditQuestionsComponent] = useState(<div></div>)
     const [editQuestionId, setEditQuestionId] = useState(null)
+    const [newQuestionFlag, setNewQuestionFlag] = useState(false)
 
     const classes = useStyles();
 
     const refreshData = async () => {
         const allQuestions = await getQuestions();
         setVisibleQuestionsArray(allQuestions);
+        setNewQuestionFlag(false);
     }
 
     const showEditQuestion = question => {
@@ -64,6 +67,10 @@ const ShowQuestions = () => {
         refreshData();
     }
 
+    const showNewQuestion = () => {
+        setNewQuestionFlag(true);
+    }
+
     const EditQuestionRow = (props) => {
         const question = props.questionObject;
         if (editQuestionId !== question._id) {
@@ -91,10 +98,9 @@ const ShowQuestions = () => {
     return (
         <div>
 
-            <NewQuestion parentRefresh={refreshData} />
             <Paper className={classes.root} >
-                <h1 style={{display: "inline"}}>Edit Questions</h1>
-                <div style={{display: "inline"}} align="right">
+                <h1 style={{ display: "inline" }}>Edit Questions</h1>
+                <div style={{ display: "inline" }} align="right">
                     <IconButton edge="end" aria-label="Delete" onClick={refreshData} >
                         <RefreshIcon />
                     </IconButton>
@@ -104,13 +110,32 @@ const ShowQuestions = () => {
                         {visibleQuestionsArray.map(questionObject =>
                             <div key={questionObject._id}>
                                 <Divider />
+                                {/* todo: so if statement is here */}
                                 <EditQuestionRow questionObject={questionObject} />
                                 <ListItem>
                                     {(questionObject._id === editQuestionId) ? editQuestionsComponent : null}
                                 </ListItem>
                             </div>
                         )}
+
+                        <Divider />
+                        <ListItem>
+                            {newQuestionFlag ? <NewQuestion parentRefresh={refreshData} /> :
+                            <div>
+                                <br/>
+                                <ListItemText primary=""/>
+                                <ListItemSecondaryAction>
+                                    <IconButton edge="end" aria-label="Add New Question" onClick={() => showNewQuestion()}>
+                                        <AddCircle />
+                                    </IconButton>
+                                </ListItemSecondaryAction>
+                                </div>
+                            }
+
+                        </ListItem>
                     </List>
+
+
                 </div>
 
             </Paper>

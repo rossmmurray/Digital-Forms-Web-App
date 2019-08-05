@@ -32,6 +32,9 @@ export const AnswerOptions = (props) => {
 
     const addOption = () => {
         const newQuestion = Object.assign({}, question)
+        if (!newQuestion.answerOptions) {
+            newQuestion.answerOptions = [];
+        }
         newQuestion.answerOptions.push({ optionName: 'blah', questionLink: '' })
         setQuestion(newQuestion)
     }
@@ -56,8 +59,11 @@ export const AnswerOptions = (props) => {
 
     return (
         <div>
+            <h6>Answers</h6>
             {optionsCheck ? ExistingOptions() : null}
-            {addButton()}
+            <div align="right">
+                {addButton()}
+            </div>
         </div>
     )
 }
