@@ -6,28 +6,42 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types'
+import clsx from 'clsx';
 
 
 const useStyles = makeStyles(theme => ({
     button: {
-        // margin: theme.spacing(1),
+        margin: theme.spacing(2),
     },
     input: {
         display: 'none',
     },
     formControl: {
-        margin: theme.spacing(0),
-        // minWidth: 250,
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+
     },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        // marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(2),
+        width: 200,
+    }
 }));
+
 
 export const MHTextField = (props) => {
     // turn label into id
+    const classes = useStyles();
     const label = props.label;
     const labalId = label.toLowerCase().replace(" ", "-");
 
     return (
         <TextField
+            className={clsx(classes.textField, classes.formControl)}
             id={labalId}
             multiline
             variant="outlined"
@@ -38,10 +52,9 @@ export const MHTextField = (props) => {
 
 export const MHSelectField = (props) => {
     // turn label into id
+    const classes = useStyles();
     const label = props.label;
     const labalId = label.toLowerCase().replace(" ", "-");
-    const classes = useStyles();
-
     const inputLabel = React.useRef(null);
     const [labelWidth, setLabelWidth] = React.useState(0);
     React.useEffect(() => {
@@ -53,6 +66,7 @@ export const MHSelectField = (props) => {
             <InputLabel ref={inputLabel} htmlFor={labalId}>{label}</InputLabel>
             <Select
                 // must be set to native = true so real options elements can be used (for testing)
+                className={classes.textField}
                 native={true}
                 id={labalId}
                 input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
@@ -60,11 +74,11 @@ export const MHSelectField = (props) => {
                 onChange={props.onChange}
             >
                 <option value="" disabled></option>
-                {   
+                {
                     // render passed options
                     props.options.map(option => {
-                    return <option key={option.value} value={option.value}>{option.displayText}</option>
-                })}
+                        return <option key={option.value} value={option.value}>{option.displayText}</option>
+                    })}
             </Select>
         </FormControl>
     )

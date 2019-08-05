@@ -58,6 +58,8 @@ function NewQuestion(props) {
         }
     };
 
+
+
     const saveExistingQuestionToDB = async (question) => {
         // we have the id here but not when saving exisitng question
         try {
@@ -96,6 +98,7 @@ function NewQuestion(props) {
 
     return (
         <div>
+            <h6>Question</h6>
             <MHTextField
                 label="Question Text"
                 onChange={(e) => updateField(e.target.value, 'questionText')}
@@ -108,7 +111,13 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
-            <AnswerOptions question={unsavedQuestion} updateAnswerOption={updateAnswerOption} allQuestions={props.allQuestions} />
+            <h6>Answers</h6>
+            <AnswerOptions
+                question={unsavedQuestion}
+                updateAnswerOption={updateAnswerOption}
+                allQuestions={props.allQuestions}
+            />
+
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
