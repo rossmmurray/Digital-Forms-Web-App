@@ -1,11 +1,12 @@
 import React from 'react'
-import {render, fireEvent} from '@testing-library/react'
+import {render, fireEvent, act} from '@testing-library/react'
 import NewQuestion from './NewQuestion'
 import '@testing-library/jest-dom/extend-expect'
 import ShowQuestions from './ShowQuestions'
 import '@testing-library/jest-dom/extend-expect'
 import { saveQuestionRequestToApi } from '../helper/ApiDataFunctions'
 import { deleteAllQuestions } from '../helper/ApiDataFunctions'
+// import { act } from 'react-dom/test-utils';
 
 /*eslint no-undef: 2*/
 // mocking doesn't work here (i think after all is different)
@@ -38,21 +39,6 @@ test('submit question and get notification', async  () => {
     expect(notification).toHaveTextContent(testQuestionText);
     
 });
-
-// test("test for render", () => {
-//     // let container = document.createElement("div");
-//     // const testRenderer = TestRenderer.create(<NewQuestion />);
-//     // // console.error(testRenderer.toJSON());
-//     // ReactDOM.render(<NewQuestion/>, container);
-//     const renderer = new ShallowRenderer();
-//     renderer.render(<NewQuestion />);
-// });
-
-// it('renders without crashing', () => {
-//     const div = document.createElement('div');
-//     ReactDOM.render(<NewQuestion />, div);
-// });
-
 
 // todo: doesn't always work because I think first question not alwalys shown (make desc)
 test('shows at least one question from api', async () => {
