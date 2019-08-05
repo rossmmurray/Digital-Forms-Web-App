@@ -29,7 +29,7 @@ class App extends Component {
         return (
             <Router>
                 <NHSHeader />
-                <Container  >
+                <Container  maxWidth="md" >
                     <Route exact path="/" component={Start} />
                     <Route exact path="/admin/newQuestion" component={NewQuestion} />
                     <Route exact path="/login" component={Login} />

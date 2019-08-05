@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getQuestions, deleteQuestion } from '../helper/ApiDataFunctions'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,86 +12,72 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import NewQuestion from './NewQuestion';
 import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
-        padding: theme.spacing(3, 2),
+        padding: theme.spacing(2, 2),
+        margin: theme.spacing(2, 0)
     },
 }));
 
-
-
 // TODO: change this to a class based component
-class ShowQuestions extends React.Component {
-    state = {
-        visibleQuestions: '',
-        dense: false,
-        secondary: false,
-        visibleQuestionsArray: [],
-        editQuestionsComponent: <div></div>,
-        editQuestionId: null
-    }
+const ShowQuestions = () => {
+    const [visibleQuestionsArray, setVisibleQuestionsArray] = useState([])
+    const [editQuestionsComponent, setEditQuestionsComponent] = useState(<div></div>)
+    const [editQuestionId, setEditQuestionId] = useState(null)
 
-    
+    const classes = useStyles();
 
-    refreshData = async () => {
+    const refreshData = async () => {
         const allQuestions = await getQuestions();
-        this.setState({ visibleQuestionsArray: allQuestions });
+        setVisibleQuestionsArray(allQuestions);
     }
-    
-    
 
     // todo: get rid of visibleQuestionsArray
-    showEditQuestion(question) {
-        const questionsDropdownData = getQuestionsDropdown(this.state.visibleQuestionsArray)
+    const showEditQuestion = question => {
+        const questionsDropdownData = getQuestionsDropdown(visibleQuestionsArray)
 
         const myProps = {
             question: question,
-            parentRefresh: this.refreshData,
-            parentStopEdit: this.stopEditingQuestion,
+            parentRefresh: refreshData,
+            parentStopEdit: stopEditingQuestion,
             allQuestions: questionsDropdownData
         }
-        this.setState({
-            editQuestionsComponent:
-                <NewQuestion {...myProps} />
-        })
-        this.setState({ editQuestionId: question._id })
-        this.refreshData();
+        setEditQuestionsComponent(<NewQuestion {...myProps} />)
+        setEditQuestionId(question._id)
+        refreshData();
     }
 
-    // arrow function required since it's passed to child component 
-    // and called (diff context so binding required)
-    stopEditingQuestion = () => {
-        this.setState({ editQuestionId: null })
+    const stopEditingQuestion = () => {
+        setEditQuestionId(null);
     }
 
-    componentDidMount() {
-        this.refreshData();
-    }
+    // empty array as 2nd argument means it only runs on first render
+    useEffect(() => {
+        refreshData();
+    }, []);
 
-    // componentDidUpdate() {
-    //     this.refreshData();
-    // }
-
-    deleteQuestionFromPage = async (questionId) => {
+    const deleteQuestionFromPage = async (questionId) => {
         await deleteQuestion(questionId);
-        this.refreshData();
+        refreshData();
     }
 
-    editQuestionRow = (props) => {
+    const EditQuestionRow = (props) => {
         const question = props.questionObject;
-        if (this.state.editQuestionId !== question._id) {
+        if (editQuestionId !== question._id) {
             return <div>
                 <ListItem >
                     <ListItemText
                         primary={question.questionText}
                     />
                     <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="Edit" onClick={() => this.showEditQuestion(question)}>
+                        <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)}>
                             <EditIcon />
                         </IconButton>
-                        <IconButton edge="end" aria-label="Delete" onClick={() => this.deleteQuestionFromPage(question._id)}>
+                        <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
                             <DeleteIcon />
                         </IconButton>
                     </ListItemSecondaryAction>
@@ -103,36 +89,35 @@ class ShowQuestions extends React.Component {
         }
     }
 
-    render() {
-        return (
-            <div>
+    return (
+        <div>
 
-                <NewQuestion parentRefresh={this.refreshData} />
-                <Paper m="20px" p="200px" >
-                    <h1>Edit Questions</h1>
-                    <IconButton edge="end" aria-label="Delete" onClick={this.refreshData}>
+            <NewQuestion parentRefresh={refreshData} />
+            <Paper className={classes.root} >
+                <h1 style={{display: "inline"}}>Edit Questions</h1>
+                <div style={{display: "inline"}} align="right">
+                    <IconButton edge="end" aria-label="Delete" onClick={refreshData} >
                         <RefreshIcon />
                     </IconButton>
-                    <Grid container spaceing={2}>
-                        <Grid item xs={12} md={6}>
-                            <div>
-                                <List>
-                                    {this.state.visibleQuestionsArray.map(questionObject =>
-                                        <div key={questionObject._id}>
-                                            <this.editQuestionRow questionObject={questionObject} />
-                                            <ListItem>
-                                                {(questionObject._id === this.state.editQuestionId) ? this.state.editQuestionsComponent : null}
-                                            </ListItem>
-                                        </div>
-                                    )}
-                                </List>
+                </div>
+                <div>
+                    <List>
+                        {visibleQuestionsArray.map(questionObject =>
+                            <div key={questionObject._id}>
+                                <Divider />
+                                <EditQuestionRow questionObject={questionObject} />
+                                <ListItem>
+                                    {(questionObject._id === editQuestionId) ? editQuestionsComponent : null}
+                                </ListItem>
                             </div>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </div>
-        )
-    }
+                        )}
+                    </List>
+                </div>
+
+            </Paper>
+        </div>
+    )
+
 }
 
 export default ShowQuestions;
