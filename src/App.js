@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
 import ShowQuestions from './components/ShowQuestions'
-import Login from './components/Login'
+import { Login } from './components/Login'
 import { Container } from '@material-ui/core';
 
 

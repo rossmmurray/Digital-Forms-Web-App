@@ -139,9 +139,9 @@ const ShowQuestions = () => {
     )
 }
 
-ShowQuestions.EditQuestionRow.propTypes = {
-    questionObject: questionType,
-};
+// ShowQuestions.E .propTypes = {
+//     questionObject: questionType,
+// };
 
 
 export default ShowQuestions;
