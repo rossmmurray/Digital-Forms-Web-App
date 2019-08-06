@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import AddCircle from '@material-ui/icons/AddCircle'
+import { questionType } from '../propTypes/propTypes'
 
 
 const useStyles = makeStyles(theme => ({
@@ -94,7 +95,7 @@ const ShowQuestions = () => {
             return null;
         }
     }
-
+   
     return (
         <div>
 
@@ -117,7 +118,6 @@ const ShowQuestions = () => {
                                 </ListItem>
                             </div>
                         )}
-
                         <Divider />
                         <ListItem>
                             {newQuestionFlag ? <NewQuestion parentRefresh={refreshData} /> :
@@ -131,18 +131,18 @@ const ShowQuestions = () => {
                                 </ListItemSecondaryAction>
                                 </div>
                             }
-
                         </ListItem>
                     </List>
-
-
                 </div>
-
             </Paper>
         </div>
     )
-
 }
+
+ShowQuestions.EditQuestionRow.propTypes = {
+    questionObject: questionType,
+};
+
 
 export default ShowQuestions;
 
