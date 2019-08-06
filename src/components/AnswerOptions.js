@@ -35,7 +35,7 @@ export const AnswerOptions = (props) => {
         if (!newQuestion.answerOptions) {
             newQuestion.answerOptions = [];
         }
-        newQuestion.answerOptions.push({ optionName: 'blah', questionLink: '' })
+        newQuestion.answerOptions.push({ optionName: '', questionLink: '' })
         setQuestion(newQuestion)
     }
 

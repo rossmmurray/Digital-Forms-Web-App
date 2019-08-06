@@ -723,7 +723,8 @@ h6,
   @media (min-width: 40.0625em) {
     h6,
     .nhsuk-heading-xxs {
-      margin-bottom: 24px; } }
+      margin-bottom: 24px;
+     } }
 
 /* Captions to be used inside headings */
 .nhsuk-caption-xl {
@@ -5926,6 +5927,9 @@ b {
   margin: 10px 20px;
   font-size: large; }
 
+h6 {
+  margin: 8px 4px;
+}
 html,
 body {
   margin: 0;
