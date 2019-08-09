@@ -46,8 +46,9 @@ export const AnswerOptions = (props) => {
     }
 
     useEffect(() => {
+        console.log('test')
         setQuestion(props.question)
-    })
+    },[props.question])
 
     const addButton = () => {
         return (
