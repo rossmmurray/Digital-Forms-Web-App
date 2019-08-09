@@ -51,9 +51,13 @@ export const Login = () => {
         const token2 = JSON.stringify({ access_token: response.accessToken }, null, 2);
         const options = {
             method: 'POST',
-            body: tokenBlob,
+            body: JSON.stringify({ access_token: response.accessToken }),
             mode: 'cors',
-            cache: 'default'
+            cache: 'default',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              }
         };
         console.log(options)
         fetch(base_url + '/authenticate', options).then(r => {
@@ -66,8 +70,12 @@ export const Login = () => {
                     setIsAuthenticated(true)
                     setUser(user)
                 }
+            }).catch( (err) => {
+                console.error(err)
+                console.error(r)
             });
         })
+
     }
 
 
