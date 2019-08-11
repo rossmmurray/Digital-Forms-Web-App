@@ -8,8 +8,8 @@ export const getQuestions = async () => {
         questionsApiData = await axios.get(base_url + '/getQuestions');
         return questionsApiData.data.data;
     } catch (error) {
-        console.erorr(error)
-        return {};
+        console.error(error)
+        return [];
     }
 };
 

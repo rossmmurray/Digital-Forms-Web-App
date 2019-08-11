@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import axios from 'axios';
 import { base_url } from "../connections";
 
 
@@ -25,52 +24,64 @@ export const Login = () => {
     };
 
     const logout = () => {
-        setIsAuthenticated(false);
-        setUser(null);
+        saveToken(null);
+        saveUser(null);
     }
 
-    const responseGoogle = (response) => {
-        // console.log(response);
-        // // setIsAuthenticated
-        // if (response && response.profileObj) {
-        //     setIsAuthenticated(true);
-        //     setUser(response.profileObj)
-        // } else {
-        //     setIsAuthenticated(false)
-        // }
+    const saveToken = token => {
+        localStorage.setItem("jwToken", token);
+        const authBool = token ? true : false;
+        setIsAuthenticated(authBool)
+    };
 
-        // const backendResponse = await axios.post(base_url + '/authenticate', {access_token: response.accessToken})
-        // const backendToken = backendResponse.headers.get('x-auth-token');
-        // const user = backendResponse.json();
-        // if (backendToken) {
-        //     setIsAuthenticated(true)
-        //     setUser(user)
-        // }
-        // response.accessToken = response.accessToken
-        const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
-        const token2 = JSON.stringify({ access_token: response.accessToken }, null, 2);
+    const getToken = () => {
+        return localStorage.getItem("jwToken");
+    };
+
+    const saveUser = user => {
+        localStorage.setItem('user', JSON.stringify(user))
+        setUser(user)
+    }
+
+    const getUser = () => {
+        const user = JSON.parse(localStorage.getItem('user'))
+        return user;
+    }
+
+    const setStateFromLocalStorage = () => {
+        const loggedInUser = getUser();
+        const token = getToken();
+        if (loggedInUser && token) {
+            saveUser(loggedInUser)
+            saveToken(token)
+        }
+    }
+
+    useEffect(() => {
+        // get state from local storage
+        setStateFromLocalStorage();
+    }, [])
+
+    const responseGoogle = (response) => {
+        const googleAccessToken = JSON.stringify({ access_token: response.accessToken })
         const options = {
             method: 'POST',
-            body: JSON.stringify({ access_token: response.accessToken }),
+            body: googleAccessToken,
             mode: 'cors',
             cache: 'default',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              }
+            }
         };
-        console.log(options)
         fetch(base_url + '/authenticate', options).then(r => {
-            const token = r.headers.get('x-auth-token');
-            console.log(r);
-            console.log(token)
+            const jwToken = r.headers.get('x-auth-token');
             r.json().then(user => {
-                console.log(user)
-                if (token) {
-                    setIsAuthenticated(true)
-                    setUser(user)
+                if (jwToken) {
+                    saveUser(user);
+                    saveToken(jwToken);
                 }
-            }).catch( (err) => {
+            }).catch((err) => {
                 console.error(err)
                 console.error(r)
             });
