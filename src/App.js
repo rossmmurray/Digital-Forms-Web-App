@@ -7,6 +7,7 @@ import NewQuestion from './components/NewQuestion';
 import ShowQuestions from './components/ShowQuestions'
 import { Login } from './components/Login'
 import { Container } from '@material-ui/core';
+import MHHeader from './page/MHHeader'
 
 
 // process.on('unhandledRejection', (reason, p) => {
@@ -28,14 +29,15 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <NHSHeader />
+                {/* <NHSHeader /> */}
+                <MHHeader />
                 <Container  maxWidth="md" >
                     <Route exact path="/" component={Start} />
                     <Route exact path="/admin/newQuestion" component={NewQuestion} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/editQuestions" component={ShowQuestions} />
                 </Container>
-                <NHSFooter />
+                {/* <NHSFooter /> */}
             </Router >
         )
     }

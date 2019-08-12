@@ -1,6 +1,6 @@
 // /client/App.js
 import React, {Component} from 'react';
-import './css/App.css';
+// import './css/App.css';
 import {Link} from "react-router-dom";
 
 class Start extends Component {
