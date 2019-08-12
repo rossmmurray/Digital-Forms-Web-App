@@ -60,7 +60,7 @@ export const AnswerOptions = (props) => {
 
     return (
         <div>
-            <h6>Answers</h6>
+            <h3>Answers</h3>
             {optionsCheck ? ExistingOptions() : null}
             <div align="right">
                 {addButton()}

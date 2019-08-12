@@ -2,7 +2,6 @@ import axios from 'axios';
 import { base_url } from "../connections";
 import { getTokenFromLocalStorage } from './AuthFunctions';
 
-// axios.defaults.headers.common['x-auth-token'] = getTokenFromLocalStorage();
 
 const getRequestConfig = () => {
     const requestConfig = {

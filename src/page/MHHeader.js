@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from "react-router-dom";
+;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -17,8 +18,12 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1,
+        fontWeight: "bold",
+        fontStyle: "italic"
     },
 }));
+
+;
 
 export default function ButtonAppBar() {
     const classes = useStyles();
@@ -31,10 +36,22 @@ export default function ButtonAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        News
-          </Typography>
+                    NHS
+                    </Typography>
                     <Button component={Link} to={"/admin/newQuestion"} color="inherit">
                         Add Question
+                    </Button>
+                    <Button component={Link} to={'/editQuestions'} color="inherit">
+                        Edit Questions
+                    </Button>
+                    <Button component={Link} to={"/Register"} color="inherit">
+                        Register
+                    </Button>
+                    <Button component={Link} to={"/Login"} color="inherit">
+                        Login
+                    </Button>
+                    <Button component={Link} to={"/admin/userManagement"} color="inherit">
+                        Users
                     </Button>
                 </Toolbar>
             </AppBar>

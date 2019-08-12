@@ -98,7 +98,7 @@ function NewQuestion(props) {
 
     return (
         <div>
-            <h6>Question</h6>
+            <h3>Question</h3>
             <MHTextField
                 label="Question Text"
                 onChange={(e) => updateField(e.target.value, 'questionText')}
