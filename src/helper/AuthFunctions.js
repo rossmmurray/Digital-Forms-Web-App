@@ -1,6 +1,5 @@
 export const getTokenFromLocalStorage = () => {
     const token = localStorage.getItem("jwToken"); 
-    console.log(token);
     return token 
 };
 
