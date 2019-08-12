@@ -1,11 +1,22 @@
 import axios from 'axios';
 import { base_url } from "../connections";
+import { getTokenFromLocalStorage } from './AuthFunctions';
+
+// axios.defaults.headers.common['x-auth-token'] = getTokenFromLocalStorage();
+
+const getRequestConfig = () => {
+    const requestConfig = {
+        headers: {
+            "x-auth-token": getTokenFromLocalStorage()
+        }
+    }
+    return requestConfig;
+}
 
 export const getQuestions = async () => {
-    // const response = await 
     let questionsApiData = {};
     try {
-        questionsApiData = await axios.get(base_url + '/getQuestions');
+        questionsApiData = await axios.get(base_url + '/getQuestions', getRequestConfig());
         return questionsApiData.data.data;
     } catch (error) {
         console.error(error)
@@ -36,7 +47,7 @@ export const updateQuestionRequestToApi = async (questionId, question) => {
     try {
         const response = await axios.put(base_url + '/updateQuestion/' + questionId, question);
         return response.data;
-    } catch(err) {
+    } catch (err) {
         console.error(err)
         throw new Error(err);
     }

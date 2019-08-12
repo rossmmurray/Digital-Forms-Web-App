@@ -3,6 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { base_url } from "../connections";
+import { getTokenFromLocalStorage, getUserFromLocalStorage } from '../helper/AuthFunctions'
 
 
 const useStyles = makeStyles(theme => ({
@@ -24,6 +25,7 @@ export const Login = () => {
     };
 
     const logout = () => {
+        console.log('logging out')
         saveToken(null);
         saveUser(null);
     }
@@ -34,23 +36,14 @@ export const Login = () => {
         setIsAuthenticated(authBool)
     };
 
-    const getToken = () => {
-        return localStorage.getItem("jwToken");
-    };
-
     const saveUser = user => {
         localStorage.setItem('user', JSON.stringify(user))
         setUser(user)
     }
 
-    const getUser = () => {
-        const user = JSON.parse(localStorage.getItem('user'))
-        return user;
-    }
-
     const setStateFromLocalStorage = () => {
-        const loggedInUser = getUser();
-        const token = getToken();
+        const loggedInUser = getUserFromLocalStorage();
+        const token = getTokenFromLocalStorage();
         if (loggedInUser && token) {
             saveUser(loggedInUser)
             saveToken(token)
@@ -61,6 +54,10 @@ export const Login = () => {
         // get state from local storage
         setStateFromLocalStorage();
     }, [])
+
+    const logoutFailure = (message) => {
+        console.error(message)
+    }
 
     const responseGoogle = (response) => {
         const googleAccessToken = JSON.stringify({ access_token: response.accessToken })
@@ -102,6 +99,7 @@ export const Login = () => {
         clientId="51463348971-oupg93q2h6n4ig8voa9695sh1r2e6bmj.apps.googleusercontent.com"
         buttonText="Logout"
         onLogoutSuccess={logout}
+        onFailure={logoutFailure}
     />;
 
     const userInfo = user ?
@@ -127,6 +125,7 @@ export const Login = () => {
             <h1>You are now logged in</h1>
             {userInfo}
             {logoutButton}
+            {loginButton}
         </div>);
 
 
