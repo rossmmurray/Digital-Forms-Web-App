@@ -8,7 +8,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { getUsers } from '../helper/ApiDataFunctions';
+import { getUsers, updateUser } from '../helper/ApiDataFunctions';
+import { MHSnackbar } from './notify'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,7 +36,20 @@ export const UserManagement = () => {
     const handleRoleChange = index => event => {
         const newUsers = [...users]
         newUsers[index].role = event.target.value
+
+        // show notification if change saved to database
+        updateUser(newUsers[index]).then(setOpen(true))
         setUsers(newUsers)
+        
+    }
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
     }
 
     return (
@@ -50,7 +64,7 @@ export const UserManagement = () => {
                                     <ListItemIcon>
                                         <PersonIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={user.email}/>
+                                    <ListItemText primary={user.email} />
                                     <Select
                                         value={user.role}
                                         onChange={handleRoleChange(index)}
@@ -60,15 +74,17 @@ export const UserManagement = () => {
                                         <MenuItem value={'clinician'}>Clinician</MenuItem>
                                     </Select>
                                 </ListItem>
-                                
                             </div>
                         )}
-
-
                     </List>
                 </div>
-
             </MHPaper>
+            <MHSnackbar
+                open={open}
+                onClose={handleClose}
+                message="User update saved to database"
+                variant="success"
+            />
         </div>
     )
 }
