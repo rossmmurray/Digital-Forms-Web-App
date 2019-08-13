@@ -1,7 +1,7 @@
-import { getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
+import { updateUser, getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
 
 
-jest.mock("./APIDataFunctions.js");
+// jest.mock("./APIDataFunctions.js");
 
 const freeTextQuestion = {
     questionText: "Standard qustions text",
@@ -19,6 +19,12 @@ test('get users array', async () => {
     const res = await getUsers();
     expect(Object.prototype.toString.call(res)).toEqual('[object Array]')
     expect(res.length).toBeGreaterThan(0)
+})
+
+test('update user', async () => {
+    const updatedUser = {_id:"5d52c90a1c9d4400002babdb",email:"janetestnew@gmail.com",role:"patient",googleProvider:{id:"101351826470304396904",token:"ya29.GlxeB1LjEuQ7q_NDCohwfuc3RCAHldE70sBQEfjl9MyxIuTC8166R7QKl2668a8zhvU_Phcmv9WaiW8SosUR-fL0GCucjCdTdBy5XSNYbLpqzz82wNRYEaerJzku3A"},__v:"0"}
+    const res = await updateUser(updatedUser)
+    expect(res.success).toEqual(true)
 })
 
 test('post question', async () => {

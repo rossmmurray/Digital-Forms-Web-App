@@ -62,6 +62,16 @@ export const updateQuestionRequestToApi = async (questionId, question) => {
     }
 };
 
+export const updateUser = async (updatedUser) => {
+    try {
+        const response = await axios.put(base_url + '/updateUser', updatedUser);
+        return response.data;
+    } catch (err) {
+        console.error(err)
+        throw new Error(err);
+    } 
+}
+
 export const deleteAllQuestions = async () => {
     axios.delete(base_url + '/questions');
 };
