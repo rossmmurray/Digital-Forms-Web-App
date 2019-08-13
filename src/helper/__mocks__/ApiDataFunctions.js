@@ -41,8 +41,25 @@ const updateResponse = {
     }
 }
 
+const usersMocked = [
+    {
+        role: 'admin',
+        _id: '5d4c84779952b437d62fc31d',
+        email: 'rossmichaelm@gmail.com',
+        googleProvider:
+        {
+            id: '101351826470304396905',
+            token:
+                'ya29.GlxeB1LjEuQ7q_NDCohwfuc3RCAHlcE70sBQEfjl9MyxIuTC8166R7QKl2668a8zhvU_Phcmv9WaiW8SosUR-fL0GCucjCdTdBy5XSNYbLpqzz82wNRYEaerJzku3A'
+        },
+        __v: 0
+    }
+]
+
+
 export const getQuestions = jest.fn(() => questionsMocked);
 export const saveQuestionRequestToApi = jest.fn(() => singleQuestion);
 export const deleteQuestion = jest.fn(() => { return { success: true, deletedQuestionId: '5d44e24265aed852d0223fd3' } });
 export const updateQuestionRequestToApi = jest.fn(() => updateResponse);
 export const deleteAllQuestions = jest.fn();
+export const getUsers = jest.fn(() => usersMocked)

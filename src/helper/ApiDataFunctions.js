@@ -12,6 +12,16 @@ const getRequestConfig = () => {
     return requestConfig;
 }
 
+export const getUsers = async () => {
+    try {
+        const users = await axios.get(base_url + '/users', getRequestConfig())
+        return users.data.data
+    } catch (error) {
+        console.error(error)
+        return []
+    }
+}
+
 export const getQuestions = async () => {
     let questionsApiData = {};
     try {

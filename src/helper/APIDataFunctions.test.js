@@ -1,4 +1,4 @@
-import { getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
+import { getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
 
 
 jest.mock("./APIDataFunctions.js");
@@ -14,6 +14,12 @@ test('get questions array', async () => {
     expect(arrayCheckString).toEqual('[object Array]');
     // expect(result.length).not.toEqual(0);
 });
+
+test('get users array', async () => {
+    const res = await getUsers();
+    expect(Object.prototype.toString.call(res)).toEqual('[object Array]')
+    expect(res.length).toBeGreaterThan(0)
+})
 
 test('post question', async () => {
     // const questionText = "Added a question";
