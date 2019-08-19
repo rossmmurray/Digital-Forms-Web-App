@@ -24,12 +24,18 @@ const useStyles = makeStyles(theme => ({
 
 export const UserManagement = () => {
     const classes = useStyles();
+    const snackbarConfig = {
+        message: "User update saved to database.",
+        variant: "success"
+    }
 
     const [users, setUsers] = useState([])
 
     useEffect(() => {
         getUsers().then(cbUsers => {
             setUsers(cbUsers)
+        }).catch(error => {
+            console.log(error)
         });
     }, [])
 
@@ -45,10 +51,12 @@ export const UserManagement = () => {
 
     const [open, setOpen] = React.useState(false);
 
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    const handleClose = () => {
+        // if (reason === 'clickaway') {
+        //     setOpen(false);
+        //     return;
+        // }
+        console.log('handle close triggered')
         setOpen(false);
     }
 
@@ -82,8 +90,7 @@ export const UserManagement = () => {
             <MHSnackbar
                 open={open}
                 onClose={handleClose}
-                message="User update saved to database"
-                variant="success"
+                {...snackbarConfig}
             />
         </div>
     )

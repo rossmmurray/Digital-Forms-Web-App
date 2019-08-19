@@ -13,13 +13,14 @@ const getRequestConfig = () => {
 }
 
 export const getUsers = async () => {
-    try {
+    // try {
         const users = await axios.get(base_url + '/users', getRequestConfig())
+        if (users.data.success === false) throw new Error(users.data.error)
         return users.data.data
-    } catch (error) {
-        console.error(error)
-        return []
-    }
+    // } catch (error) {
+    //     console.error(error)
+    //     throw new Error(error)
+    // }
 }
 
 export const getQuestions = async () => {

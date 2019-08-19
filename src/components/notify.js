@@ -3,7 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { green } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
     close: {
@@ -11,6 +12,9 @@ const useStyles = makeStyles(theme => ({
     },
     success: {
         backgroundColor: green[600],
+    },
+    error: {
+        backgroundColor: red[600],
     }
 }));
 
@@ -31,7 +35,7 @@ export const MHSnackbar = (props) => {
                 ContentProps={{
                     'aria-describedby': 'message-id',
                     classes: {
-                        root: classes.success
+                        root: classes[props.variant]
                     }
                 }}
                 // message={<span id="message-id">Note archived</span>}
@@ -41,7 +45,7 @@ export const MHSnackbar = (props) => {
                         aria-label="close"
                         color="inherit"
                         className={classes.close}
-                        onClick={props.handleClose}
+                        onClick={props.onClose}
                     >
                         <CloseIcon />
                     </IconButton>,
@@ -50,3 +54,8 @@ export const MHSnackbar = (props) => {
         </div>
     );
 }
+
+MHSnackbar.propTypes = {
+    variant: PropTypes.string,
+    onClose: PropTypes.func
+};
