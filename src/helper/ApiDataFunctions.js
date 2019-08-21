@@ -68,6 +68,11 @@ export const deleteQuestion = async (questionId) => {
     return response.data;
 };
 
+export const updateFormToAPI = async (form) => {
+    const response = await axios.put(base_url + '/form', form);
+    return response.data
+}
+
 export const updateQuestionRequestToApi = async (questionId, question) => {
     try {
         const response = await axios.put(base_url + '/updateQuestion/' + questionId, question);

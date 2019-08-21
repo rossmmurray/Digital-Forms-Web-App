@@ -46,9 +46,10 @@ test('post, update and delete form', async () => {
     const formID = result.data.form._id
 
     // // update form
-    const updatedForm = { ...form, title: "updated form" }
+    const updatedForm = { ...result.data.form, title: "some updated form" }
     const updateResult = await updateFormToAPI(updatedForm)
-    console.log(updateResult)
+    expect(updateResult.success).toEqual(true)
+    expect(updateResult.form.title).toEqual('some updated form')
 
     // delete form
     const deleteResult = await deleteFormToAPI({_id: formID})
@@ -105,5 +106,5 @@ afterAll(async() => {
     const someQuestion = await saveQuestionRequestToApi({ questionText: "Please tell us why you have contacted the service.", answerType: 'option' });
     postFormToAPI({title: "Mental Health Triage Form", firstQuestion: someQuestion._id}) 
     postFormToAPI({title: "AB4129: Student Survey", firstQuestion: someQuestion._id}) 
-    postFormToAPI({title: "Information Gathering Form III", firstQuestion: someQuestion._id}) 
+    updateFormToAPI({title: "Information Gathering Form III", firstQuestion: someQuestion._id}) 
 })
