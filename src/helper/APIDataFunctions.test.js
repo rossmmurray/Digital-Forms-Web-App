@@ -1,5 +1,4 @@
-import { updateUser, getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
-
+import { deleteFormToAPI, postFormToAPI, updateUser, getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
 
 // jest.mock("./APIDataFunctions.js");
 
@@ -25,6 +24,25 @@ test('update user', async () => {
     const updatedUser = {_id:"5d52c90a1c9d4400002babdb",email:"janetestnew@gmail.com",role:"patient",googleProvider:{id:"101351826470304396904",token:"ya29.GlxeB1LjEuQ7q_NDCohwfuc3RCAHldE70sBQEfjl9MyxIuTC8166R7QKl2668a8zhvU_Phcmv9WaiW8SosUR-fL0GCucjCdTdBy5XSNYbLpqzz82wNRYEaerJzku3A"},__v:"0"}
     const res = await updateUser(updatedUser)
     expect(res.success).toEqual(true)
+})
+
+test('post and delete form', async () => {
+    // need question for firstQuestion field
+    const newQuestion = await saveQuestionRequestToApi(freeTextQuestion);
+    const createdQuestionId = newQuestion._id;
+
+    // create new form
+    const form = {
+        title: "Mental Health Triage Form One",
+        firstQuestion: createdQuestionId
+    }
+    const result = await postFormToAPI(form)
+    expect(result.data.success).toEqual(true)
+
+    // delete form
+    const formID = result.data.form._id
+    const deleteResult = await deleteFormToAPI({_id: formID})
+    expect(deleteResult).toEqual(1)
 })
 
 test('post question', async () => {

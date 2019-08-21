@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import NHSHeader from './page/NHSHeader';
-import NHSFooter from './page/NHSFooter';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
@@ -12,6 +10,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/styles';
 import { MHTheme } from './theme/MHTheme'
 import { UserManagement } from './components/UserManagement'
+import { FormManagement } from './components/FormManagement'
 
 // process.on('unhandledRejection', (reason, p) => {
 //     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -41,6 +40,7 @@ class App extends Component {
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/editQuestions" component={ShowQuestions} />
                         <Route exact path="/admin/userManagement" component={UserManagement} />
+                        <Route exact path="/admin/manageForms" component={FormManagement} />
                     </Container>
                 </ThemeProvider>
             </Router >

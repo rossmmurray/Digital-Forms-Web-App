@@ -50,6 +50,9 @@ export default function ButtonAppBar() {
                     <Button component={Link} to={"/admin/userManagement"} color="inherit">
                         Users
                     </Button>
+                    <Button component={Link} to={"/admin/manageForms"} color="inherit">
+                        Manage Forms
+                    </Button>
                 </Toolbar>
             </AppBar>
         </div>
