@@ -11,6 +11,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ViewList from '@material-ui/icons/ViewList'
+import Save from '@material-ui/icons/Save'
+import { MHTextField, MHSelectField } from './Fields'
+import TextField from '@material-ui/core/TextField';
+import { InputLabel } from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,7 +38,9 @@ export const FormManagement = () => {
     }
 
     const [allQuestions, setAllQuestions] = useState([])
-    const [formData, setFormData] = useState([]);   
+    const [formData, setFormData] = useState([]);
+
+
 
     useEffect(() => {
         getQuestions().then(questions => {
@@ -42,38 +51,71 @@ export const FormManagement = () => {
         })
     }, [])
 
-    const handleChange = (param) => {
-        console.log(param)
+    const handleChange = formID => event => {
+        const indexOfItem = formData.findIndex(form => form._id == formID)
+        const tempFormData = [...formData]
+        tempFormData[indexOfItem] = {
+            ...tempFormData[indexOfItem],
+            [event.target.name]: event.target.value
+        }
+        setFormData(tempFormData)
+        console.log(event.target.value)
+    }
+
+    // todo: speak about currying in the report, reference Chris Clack
+    const saveForm = formID => event => {
+        console.log('tried to save: ' + formID)
+        console.log(event)
     }
 
     return (
         <div className={classes.root}>
             <MHPaper >
                 <h1>Form Management</h1>
-                <List component="nav" aria-label="users list">
-                    {formData.map((form, index) =>
-                        <div key={index}>
+                <List component="nav" aria-label="form list">
+                    {formData.map(form =>
+                        <div key={form._id}>
                             <ListItem button>
                                 <ListItemIcon>
                                     <ViewList />
                                 </ListItemIcon>
-                                <ListItemText primary={form.title} />
-                                <Select
-                                    value={form.firstQuestion}
-                                    onChange={handleChange(index)}
-                                >
-                                    {allQuestions.map(question =>
-                                        <div key={question._id}>
-                                            <MenuItem value={question._id}>{question.questionText}</MenuItem>
-                                        </div>
+                                {/* <ListItemText primary={form.title} /> */}
+                                <ListItemText>
+                                    <MHTextField
+                                        label='Form Title'
+                                        onChange={handleChange(form._id)}
+                                        name='title'
+                                        value={form.title}
+                                    />
+                                </ListItemText>
+                                {/* todo: [not loc]: why is api calls cheaper */}
+                                <FormControl>
+                                    <InputLabel>First Question</InputLabel>
+                                    <Select
+                                        label={'First Question'}
+                                        value={form.firstQuestion}
+                                        onChange={handleChange(form._id)}
+                                        name={'firstQuestion'}
+                                        placeholder='Pick the first question'
+                                    >
+                                        {allQuestions.map(question =>
+                                            <MenuItem key={question._id} value={question._id}>{question.questionText}</MenuItem>
                                         )}
-                                </Select>
+                                    </Select>
+                                </FormControl>
+                                <IconButton onClick={saveForm(form._id)}>
+                                    <Save />
+                                </IconButton>
+                                {/* todo: change this to use your mh select field */}
+                                {/* <MHSelectField
+                                    label='firstQuestion'
+                                    name='firstQuestion'
+                                    options={all}
+                                /> */}
                             </ListItem>
                         </div>
                     )}
                 </List>
-
-
             </MHPaper>
             <MHSnackbar
                 open={open}
