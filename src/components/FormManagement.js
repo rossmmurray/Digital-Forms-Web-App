@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { getQuestions, postFormToAPI, getFormsFromAPI } from '../helper/ApiDataFunctions';
+import { getQuestions, updateFormToAPI, getFormsFromAPI } from '../helper/ApiDataFunctions';
 import { MHPaper } from '../styling/MHPaper'
 import { MHSnackbar } from './notify'
 import List from '@material-ui/core/List';
@@ -16,6 +16,8 @@ import { MHTextField, MHSelectField } from './Fields'
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
+import AddCircle from '@material-ui/icons/AddCircle'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import IconButton from '@material-ui/core/IconButton';
 
@@ -51,11 +53,12 @@ export const FormManagement = () => {
         })
     }, [])
 
-    const handleChange = formID => event => {
+    const handleChange = index => event => {
+        const formID = formData[index]._id
         const indexOfItem = formData.findIndex(form => form._id == formID)
         const tempFormData = [...formData]
-        tempFormData[indexOfItem] = {
-            ...tempFormData[indexOfItem],
+        tempFormData[index] = {
+            ...tempFormData[index],
             [event.target.name]: event.target.value
         }
         setFormData(tempFormData)
@@ -63,9 +66,17 @@ export const FormManagement = () => {
     }
 
     // todo: speak about currying in the report, reference Chris Clack
-    const saveForm = formID => event => {
-        console.log('tried to save: ' + formID)
-        console.log(event)
+    const saveForm = form => async event => {
+        console.log('tried to save: ')
+        console.log(form)
+        const res = await updateFormToAPI(form)
+        console.log(res)
+    }
+
+    const addForm = () => {
+        const tempFormData = [...formData]
+        tempFormData.push({ title: '', firstQuestion: '' })
+        setFormData(tempFormData)
     }
 
     return (
@@ -73,8 +84,8 @@ export const FormManagement = () => {
             <MHPaper >
                 <h1>Form Management</h1>
                 <List component="nav" aria-label="form list">
-                    {formData.map(form =>
-                        <div key={form._id}>
+                    {formData.map( (form, index) =>
+                        <div key={index}>
                             <ListItem button>
                                 <ListItemIcon>
                                     <ViewList />
@@ -83,7 +94,7 @@ export const FormManagement = () => {
                                 <ListItemText>
                                     <MHTextField
                                         label='Form Title'
-                                        onChange={handleChange(form._id)}
+                                        onChange={handleChange(index)}
                                         name='title'
                                         value={form.title}
                                     />
@@ -94,7 +105,7 @@ export const FormManagement = () => {
                                     <Select
                                         label={'First Question'}
                                         value={form.firstQuestion}
-                                        onChange={handleChange(form._id)}
+                                        onChange={handleChange(index)}
                                         name={'firstQuestion'}
                                         placeholder='Pick the first question'
                                     >
@@ -103,7 +114,7 @@ export const FormManagement = () => {
                                         )}
                                     </Select>
                                 </FormControl>
-                                <IconButton onClick={saveForm(form._id)}>
+                                <IconButton onClick={saveForm(form)}>
                                     <Save />
                                 </IconButton>
                                 {/* todo: change this to use your mh select field */}
@@ -115,6 +126,16 @@ export const FormManagement = () => {
                             </ListItem>
                         </div>
                     )}
+                    <ListItem>
+                    <ListItemSecondaryAction>
+                        <IconButton align='right'
+                        onClick={addForm}
+                        >
+                            <AddCircle />
+                        </IconButton>
+
+                        </ListItemSecondaryAction>
+                        </ListItem>
                 </List>
             </MHPaper>
             <MHSnackbar
