@@ -44,6 +44,11 @@ export const saveQuestionRequestToApi = async (question) => {
     }
 };
 
+export const getFormsFromAPI = async () => {
+    const forms = await axios.get(base_url + '/forms', getRequestConfig());
+    return forms.data.data
+}
+
 export const postFormToAPI = async (form) => {
     const response = await axios.post(base_url + '/form', form)
     return response
@@ -60,7 +65,7 @@ export const deleteQuestion = async (questionId) => {
     const response = await axios.delete(base_url + '/question', {
         data: { id: questionId }
     });
-    return response;
+    return response.data;
 };
 
 export const updateQuestionRequestToApi = async (questionId, question) => {

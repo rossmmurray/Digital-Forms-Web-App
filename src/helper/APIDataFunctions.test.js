@@ -43,6 +43,8 @@ test('post and delete form', async () => {
     const formID = result.data.form._id
     const deleteResult = await deleteFormToAPI({_id: formID})
     expect(deleteResult).toEqual(1)
+    // const formTwo = { ...form, title: "Other form" }
+    // const resultTwo = await postFormToAPI(formTwo) 
 })
 
 test('post question', async () => {

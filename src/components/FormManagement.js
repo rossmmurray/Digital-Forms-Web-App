@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { getQuestions } from '../helper/ApiDataFunctions';
+import { getQuestions, postFormToAPI, getFormsFromAPI } from '../helper/ApiDataFunctions';
 import { MHPaper } from '../styling/MHPaper'
 import { MHSnackbar } from './notify'
 
@@ -26,15 +26,19 @@ export const FormManagement = () => {
 
     const [allQuestions, setAllQuestions] = useState([])
     const [formData, setFormData] = useState([
-        { formTitle: 'Triage study One', firstQuestion: { _id: '434980' }, name: "what is your gender" },
-        { formTitle: 'Triage study One', firstQuestion: { _id: '434980' }, name: "what is your gender" },
+        // { formTitle: 'Triage study One', firstQuestion: { _id: '434980' }, name: "what is your gender" },
+        // { formTitle: 'Triage study One', firstQuestion: { _id: '434980' }, name: "what is your gender" },
     ]);
 
 
     useEffect(() => {
-        getQuestions().then(res => {
-            setAllQuestions(res)
+        getQuestions().then(questions => {
+            setAllQuestions(questions)
         })
+        getFormsFromAPI().then(forms => {
+            setFormData(forms)
+        })
+
     }, [])
 
 
@@ -45,6 +49,11 @@ export const FormManagement = () => {
                 {allQuestions.map(question =>
                     <div key={question._id} >
                         <h3>{question.questionText}</h3>
+                    </div>
+                )}
+                  {formData.map(form =>
+                    <div key={form._id} >
+                        <h3>{form.title}</h3>
                     </div>
                 )}
             </MHPaper>
