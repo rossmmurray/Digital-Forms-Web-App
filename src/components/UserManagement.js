@@ -14,13 +14,8 @@ import { MHSnackbar } from './notify'
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        // maxWidth: 360,
-        // backgroundColor: theme.palette.background.paper,
     },
 }));
-
-// const usersArray = [{email: 'Ross', role: 'admin'}, {email: 'Jane', role: 'patient'}, {email: 'Emma', role: 'patient'}]
-// const usersArray =  await getUsers()
 
 export const UserManagement = () => {
     const classes = useStyles();
@@ -35,7 +30,7 @@ export const UserManagement = () => {
         getUsers().then(cbUsers => {
             setUsers(cbUsers)
         }).catch(error => {
-            console.log(error)
+            console.error(error)
         });
     }, [])
 
@@ -46,17 +41,11 @@ export const UserManagement = () => {
         // show notification if change saved to database
         updateUser(newUsers[index]).then(setOpen(true))
         setUsers(newUsers)
-        
     }
 
     const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
-        // if (reason === 'clickaway') {
-        //     setOpen(false);
-        //     return;
-        // }
-        console.log('handle close triggered')
         setOpen(false);
     }
 
@@ -65,7 +54,7 @@ export const UserManagement = () => {
             <MHPaper>
                 <h1>User Management</h1>
                 <div className={classes.root}>
-                    <List component="nav" aria-label="main mailbox folders">
+                    <List component="nav" aria-label="users list">
                         {users.map((user, index) =>
                             <div key={index}>
                                 <ListItem button>
