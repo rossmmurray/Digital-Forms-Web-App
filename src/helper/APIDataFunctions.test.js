@@ -1,5 +1,5 @@
-import { deleteFormToAPI, postFormToAPI, updateUser, getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
-
+import { updateFormToAPI, deleteFormToAPI, postFormToAPI, updateUser, getUsers, getQuestions, saveQuestionRequestToApi, deleteQuestion, updateQuestionRequestToApi } from './APIDataFunctions'
+import { deleteAllQuestions } from '../helper/ApiDataFunctions'
 // jest.mock("./APIDataFunctions.js");
 
 // at the end, add some sample questions so they stay up
@@ -28,25 +28,32 @@ test('update user', async () => {
     expect(res.success).toEqual(true)
 })
 
-test('post and delete form', async () => {
+test('post, update and delete form', async () => {
+
+    // delete all first
+    await deleteFormToAPI({})
+
     // need question for firstQuestion field
     const newQuestion = await saveQuestionRequestToApi(freeTextQuestion);
-    const createdQuestionId = newQuestion._id;
 
     // create new form
     const form = {
         title: "Mental Health Triage Form One",
-        firstQuestion: createdQuestionId
+        firstQuestion: newQuestion._id
     }
     const result = await postFormToAPI(form)
     expect(result.data.success).toEqual(true)
+    const formID = result.data.form._id
+
+    // // update form
+    const updatedForm = { ...form, title: "updated form" }
+    const updateResult = await updateFormToAPI(updatedForm)
+    console.log(updateResult)
 
     // delete form
-    const formID = result.data.form._id
     const deleteResult = await deleteFormToAPI({_id: formID})
     expect(deleteResult).toEqual(1)
-    // const formTwo = { ...form, title: "Other form" }
-    // const resultTwo = await postFormToAPI(formTwo) 
+
 })
 
 test('post question', async () => {
@@ -87,3 +94,16 @@ test('update question (with post before)', async () => {
     expect(updateResponse.success).toEqual(true);
 })
 
+afterAll(async() => {
+    // end - delete all questions and forms and add some back
+    await deleteAllQuestions()
+    await deleteFormToAPI({})
+    saveQuestionRequestToApi(freeTextQuestion)
+    saveQuestionRequestToApi({ questionText: "What is your name?", answerType: 'option' })
+    saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'option' })
+    saveQuestionRequestToApi({ questionText: "How would you describe your gender?", answerType: 'option' })
+    const someQuestion = await saveQuestionRequestToApi({ questionText: "Please tell us why you have contacted the service.", answerType: 'option' });
+    postFormToAPI({title: "Mental Health Triage Form", firstQuestion: someQuestion._id}) 
+    postFormToAPI({title: "AB4129: Student Survey", firstQuestion: someQuestion._id}) 
+    postFormToAPI({title: "Information Gathering Form III", firstQuestion: someQuestion._id}) 
+})

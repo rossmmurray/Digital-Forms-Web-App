@@ -86,5 +86,5 @@ test('submit question and get notification', async  () => {
 // });
 
 afterAll(() => {
-    deleteAllQuestions();
+    // deleteAllQuestions();
 });
