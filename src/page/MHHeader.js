@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from "react-router-dom";
+import { getFormsFromAPI } from '../helper/ApiDataFunctions';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,10 +25,27 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-;
 
 export default function ButtonAppBar() {
     const classes = useStyles();
+
+    const [forms, setForms] = useState([])
+    const [menuAnchor, setMenuAnchor] = useState(null)
+
+    useEffect(() => {
+        getFormsFromAPI().then(forms => {
+            setForms(forms)
+        })
+    })
+
+    const handleFormsClick = event => {
+        console.log('clicked')
+        setMenuAnchor(event.currentTarget)
+    }
+
+    const handleClose = event => {
+        setMenuAnchor(null)
+    }
 
     return (
         <div className={classes.root}>
@@ -35,7 +55,7 @@ export default function ButtonAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                    NHS
+                        NHS
                     </Typography>
                     <Button component={Link} to={"/admin/newQuestion"} color="inherit">
                         Add Question
@@ -53,6 +73,21 @@ export default function ButtonAppBar() {
                     <Button component={Link} to={"/admin/manageForms"} color="inherit">
                         Manage Forms
                     </Button>
+                    <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleFormsClick} color="inherit">
+                        Forms
+                    </Button>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={menuAnchor}
+                        keepMounted
+                        open={Boolean(menuAnchor)}
+                        onClose={handleClose}
+                    >
+                        {forms.map(form =>
+                            <MenuItem component={Link} to={"/form/" + form._id} key={form._id} onClick={handleClose}>{form.title}</MenuItem>
+                        )}
+
+                    </Menu>
                 </Toolbar>
             </AppBar>
         </div>

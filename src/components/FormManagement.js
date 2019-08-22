@@ -45,6 +45,7 @@ export const FormManagement = () => {
 
 
     useEffect(() => {
+        console.log('this run')
         getQuestions().then(questions => {
             setAllQuestions(questions)
         })
