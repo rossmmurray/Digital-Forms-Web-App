@@ -23,7 +23,7 @@ test('get users array', async () => {
 })
 
 test('update user', async () => {
-    const updatedUser = {_id:"5d52c90a1c9d4400002babdb",email:"janetestnew@gmail.com",role:"patient",googleProvider:{id:"101351826470304396904",token:"ya29.GlxeB1LjEuQ7q_NDCohwfuc3RCAHldE70sBQEfjl9MyxIuTC8166R7QKl2668a8zhvU_Phcmv9WaiW8SosUR-fL0GCucjCdTdBy5XSNYbLpqzz82wNRYEaerJzku3A"},__v:"0"}
+    const updatedUser = { _id: "5d52c90a1c9d4400002babdb", email: "janetestnew@gmail.com", role: "patient", googleProvider: { id: "101351826470304396904", token: "ya29.GlxeB1LjEuQ7q_NDCohwfuc3RCAHldE70sBQEfjl9MyxIuTC8166R7QKl2668a8zhvU_Phcmv9WaiW8SosUR-fL0GCucjCdTdBy5XSNYbLpqzz82wNRYEaerJzku3A" }, __v: "0" }
     const res = await updateUser(updatedUser)
     expect(res.success).toEqual(true)
 })
@@ -52,7 +52,7 @@ test('post, update and delete form', async () => {
     expect(updateResult.form.title).toEqual('some updated form')
 
     // delete form
-    const deleteResult = await deleteFormToAPI({_id: formID})
+    const deleteResult = await deleteFormToAPI({ _id: formID })
     expect(deleteResult).toEqual(1)
 
 })
@@ -91,11 +91,11 @@ test('update question (with post before)', async () => {
     } catch (err) {
         throw new Error(err)
     }
-   
+
     expect(updateResponse.success).toEqual(true);
 })
 
-afterAll(async() => {
+afterAll(async () => {
     // end - delete all questions and forms and add some back
     await deleteAllQuestions()
     await deleteFormToAPI({})
@@ -104,7 +104,16 @@ afterAll(async() => {
     saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'option' })
     saveQuestionRequestToApi({ questionText: "How would you describe your gender?", answerType: 'option' })
     const someQuestion = await saveQuestionRequestToApi({ questionText: "Please tell us why you have contacted the service.", answerType: 'option' });
-    postFormToAPI({title: "Mental Health Triage Form", firstQuestion: someQuestion._id}) 
-    postFormToAPI({title: "AB4129: Student Survey", firstQuestion: someQuestion._id}) 
-    updateFormToAPI({title: "Information Gathering Form III", firstQuestion: someQuestion._id}) 
+    const someOtherQuestion = await saveQuestionRequestToApi({
+        questionText: "How are you feeling today?", answerType: 'option',
+        answerOptions: [
+            { optionName: 'I feel unwell', questionLink: someQuestion._id },
+            { optionName: 'I feel great', questionLink: someQuestion._id },
+            { optionName: 'I feel medium', questionLink: someQuestion._id },
+
+        ]
+    });
+    postFormToAPI({ title: "Mental Health Triage Form", firstQuestion: someQuestion._id })
+    postFormToAPI({ title: "AB4129: Student Survey", firstQuestion: someQuestion._id })
+    updateFormToAPI({ title: "Information Gathering Form III", firstQuestion: someQuestion._id })
 })
