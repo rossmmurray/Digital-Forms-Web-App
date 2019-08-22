@@ -36,7 +36,7 @@ export default function ButtonAppBar() {
         getFormsFromAPI().then(forms => {
             setForms(forms)
         })
-    })
+    }, [])
 
     const handleFormsClick = event => {
         console.log('clicked')
