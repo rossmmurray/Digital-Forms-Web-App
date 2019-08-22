@@ -103,13 +103,26 @@ afterAll(async () => {
     saveQuestionRequestToApi({ questionText: "What is your name?", answerType: 'option' })
     saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'option' })
     saveQuestionRequestToApi({ questionText: "How would you describe your gender?", answerType: 'option' })
-    const someQuestion = await saveQuestionRequestToApi({ questionText: "Please tell us why you have contacted the service.", answerType: 'option' });
+    const someQuestion = await saveQuestionRequestToApi({
+        questionText: "What is your date of birth?",
+        answerType: 'option'
+    })
+        
+    const someOptionQuestion = await saveQuestionRequestToApi({
+        questionText: "Please tell us why you have contacted the service.",
+        answerType: 'option',
+        answerOptions: [
+            { optionName: 'option 1', questionLink: someQuestion._id },
+            { optionName: 'option 1', questionLink: someQuestion._id },
+            { optionName: 'option 1', questionLink: someQuestion._id },
+        ]
+    });
     const someOtherQuestion = await saveQuestionRequestToApi({
         questionText: "How are you feeling today?", answerType: 'option',
         answerOptions: [
-            { optionName: 'I feel unwell', questionLink: someQuestion._id },
-            { optionName: 'I feel great', questionLink: someQuestion._id },
-            { optionName: 'I feel medium', questionLink: someQuestion._id },
+            { optionName: 'I feel unwell', questionLink: someOptionQuestion._id },
+            { optionName: 'I feel great', questionLink: someOptionQuestion._id },
+            { optionName: 'I feel medium', questionLink: someOptionQuestion._id },
         ]
     });
     postFormToAPI({ title: "Mental Health Triage Form", firstQuestion: someOtherQuestion._id })

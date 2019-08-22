@@ -28,15 +28,17 @@ export const FormWizardQuestions = props => {
     const questions = props.questions
 
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
-    const [value, setValue] = useState(currentQuestion.answerOptions[0]._id)
+    const [chosenOptionId, setChosenOptionId] = useState(currentQuestion.answerOptions[0]._id)
 
     const handleChange = event => {
         console.log(event.target.value)
-        setValue(event.target.value)
+        setChosenOptionId(event.target.value)
     }
 
     const goToNextQuestion = () => {
-        console.log(value)
+        const chosenOption = currentQuestion.answerOptions.find(option => option._id === chosenOptionId)
+        const nextQuestion = questions.find(question => question._id === chosenOption.questionLink)
+        setCurrentQuestion(nextQuestion)
     }
 
     return (
@@ -47,7 +49,7 @@ export const FormWizardQuestions = props => {
                     aria-label="gender"
                     name="gender1"
                     className={classes.group}
-                    value={value}
+                    value={chosenOptionId}
                     onChange={handleChange}
                 >
                     {currentQuestion.answerOptions.map(option =>
