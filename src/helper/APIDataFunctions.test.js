@@ -110,10 +110,9 @@ afterAll(async () => {
             { optionName: 'I feel unwell', questionLink: someQuestion._id },
             { optionName: 'I feel great', questionLink: someQuestion._id },
             { optionName: 'I feel medium', questionLink: someQuestion._id },
-
         ]
     });
-    postFormToAPI({ title: "Mental Health Triage Form", firstQuestion: someQuestion._id })
+    postFormToAPI({ title: "Mental Health Triage Form", firstQuestion: someOtherQuestion._id })
     postFormToAPI({ title: "AB4129: Student Survey", firstQuestion: someQuestion._id })
     updateFormToAPI({ title: "Information Gathering Form III", firstQuestion: someQuestion._id })
 })
