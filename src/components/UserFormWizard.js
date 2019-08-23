@@ -16,17 +16,15 @@ const useStyles = makeStyles(theme => ({
 
 export const UserFormWizard = ({ match }) => {
     const classes = useStyles();
-
-    const [form, setForm] = useState({ title: '' })
-    const [currentQuestion, setCurrentQuestion] = useState(null)
-    const [questions, setQuestions] = useState([])
+    const [form, setForm] = useState(null)
+    const [questions, setQuestions] = useState(null)
+    // console.log(form)
 
     useEffect(() => {
         const formPromise = getFormsFromAPI().then(forms => {
              // get only the relevant form
             const formID = match.params.formid
             const currentForm = forms.find(form => form._id === formID)
-            setForm(currentForm)
             return currentForm
         })
         const questionsPromise = getQuestions()
@@ -34,8 +32,7 @@ export const UserFormWizard = ({ match }) => {
         // only run after received all forms and questions
         Promise.all([formPromise, questionsPromise]).then(([form, questions]) => {
             setQuestions(questions)
-            const firstQuestion = questions.find(question => form.firstQuestion === question._id)
-            setCurrentQuestion(firstQuestion)
+            setForm(form)
         })
 
     }, [match.params.formid])
@@ -44,8 +41,8 @@ export const UserFormWizard = ({ match }) => {
     return (
         <div>
             <MHPaper>
-                <h1 className={classes.lightText} >{form.title}</h1>
-                {currentQuestion ? <FormWizardQuestions form={form} firstQuestion={currentQuestion} questions={questions} /> : null}
+                {form ? <h1 className={classes.lightText} >{form.title}</h1> : null}
+                {form && questions ? <FormWizardQuestions form={form} questions={questions} /> : null}
             </MHPaper>
     
         </div>

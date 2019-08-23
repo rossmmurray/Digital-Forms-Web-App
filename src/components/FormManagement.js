@@ -12,8 +12,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ViewList from '@material-ui/icons/ViewList'
 import Save from '@material-ui/icons/Save'
-import { MHTextField, MHSelectField } from './Fields'
-import TextField from '@material-ui/core/TextField';
+import { MHTextField } from './Fields'
 import { InputLabel } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import AddCircle from '@material-ui/icons/AddCircle'
@@ -55,8 +54,6 @@ export const FormManagement = () => {
     }, [])
 
     const handleChange = index => event => {
-        const formID = formData[index]._id
-        const indexOfItem = formData.findIndex(form => form._id == formID)
         const tempFormData = [...formData]
         tempFormData[index] = {
             ...tempFormData[index],

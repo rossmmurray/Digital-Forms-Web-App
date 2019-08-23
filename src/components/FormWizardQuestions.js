@@ -10,6 +10,7 @@ const components = {
     free: FreeQuestion
 }
 
+// function to choose the right component type
 const QuestionType = props => {
     const questionType = props.question.answerType
     const SpecificQuestionType = components[questionType]
@@ -28,8 +29,8 @@ export const FormWizardQuestions = props => {
     }
 
     useEffect(() => {
-        setCurrentQuestion(props.firstQuestion)
-    }, props.form._id)
+        setCurrentQuestion(firstQuestion)
+    }, [props.form._id])
 
     return (
         <div>
@@ -41,7 +42,6 @@ export const FormWizardQuestions = props => {
 
 FormWizardQuestions.propTypes = {
     questions: PropTypes.arrayOf(questionType),
-    firstQuestion: questionType,
     form: PropTypes.object
 }
 

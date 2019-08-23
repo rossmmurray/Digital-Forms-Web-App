@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 export const RadioQuestion = props => {
     const classes = useStyles()
 
-    const form = props.form
     const question = props.question
 
     const [chosenOptionId, setChosenOptionId] = useState(question.answerOptions[0]._id)
