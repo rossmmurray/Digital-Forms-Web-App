@@ -100,12 +100,12 @@ afterAll(async () => {
     await deleteAllQuestions()
     await deleteFormToAPI({})
     saveQuestionRequestToApi(freeTextQuestion)
-    saveQuestionRequestToApi({ questionText: "What is your name?", answerType: 'option' })
-    saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'option' })
-    saveQuestionRequestToApi({ questionText: "How would you describe your gender?", answerType: 'option' })
+    saveQuestionRequestToApi({ questionText: "What is your name?", answerType: 'free' })
+    saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'free' })
+    saveQuestionRequestToApi({ questionText: "How would you describe your gender?", answerType: 'free' })
     const someQuestion = await saveQuestionRequestToApi({
         questionText: "What is your date of birth?",
-        answerType: 'option'
+        answerType: 'free'
     })
         
     const someOptionQuestion = await saveQuestionRequestToApi({
@@ -118,7 +118,8 @@ afterAll(async () => {
         ]
     });
     const someOtherQuestion = await saveQuestionRequestToApi({
-        questionText: "How are you feeling today?", answerType: 'option',
+        questionText: "How are you feeling today?",
+        answerType: 'option',
         answerOptions: [
             { optionName: 'I feel unwell', questionLink: someOptionQuestion._id },
             { optionName: 'I feel great', questionLink: someOptionQuestion._id },

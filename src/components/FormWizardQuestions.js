@@ -1,66 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { MHPaper } from '../styling/MHPaper'
-import { getFormsFromAPI, getQuestions } from '../helper/ApiDataFunctions';
-import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useEffect } from 'react';
+import { RadioQuestion } from './questionTypes/RadioQuestion';
+import { questionType } from '../propTypes/propTypes'
+import PropTypes from 'prop-types';
+import { FreeQuestion } from './questionTypes/FreeQuestion';
 
-// to not highlight props validation
-/* eslint react/prop-types: 0 */
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    formControl: {
-        margin: theme.spacing(3),
-    },
-    group: {
-        margin: theme.spacing(1, 0),
-    },
-}));
+const components = {
+    option: RadioQuestion,
+    free: FreeQuestion
+}
 
+const QuestionType = props => {
+    const questionType = props.question.answerType
+    const SpecificQuestionType = components[questionType]
+    return <SpecificQuestionType {...props} />
+}
 
 export const FormWizardQuestions = props => {
-    const classes = useStyles()
 
-    const form = props.form
-    const firstQuestion = props.firstQuestion
-    const questions = props.questions
-
+    // find first question
+    const firstQuestion = props.questions.find(question => props.form.firstQuestion === question._id)
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
-    const [chosenOptionId, setChosenOptionId] = useState(currentQuestion.answerOptions[0]._id)
 
-    const handleChange = event => {
-        console.log(event.target.value)
-        setChosenOptionId(event.target.value)
-    }
-
-    const goToNextQuestion = () => {
-        const chosenOption = currentQuestion.answerOptions.find(option => option._id === chosenOptionId)
-        const nextQuestion = questions.find(question => question._id === chosenOption.questionLink)
+    const goToNextQuestion = nextQuestionId => {
+        const nextQuestion = props.questions.find(question => question._id === nextQuestionId)
         setCurrentQuestion(nextQuestion)
     }
+
+    useEffect(() => {
+        setCurrentQuestion(props.firstQuestion)
+    }, props.form._id)
 
     return (
         <div>
             <h2>{currentQuestion.questionText}</h2>
-            <FormControl component="fieldset" className={classes.formControl}>
-                <RadioGroup
-                    aria-label="gender"
-                    name="gender1"
-                    className={classes.group}
-                    value={chosenOptionId}
-                    onChange={handleChange}
-                >
-                    {currentQuestion.answerOptions.map(option =>
-                        <FormControlLabel key={option._id} value={option._id} control={<Radio />} label={option.optionName} />
-                    )}
-                </RadioGroup>
-            </FormControl>
-            <br />
-            <Button align="right" variant="contained" color="primary" onClick={goToNextQuestion}>Next Question</Button>
-
+            <QuestionType goToNextQuestion={goToNextQuestion} question={currentQuestion} form={props.form} />
         </div>
     )
 }
 
+FormWizardQuestions.propTypes = {
+    questions: PropTypes.arrayOf(questionType),
+    firstQuestion: questionType,
+    form: PropTypes.object
+}
+
+QuestionType.propTypes = {
+    goToNextQuestion: PropTypes.func,
+    question: questionType,
+    form: PropTypes.object
+}

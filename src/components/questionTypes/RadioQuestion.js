@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { questionType } from '.../propTypes/propTypes'
+import { questionType } from '../../propTypes/propTypes'
 import PropTypes from 'prop-types';
 
 
@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
     },
     formControl: {
-        margin: theme.spacing(3),
+        margin: theme.spacing(1),
     },
     group: {
         margin: theme.spacing(1, 0),
