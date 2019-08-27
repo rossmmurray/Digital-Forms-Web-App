@@ -4,8 +4,8 @@ import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        padding: theme.spacing(0, 2, 1, 2),
-        margin: theme.spacing(2, 2)
+        padding: theme.spacing(1, 2, 1, 2),
+        margin: theme.spacing(2, 0)
     },
 }));
 

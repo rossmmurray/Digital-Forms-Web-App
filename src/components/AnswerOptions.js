@@ -4,6 +4,7 @@ import { SingleAnswerOption } from './AnswerSingleOption'
 import { questionType } from '../propTypes/propTypes'
 import AddCircle from '@material-ui/icons/AddCircle'
 import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
 
 
 export const AnswerOptions = (props) => {
@@ -50,19 +51,21 @@ export const AnswerOptions = (props) => {
 
     useEffect(() => {
         setQuestion(props.question)
-    },[props.question])
+    }, [props.question])
 
     const addButton = () => {
         return (
-            <IconButton edge="end" aria-label="Delete" onClick={addOption}>
-                <AddCircle />
-            </IconButton>
+            <Box mr={2}>
+                <IconButton edge="end" aria-label="Delete" onClick={addOption}>
+                    <AddCircle />
+                </IconButton>
+            </Box>
         )
     }
 
     return (
         <div>
-            <h3>Answers</h3>
+            <h3>Possible Answers</h3>
             {optionsCheck ? ExistingOptions() : null}
             <div align="right">
                 {addButton()}

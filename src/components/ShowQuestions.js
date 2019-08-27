@@ -62,69 +62,70 @@ const ShowQuestions = () => {
     const EditQuestionRow = (props) => {
         const question = props.questionObject;
         return <div>
-            <ListItem >
-                <ListItemText
-                    primary={question.questionText}
-                />
-                <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)}>
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
-                        <DeleteIcon />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </ListItem>
+            <MHCard>
+                <ListItem >
+                    <ListItemText
+                        primary={question.questionText}
+                    />
+                    <ListItemSecondaryAction>
+                        <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)}>
+                            <EditIcon />
+                        </IconButton>
+                        <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            </MHCard>
         </div>
     }
 
     return (
         <div>
-            <MHPaper>
-                <h1 style={{ display: "inline" }}>Edit Questions</h1>
-                <div style={{ display: "inline" }} align="right">
-                    <IconButton edge="end" aria-label="Delete" onClick={refreshData} >
-                        <RefreshIcon />
-                    </IconButton>
-                </div>
+            {/* <MHPaper> */}
+            <br />
+            <br />
 
-                <List>
-                    {visibleQuestionsArray.map(questionObject =>
-                        <div key={questionObject._id}>
+            <h1 style={{ display: "inline" }}>Edit Questions</h1>
+            <div style={{ display: "inline" }} align="right">
+                <IconButton edge="end" aria-label="Delete" onClick={refreshData} >
+                    <RefreshIcon />
+                </IconButton>
+            </div>
 
-                            <MHCard raised={(questionObject._id === editQuestionId)}>
-                                {(questionObject._id === editQuestionId) ?
-                                    newQuestionWrapper
-                                    :
+            <List>
+                {visibleQuestionsArray.map(questionObject =>
+                    <div key={questionObject._id}>
 
-                                    <EditQuestionRow questionObject={questionObject} />
+                        {(questionObject._id === editQuestionId) ?
+                            newQuestionWrapper
+                            :
+                            <EditQuestionRow questionObject={questionObject} />
+                        }
 
-                                }
-                            </MHCard>
+                    </div>
+                )}
 
+                {/* part which shows new question */}
+                {newQuestionFlag ?
+                    <NewQuestion parentRefresh={refreshData} />
+                    :
+                    <ListItem>
+                        <div>
+                            <br />
+                            <ListItemText primary="" />
+                            <ListItemSecondaryAction>
+                                <IconButton edge="end" aria-label="Add New Question" onClick={() => showNewQuestion()}>
+                                    <AddCircle />
+                                </IconButton>
+                            </ListItemSecondaryAction>
                         </div>
-                    )}
+                    </ListItem>
+                }
 
-                    {/* part which shows new question */}
-                    {newQuestionFlag ?
-                        <NewQuestion parentRefresh={refreshData} />
-                        :
-                        <ListItem>
-                            <div>
-                                <br />
-                                <ListItemText primary="" />
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="Add New Question" onClick={() => showNewQuestion()}>
-                                        <AddCircle />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </div>
-                        </ListItem>
-                    }
+            </List>
 
-                </List>
-
-            </MHPaper>
+            {/* </MHPaper> */}
         </div>
     )
 }

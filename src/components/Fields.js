@@ -72,6 +72,7 @@ export const MHSelectField = (props) => {
                 input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
                 value={props.value}
                 onChange={props.onChange}
+                autoWidth={true}
             >
                 <option value="" disabled></option>
                 {
