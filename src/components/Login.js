@@ -53,6 +53,7 @@ export const Login = () => {
     useEffect(() => {
         // get state from local storage
         setStateFromLocalStorage();
+        // eslint-disable-next-line
     }, [])
 
     const logoutFailure = (message) => {

@@ -9,8 +9,8 @@ import { MHTextField } from '../Fields';
 // should only be called for valid radio quesitons
 export const FreeQuestion = props => {
 
-    const form = props.form
-    const question = props.question
+    // const form = props.form
+    // const question = props.question
 
     const [userText, setUserText] = useState('')
 

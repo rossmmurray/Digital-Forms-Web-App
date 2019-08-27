@@ -30,6 +30,7 @@ export const FormWizardQuestions = props => {
 
     useEffect(() => {
         setCurrentQuestion(firstQuestion)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.form._id])
 
     return (

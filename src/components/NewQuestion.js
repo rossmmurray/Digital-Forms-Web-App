@@ -33,7 +33,7 @@ function NewQuestion(props) {
             ...unsavedQuestion,
             answerOptions:
                 unsavedQuestion.answerOptions.map((option, index) =>
-                    index == optionIndex ? { ...option, [property]: newValue } : option
+                    index === optionIndex ? { ...option, [property]: newValue } : option
                 )
         })
     }
