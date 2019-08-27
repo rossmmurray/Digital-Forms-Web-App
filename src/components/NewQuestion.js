@@ -9,6 +9,7 @@ import { AnswerOptions } from './AnswerOptions'
 import { questionType } from '../propTypes/propTypes'
 import { getQuestions } from '../helper/ApiDataFunctions'
 import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
+import { MHPaper } from '../styling/MHPaper'
 
 function NewQuestion(props) {
     const updateFlag = props.question ? true : false;
@@ -112,6 +113,7 @@ function NewQuestion(props) {
                 label="Question Text"
                 onChange={(e) => updateField(e.target.value, 'questionText')}
                 value={unsavedQuestion.questionText}
+                fullWidth={true}
             />
             <MHSelectField
                 onChange={(e) => updateField(e.target.value, 'answerType')}
@@ -120,15 +122,13 @@ function NewQuestion(props) {
                 options={answerTypeOptions}
             />
             <br />
-            
             <AnswerOptions
                 question={unsavedQuestion}
                 updateAnswerOption={updateAnswerOption}
-                onChange={(e) => updateField(e.target.value, 'answerOptions')}
                 allQuestions={allQuestions}
             />
+                <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
 
-            <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
         </div>
     )

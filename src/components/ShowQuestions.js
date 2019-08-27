@@ -10,27 +10,16 @@ import EditIcon from '@material-ui/icons/Edit'
 import RefreshIcon from '@material-ui/icons/Refresh'
 import NewQuestion from './NewQuestion';
 import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
-import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import AddCircle from '@material-ui/icons/AddCircle'
+import { MHPaper } from '../styling/MHPaper'
+import { MHCard } from '../styling/MHCard'
 
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        padding: theme.spacing(2, 2),
-        margin: theme.spacing(2, 0)
-    },
-}));
 
 const ShowQuestions = () => {
-    // const initialQuestions = await getQuestions();
     const [visibleQuestionsArray, setVisibleQuestionsArray] = useState([])
-    const [editQuestionsComponent, setEditQuestionsComponent] = useState(<div></div>)
+    const [newQuestionWrapper, setNewQuestionWrapper] = useState(<div></div>)
     const [editQuestionId, setEditQuestionId] = useState(null)
     const [newQuestionFlag, setNewQuestionFlag] = useState(false)
-
-    const classes = useStyles();
 
     const refreshData = async () => {
         const allQuestions = await getQuestions();
@@ -47,7 +36,7 @@ const ShowQuestions = () => {
             parentStopEdit: stopEditingQuestion,
             allQuestions: questionsDropdownData
         }
-        setEditQuestionsComponent(<NewQuestion {...myProps} />)
+        setNewQuestionWrapper(<NewQuestion {...myProps} />)
         setEditQuestionId(question._id)
         refreshData();
     }
@@ -72,75 +61,73 @@ const ShowQuestions = () => {
 
     const EditQuestionRow = (props) => {
         const question = props.questionObject;
-        if (editQuestionId !== question._id) {
-            return <div>
-                <ListItem >
-                    <ListItemText
-                        primary={question.questionText}
-                    />
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)}>
-                            <EditIcon />
-                        </IconButton>
-                        <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
-                            <DeleteIcon />
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                </ListItem>
-            </div>
-
-        } else {
-            return null;
-        }
+        return <div>
+            <ListItem >
+                <ListItemText
+                    primary={question.questionText}
+                />
+                <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)}>
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
+                        <DeleteIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
+            </ListItem>
+        </div>
     }
-   
+
     return (
         <div>
-
-            <Paper className={classes.root} >
+            <MHPaper>
                 <h1 style={{ display: "inline" }}>Edit Questions</h1>
                 <div style={{ display: "inline" }} align="right">
                     <IconButton edge="end" aria-label="Delete" onClick={refreshData} >
                         <RefreshIcon />
                     </IconButton>
                 </div>
-                <div>
-                    <List>
-                        {visibleQuestionsArray.map(questionObject =>
-                            <div key={questionObject._id}>
-                                <Divider />
-                                {/* todo: so if statement is here */}
-                                <EditQuestionRow questionObject={questionObject} />
-                                <ListItem>
-                                    {(questionObject._id === editQuestionId) ? editQuestionsComponent : null}
-                                </ListItem>
-                            </div>
-                        )}
-                        <Divider />
+
+                <List>
+                    {visibleQuestionsArray.map(questionObject =>
+                        <div key={questionObject._id}>
+
+                            <MHCard raised={(questionObject._id === editQuestionId)}>
+                                {(questionObject._id === editQuestionId) ?
+                                    newQuestionWrapper
+                                    :
+
+                                    <EditQuestionRow questionObject={questionObject} />
+
+                                }
+                            </MHCard>
+
+                        </div>
+                    )}
+
+                    {/* part which shows new question */}
+                    {newQuestionFlag ?
+                        <NewQuestion parentRefresh={refreshData} />
+                        :
                         <ListItem>
-                            {newQuestionFlag ? <NewQuestion parentRefresh={refreshData} /> :
                             <div>
-                                <br/>
-                                <ListItemText primary=""/>
+                                <br />
+                                <ListItemText primary="" />
                                 <ListItemSecondaryAction>
                                     <IconButton edge="end" aria-label="Add New Question" onClick={() => showNewQuestion()}>
                                         <AddCircle />
                                     </IconButton>
                                 </ListItemSecondaryAction>
-                                </div>
-                            }
+                            </div>
                         </ListItem>
-                    </List>
-                </div>
-            </Paper>
+                    }
+
+                </List>
+
+            </MHPaper>
         </div>
     )
 }
-
-// ShowQuestions.E .propTypes = {
-//     questionObject: questionType,
-// };
-
 
 export default ShowQuestions;
 
