@@ -30,8 +30,10 @@ export const AnswerOptions = (props) => {
         )
     }
 
+    // add new answer option
     const addOption = () => {
         const newQuestion = Object.assign({}, question)
+
         if (!newQuestion.answerOptions) {
             newQuestion.answerOptions = [];
         }
@@ -46,7 +48,6 @@ export const AnswerOptions = (props) => {
     }
 
     useEffect(() => {
-        console.log('test')
         setQuestion(props.question)
     },[props.question])
 

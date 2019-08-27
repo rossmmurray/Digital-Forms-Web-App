@@ -23,7 +23,6 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-// TODO: change this to a class based component
 const ShowQuestions = () => {
     // const initialQuestions = await getQuestions();
     const [visibleQuestionsArray, setVisibleQuestionsArray] = useState([])

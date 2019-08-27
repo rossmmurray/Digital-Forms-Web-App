@@ -112,11 +112,11 @@ function NewQuestion(props) {
             />
             <br />
             
-            {updateFlag ? <AnswerOptions
+            <AnswerOptions
                 question={unsavedQuestion}
                 updateAnswerOption={updateAnswerOption}
                 allQuestions={props.allQuestions}
-            /> : null}
+            />
 
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             <NotificationContainer />
