@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/ApiDataFunctions'
@@ -7,7 +7,8 @@ import { MHSelectField, MHTextField } from './Fields'
 import PropTypes from 'prop-types';
 import { AnswerOptions } from './AnswerOptions'
 import { questionType } from '../propTypes/propTypes'
-
+import { getQuestions } from '../helper/ApiDataFunctions'
+import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 
 function NewQuestion(props) {
     const updateFlag = props.question ? true : false;
@@ -19,7 +20,15 @@ function NewQuestion(props) {
         { value: 'number', displayText: 'Number' },
     ]
 
-    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || {})
+    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || {answerOptions: []})
+    const [allQuestions, setAllQuestions] = useState([])
+
+    useEffect(() => {
+        getQuestions().then(questions => {
+            const displayQuestions = getQuestionsDropdown(questions)
+            setAllQuestions(displayQuestions)
+        })
+    }, [])
 
     const updateField = (value, propertyToUpdate) => {
         setUnsavedQuestionField({
@@ -115,7 +124,8 @@ function NewQuestion(props) {
             <AnswerOptions
                 question={unsavedQuestion}
                 updateAnswerOption={updateAnswerOption}
-                allQuestions={props.allQuestions}
+                onChange={(e) => updateField(e.target.value, 'answerOptions')}
+                allQuestions={allQuestions}
             />
 
             <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>

@@ -8,9 +8,9 @@ import IconButton from '@material-ui/core/IconButton';
 
 export const AnswerOptions = (props) => {
 
-    const optionsCheck = props.question.answerOptions && props.question.answerOptions.length > 0;
 
     const [question, setQuestion] = useState(props.question)
+    const optionsCheck = question.answerOptions && question.answerOptions.length > 0;
 
     const ExistingOptions = () => {
         return (
@@ -32,6 +32,7 @@ export const AnswerOptions = (props) => {
 
     // add new answer option
     const addOption = () => {
+
         const newQuestion = Object.assign({}, question)
 
         if (!newQuestion.answerOptions) {
