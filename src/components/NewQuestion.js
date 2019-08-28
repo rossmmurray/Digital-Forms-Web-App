@@ -14,21 +14,6 @@ import { MHCard } from '../styling/MHCard'
 import Box from '@material-ui/core/Box';
 
 
-// const components = {
-//     option: AnswerOptions,
-//     date: AnswerOptions,
-//     number: AnswerOptions,
-//     boolean: AnswerOptions,
-//     free: AnswerOptions
-// }
-
-// // function to choose the right component type
-// const AnswerType = props => {
-//     console.error(props)
-//     const questionType = props.question.answerType
-//     const SpecificQuestionType = components[questionType]
-//     return <SpecificQuestionType {...props} />
-// }
 
 function NewQuestion(props) {
     const updateFlag = props.question ? true : false;
