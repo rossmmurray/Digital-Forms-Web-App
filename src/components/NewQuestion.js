@@ -9,10 +9,26 @@ import { AnswerOptions } from './AnswerOptions'
 import { questionType } from '../propTypes/propTypes'
 import { getQuestions } from '../helper/ApiDataFunctions'
 import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
-import { MHPaper } from '../styling/MHPaper'
 import Grid from '@material-ui/core/Grid';
 import { MHCard } from '../styling/MHCard'
 import Box from '@material-ui/core/Box';
+
+
+// const components = {
+//     option: AnswerOptions,
+//     date: AnswerOptions,
+//     number: AnswerOptions,
+//     boolean: AnswerOptions,
+//     free: AnswerOptions
+// }
+
+// // function to choose the right component type
+// const AnswerType = props => {
+//     console.error(props)
+//     const questionType = props.question.answerType
+//     const SpecificQuestionType = components[questionType]
+//     return <SpecificQuestionType {...props} />
+// }
 
 function NewQuestion(props) {
     const updateFlag = props.question ? true : false;
@@ -24,7 +40,7 @@ function NewQuestion(props) {
         { value: 'number', displayText: 'Number' },
     ]
 
-    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [] })
+    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{optionName: '', questionLink: ''}] })
     const [allQuestions, setAllQuestions] = useState([])
 
     useEffect(() => {
@@ -35,6 +51,10 @@ function NewQuestion(props) {
     }, [])
 
     const updateField = (value, propertyToUpdate) => {
+        // if optionType is selected, add empty option unless it exists already
+        if (propertyToUpdate === 'answerType' && value === 'option' && (unsavedQuestion.answerOptions.length < 1 )) {
+                unsavedQuestion.answerOptions.push({optionName: '', questionLink: ''})
+        }
         setUnsavedQuestionField({
             ...unsavedQuestion,
             [propertyToUpdate]: value
@@ -51,9 +71,17 @@ function NewQuestion(props) {
         })
     }
 
+    // const update
+
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
         let errorMessage = '';
+
+        // remove empty options
+        if (question.answerOptions) {
+            question.answerOptions = question.answerOptions.filter(option => option.questionLink != '')
+        }
+
         try {
             if (updateFlag) {
                 successResponse = await saveExistingQuestionToDB(question);
@@ -130,12 +158,20 @@ function NewQuestion(props) {
                     />
                 </Grid>
             </Grid>
-            <AnswerOptions
-                question={unsavedQuestion}
-                updateAnswerOption={updateAnswerOption}
-                allQuestions={allQuestions}
-            />
-            <Box mb={2} mt={-4}>
+
+            {/* if the question is option then show options, Show next question if not */}
+            {unsavedQuestion.answerType === 'option' ?
+                <AnswerOptions
+                    question={unsavedQuestion}
+                    updateAnswerOption={updateAnswerOption}
+                    allQuestions={allQuestions}
+                />
+                :
+                null
+            }
+            <Box mb={2}
+            // mt={-4}
+            >
                 <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
             </Box>
             <NotificationContainer />
