@@ -43,7 +43,9 @@ export const SingleAnswerOption = (props) => {
                 </Grid>
                 <Grid item xs={1}>
                     <IconButton edge="end" aria-label="Delete Option" onClick={() => props.deleteAnswerOption(props.optionIndex)}  >
-                        <DeleteIcon />
+                        <DeleteIcon
+                            // style={{ color: '#a02725' }}
+                        />
                     </IconButton>
                 </Grid>
             </Grid>

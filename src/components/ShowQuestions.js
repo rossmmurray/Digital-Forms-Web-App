@@ -68,11 +68,13 @@ const ShowQuestions = () => {
                         primary={question.questionText}
                     />
                     <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)}>
+                        <IconButton edge="end" aria-label="Edit" onClick={() => showEditQuestion(question)} >
                             <EditIcon />
                         </IconButton>
                         <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
-                            <DeleteIcon />
+                            <DeleteIcon
+                                // style={{ color: '#a02725' }}
+                            />
                         </IconButton>
                     </ListItemSecondaryAction>
                 </ListItem>

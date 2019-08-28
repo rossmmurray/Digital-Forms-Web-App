@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
+        fullWidth: true
 
     },
     container: {
@@ -62,7 +63,7 @@ export const MHSelectField = (props) => {
     }, []);
 
     return (
-        <FormControl variant="outlined" className={classes.formControl}>
+        <FormControl variant="outlined" className={classes.formControl} fullWidth={true}>
             <InputLabel ref={inputLabel} htmlFor={labalId}>{label}</InputLabel>
             <Select
                 // must be set to native = true so real options elements can be used (for testing)
@@ -72,7 +73,7 @@ export const MHSelectField = (props) => {
                 input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
                 value={props.value}
                 onChange={props.onChange}
-                autoWidth={true}
+                // autoWidth={true}
             >
                 <option value="" disabled></option>
                 {

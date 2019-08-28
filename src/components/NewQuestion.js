@@ -14,7 +14,6 @@ import { MHCard } from '../styling/MHCard'
 import Box from '@material-ui/core/Box';
 
 
-
 function NewQuestion(props) {
     const updateFlag = props.question ? true : false;
     const answerTypeOptions = [
@@ -25,7 +24,7 @@ function NewQuestion(props) {
         { value: 'number', displayText: 'Number' },
     ]
 
-    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{optionName: '', questionLink: ''}] })
+    const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{ optionName: '', questionLink: '' }] })
     const [allQuestions, setAllQuestions] = useState([])
 
     useEffect(() => {
@@ -37,8 +36,15 @@ function NewQuestion(props) {
 
     const updateField = (value, propertyToUpdate) => {
         // if optionType is selected, add empty option unless it exists already
-        if (propertyToUpdate === 'answerType' && value === 'option' && (unsavedQuestion.answerOptions.length < 1 )) {
-                unsavedQuestion.answerOptions.push({optionName: '', questionLink: ''})
+        if (propertyToUpdate === 'answerType') {
+            if (value === 'option') {
+                unsavedQuestion.answerOptions = [{ optionName: '', questionLink: '' }]
+            } else if (value === 'boolean') {
+                unsavedQuestion.answerOptions = [
+                    { optionName: 'True', questionLink: '' },
+                    { optionName: 'False', questionLink: '' }
+                ]
+            }
         }
         setUnsavedQuestionField({
             ...unsavedQuestion,
@@ -123,43 +129,62 @@ function NewQuestion(props) {
 
     return (
         <MHCard raised={true}>
-            <h3>Question</h3>
-            <Grid container spacing={3}>
-                <Grid item xs>
-                    <MHTextField
-                        label="Question Text"
-                        onChange={(e) => updateField(e.target.value, 'questionText')}
-                        value={unsavedQuestion.questionText}
-                        fullWidth={true}
-                    />
+            <Box m={2} mr={1}>
+                <h3>Question</h3>
+                <Grid container spacing={3}>
+                    <Grid item xs>
+                        <MHTextField
+                            label="Question Text"
+                            onChange={(e) => updateField(e.target.value, 'questionText')}
+                            value={unsavedQuestion.questionText}
+                            fullWidth={true}
+                        />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <MHSelectField
+                            onChange={(e) => updateField(e.target.value, 'answerType')}
+                            label="Answer Type"
+                            value={unsavedQuestion.answerType || ''}
+                            options={answerTypeOptions}
+                            fullWidth={true}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                    <MHSelectField
-                        onChange={(e) => updateField(e.target.value, 'answerType')}
-                        label="Answer Type"
-                        value={unsavedQuestion.answerType || ''}
-                        options={answerTypeOptions}
-                        fullWidth={true}
-                    />
-                </Grid>
-            </Grid>
 
-            {/* if the question is option then show options, Show next question if not */}
-            {unsavedQuestion.answerType === 'option' ?
-                <AnswerOptions
-                    question={unsavedQuestion}
-                    updateAnswerOption={updateAnswerOption}
-                    allQuestions={allQuestions}
-                />
-                :
-                null
-            }
-            <Box mb={2}
-            // mt={-4}
-            >
-                <Button variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)}>Save</Button>
+                {/* if the question is option then show options, Show next question if not. If blank show nothing. */}
+                {['option', 'boolean'].includes(unsavedQuestion.answerType) ?
+                    <AnswerOptions
+                        question={unsavedQuestion}
+                        updateAnswerOption={updateAnswerOption}
+                        allQuestions={allQuestions}
+                    />
+                    : null
+                }
+
+                {['free', 'number', 'date'].includes(unsavedQuestion.answerType) ?
+                    <div>
+                        <h3>Following Question</h3>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <MHSelectField
+                                    onChange={(e) => updateField(e.target.value, 'nextQuestion')}
+                                    label="Choose next question"
+                                    value={unsavedQuestion.nextQuestion || ''}
+                                    options={allQuestions}
+                                />
+                            </Grid>
+                        </Grid>
+                    </div>
+                    : null
+                }
+
+                <Box mb={2} mt={1}
+                // mt={-4}
+                >
+                    <Button size={"large"} variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)} color={"primary"}>Save</Button>
+                </Box>
+                <NotificationContainer />
             </Box>
-            <NotificationContainer />
         </MHCard>
 
     )

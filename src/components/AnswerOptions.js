@@ -5,7 +5,7 @@ import { questionType } from '../propTypes/propTypes'
 import AddCircle from '@material-ui/icons/AddCircle'
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-
+import red from '@material-ui/core/colors/red';
 
 export const AnswerOptions = (props) => {
 
@@ -55,9 +55,9 @@ export const AnswerOptions = (props) => {
 
     const addButton = () => {
         return (
-            <Box mr={2}>
+            <Box mr={2} mb={-6} >
                 <IconButton edge="end" aria-label="Delete" onClick={addOption}>
-                    <AddCircle />
+                    <AddCircle  />
                 </IconButton>
             </Box>
         )
