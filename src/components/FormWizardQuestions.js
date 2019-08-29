@@ -21,12 +21,23 @@ const QuestionType = props => {
     return <SpecificQuestionType {...props} />
 }
 
+const getDefaultInput = question => {
+    if (['option', 'boolean'].includes(question.answerType)) {
+        const option = question.answerOptions[0]
+        return { answer: { value: option.optionName, id: option._id }, nextQuestion: option.questionLink }
+    } else {
+        return { answer: { value: ''}, nextQuestion: question.nextQuestion }
+    }
+}
+
 export const FormWizardQuestions = props => {
 
     // find first question
     const firstQuestion = props.questions.find(question => props.form.firstQuestion === question._id)
+    const blankInput = getDefaultInput(firstQuestion)
+
+    // state
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
-    const blankInput = { answer: {value: '', id: null }, nextQuestion: null}
     const [currentUserInput, setCurrentUserInput] = useState(blankInput)
 
     const goToNextQuestion = () => {
@@ -37,8 +48,9 @@ export const FormWizardQuestions = props => {
             const nextQuestion = props.questions.find(question => question._id === currentUserInput.nextQuestion)
             setCurrentUserInput(blankInput)
             setCurrentQuestion(nextQuestion)
+            setCurrentUserInput(getDefaultInput(nextQuestion))
         }
-    
+
     }
 
     const updateInput = answer => {
@@ -47,7 +59,9 @@ export const FormWizardQuestions = props => {
     }
 
     useEffect(() => {
+        console.log("run")
         setCurrentQuestion(firstQuestion)
+        setCurrentUserInput(getDefaultInput(firstQuestion))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.form._id])
 

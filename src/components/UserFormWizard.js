@@ -22,6 +22,7 @@ export const UserFormWizard = ({ match }) => {
     // console.log(form)
 
     useEffect(() => {
+        setDone(false)
         const formPromise = getFormsFromAPI().then(forms => {
              // get only the relevant form
             const formID = match.params.formid
