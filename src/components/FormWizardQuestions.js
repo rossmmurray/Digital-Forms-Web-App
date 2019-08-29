@@ -3,11 +3,15 @@ import { RadioQuestion } from './questionTypes/RadioQuestion';
 import { questionType } from '../propTypes/propTypes'
 import PropTypes from 'prop-types';
 import { FreeQuestion } from './questionTypes/FreeQuestion';
+import { Button } from '@material-ui/core';
 
 
 const components = {
     option: RadioQuestion,
-    free: FreeQuestion
+    free: FreeQuestion,
+    boolean: FreeQuestion,
+    date: FreeQuestion,
+    number: FreeQuestion
 }
 
 // function to choose the right component type
@@ -22,10 +26,25 @@ export const FormWizardQuestions = props => {
     // find first question
     const firstQuestion = props.questions.find(question => props.form.firstQuestion === question._id)
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
+    const blankInput = { answer: {value: '', id: null }, nextQuestion: null}
+    const [currentUserInput, setCurrentUserInput] = useState(blankInput)
+    const [showDone, setShowDone] = useState(false)
 
-    const goToNextQuestion = nextQuestionId => {
-        const nextQuestion = props.questions.find(question => question._id === nextQuestionId)
-        setCurrentQuestion(nextQuestion)
+    const goToNextQuestion = () => {
+        if (typeof currentUserInput.nextQuestion === 'undefined') {
+            console.log("finished")
+            setShowDone(true)
+        } else {
+            const nextQuestion = props.questions.find(question => question._id === currentUserInput.nextQuestion)
+            setCurrentUserInput(blankInput)
+            setCurrentQuestion(nextQuestion)
+        }
+    
+    }
+
+    const updateInput = answer => {
+        console.log(answer)
+        setCurrentUserInput(answer)
     }
 
     useEffect(() => {
@@ -36,7 +55,12 @@ export const FormWizardQuestions = props => {
     return (
         <div>
             <h2>{currentQuestion.questionText}</h2>
-            <QuestionType goToNextQuestion={goToNextQuestion} question={currentQuestion} form={props.form} />
+            <QuestionType
+                updateInput={updateInput}
+                question={currentQuestion}
+                input={currentUserInput}
+            />
+            <Button align="right" variant="contained" color="primary" onClick={goToNextQuestion}>Next Question</Button>
         </div>
     )
 }

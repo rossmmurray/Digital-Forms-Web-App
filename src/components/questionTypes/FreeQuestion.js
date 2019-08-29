@@ -1,38 +1,39 @@
-import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import React from 'react';
 import { questionType } from '../../propTypes/propTypes'
 import PropTypes from 'prop-types';
 import { MHTextField } from '../Fields';
 
-/* eslint react/prop-types: 0 */
 
-// should only be called for valid radio quesitons
 export const FreeQuestion = props => {
 
-    // const form = props.form
-    // const question = props.question
-
-    const [userText, setUserText] = useState('')
-
-    const clickNext = () => {
-        // props.goToNextQuestion(chosenOption.questionLink)
+    const handleChange = event => {
+        // transform input into expected format for parent
+        const input = {
+            answer: {
+                value: event.target.value,
+            },
+            nextQuestion: props.question.nextQuestion
+        }
+        props.updateInput(input)
     }
 
     return (
         <div>
             <MHTextField
                 label="Question Answer"
-                onChange={event => setUserText(event.target.value)}
-                value={userText}
+                onChange={handleChange}
+                value={props.input.answer.value}
             />
             <br />
-            <Button align="right" variant="contained" color="primary" onClick={clickNext}>Next Question</Button>
         </div>
     )
 }
 
 FreeQuestion.propTypes = {
-    goToNextQuestion: PropTypes.func,
+    updateInput: PropTypes.func,
     question: questionType,
-    form: PropTypes.object
+    input: PropTypes.shape({
+        answer: PropTypes.object,
+        nextQuestion: PropTypes.string
+    })
 }
