@@ -21,6 +21,7 @@ export const UserFormWizard = ({ match }) => {
     const [done, setDone] = useState(false)
     // console.log(form)
 
+    // triggers on change of url parameter (i.e. form choice)
     useEffect(() => {
         setDone(false)
         const formPromise = getFormsFromAPI().then(forms => {

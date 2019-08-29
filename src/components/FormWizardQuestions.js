@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RadioQuestion } from './questionTypes/RadioQuestion';
+import { DateQuestion } from './questionTypes/DateQuestion';
 import { questionType } from '../propTypes/propTypes'
 import PropTypes from 'prop-types';
 import { FreeQuestion } from './questionTypes/FreeQuestion';
@@ -10,7 +11,7 @@ const components = {
     option: RadioQuestion,
     free: FreeQuestion,
     boolean: FreeQuestion,
-    date: FreeQuestion,
+    date: DateQuestion,
     number: FreeQuestion
 }
 
@@ -46,6 +47,7 @@ export const FormWizardQuestions = props => {
             props.completeForm();
         } else {
             const nextQuestion = props.questions.find(question => question._id === currentUserInput.nextQuestion)
+            console.log(nextQuestion)
             setCurrentUserInput(blankInput)
             setCurrentQuestion(nextQuestion)
             setCurrentUserInput(getDefaultInput(nextQuestion))
