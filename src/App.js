@@ -21,11 +21,16 @@ import { UserFormWizard } from './components/UserFormWizard';
 class App extends Component {
 
     myNewQuestion = (props) => {
-        const myProps = {
-            question: { questionText: "hello there" }
-        }
+        // const myProps = {
+        //     question: { questionText: "hello there" }
+        // }
         return (
-            <NewQuestion {...myProps} />
+            <div>
+                <br />
+                <h1>Add New Question</h1>
+                {/* <br /> */}
+                <NewQuestion />
+                </div>
         )
     };
 
@@ -37,7 +42,7 @@ class App extends Component {
                     <MHHeader />
                     <Container maxWidth="md" >
                         <Route exact path="/" component={Start} />
-                        <Route exact path="/admin/newQuestion" component={NewQuestion} />
+                        <Route exact path="/admin/newQuestion" component={this.myNewQuestion} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/editQuestions" component={ShowQuestions} />
                         <Route exact path="/admin/userManagement" component={UserManagement} />

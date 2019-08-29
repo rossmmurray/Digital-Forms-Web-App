@@ -13,6 +13,7 @@ import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 import AddCircle from '@material-ui/icons/AddCircle'
 import { MHPaper } from '../styling/MHPaper'
 import { MHCard } from '../styling/MHCard'
+import Box from '@material-ui/core/Box';
 
 
 const ShowQuestions = () => {
@@ -63,6 +64,7 @@ const ShowQuestions = () => {
         const question = props.questionObject;
         return <div>
             <MHCard>
+            {/* // todo: make this grid item, not list */}
                 <ListItem >
                     <ListItemText
                         primary={question.questionText}
@@ -73,7 +75,7 @@ const ShowQuestions = () => {
                         </IconButton>
                         <IconButton edge="end" aria-label="Delete" onClick={() => deleteQuestionFromPage(question._id)}>
                             <DeleteIcon
-                                // style={{ color: '#a02725' }}
+                            // style={{ color: '#a02725' }}
                             />
                         </IconButton>
                     </ListItemSecondaryAction>
@@ -112,14 +114,17 @@ const ShowQuestions = () => {
                 {newQuestionFlag ?
                     <NewQuestion parentRefresh={refreshData} />
                     :
+                    // todo: make this grid item, not list
                     <ListItem>
                         <div>
                             <br />
                             <ListItemText primary="" />
                             <ListItemSecondaryAction>
-                                <IconButton edge="end" aria-label="Add New Question" onClick={() => showNewQuestion()}>
-                                    <AddCircle />
-                                </IconButton>
+                                <Box mr={2}>
+                                    <IconButton edge="end" aria-label="Add New Question" onClick={() => showNewQuestion()} color={'primary'}>
+                                        <AddCircle />
+                                    </IconButton>
+                                </Box>
                             </ListItemSecondaryAction>
                         </div>
                     </ListItem>
