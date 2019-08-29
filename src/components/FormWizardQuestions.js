@@ -28,12 +28,11 @@ export const FormWizardQuestions = props => {
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
     const blankInput = { answer: {value: '', id: null }, nextQuestion: null}
     const [currentUserInput, setCurrentUserInput] = useState(blankInput)
-    const [showDone, setShowDone] = useState(false)
 
     const goToNextQuestion = () => {
         if (typeof currentUserInput.nextQuestion === 'undefined') {
             console.log("finished")
-            setShowDone(true)
+            props.completeForm();
         } else {
             const nextQuestion = props.questions.find(question => question._id === currentUserInput.nextQuestion)
             setCurrentUserInput(blankInput)
@@ -67,7 +66,8 @@ export const FormWizardQuestions = props => {
 
 FormWizardQuestions.propTypes = {
     questions: PropTypes.arrayOf(questionType),
-    form: PropTypes.object
+    form: PropTypes.object,
+    completeForm: PropTypes.func
 }
 
 QuestionType.propTypes = {

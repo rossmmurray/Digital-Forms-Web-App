@@ -18,6 +18,7 @@ export const UserFormWizard = ({ match }) => {
     const classes = useStyles();
     const [form, setForm] = useState(null)
     const [questions, setQuestions] = useState(null)
+    const [done, setDone] = useState(false)
     // console.log(form)
 
     useEffect(() => {
@@ -37,12 +38,17 @@ export const UserFormWizard = ({ match }) => {
 
     }, [match.params.formid])
 
+    const completeForm = () => {
+        setDone(true)
+    }
+
 
     return (
         <div>
             <MHPaper>
                 {form ? <h1 className={classes.lightText} >{form.title}</h1> : null}
-                {form && questions ? <FormWizardQuestions form={form} questions={questions} /> : null}
+                {form && questions && !done ? <FormWizardQuestions completeForm={completeForm} form={form} questions={questions} /> : null}
+                {done ? <h1>Form Completed!</h1> : null}
             </MHPaper>
     
         </div>
