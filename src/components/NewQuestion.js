@@ -22,6 +22,8 @@ function NewQuestion(props) {
         { value: 'option', displayText: 'Options' },
         { value: 'date', displayText: 'Date' },
         { value: 'number', displayText: 'Number' },
+        { value: 'service', displayText: 'Service (User Endpoint)' },
+
     ]
 
     const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{ optionName: '', questionLink: '' }] })
@@ -127,14 +129,18 @@ function NewQuestion(props) {
         }
     };
 
+    const title = () => unsavedQuestion.answerType === 'service' ? 'Service' : 'Question'
+    const textLabel = () => unsavedQuestion.answerType === 'service' ? 'Service Name' : 'Question Text'
+
+
     return (
         <MHCard raised={true}>
             <Box m={2} mr={1}>
-                <h3>Question</h3>
+                <h3>{title()}</h3>
                 <Grid container spacing={3}>
                     <Grid item xs>
                         <MHTextField
-                            label="Question Text"
+                            label={textLabel()}
                             onChange={(e) => updateField(e.target.value, 'questionText')}
                             value={unsavedQuestion.questionText}
                             fullWidth={true}
@@ -143,7 +149,7 @@ function NewQuestion(props) {
                     <Grid item xs={3}>
                         <MHSelectField
                             onChange={(e) => updateField(e.target.value, 'answerType')}
-                            label="Answer Type"
+                            label="Type"
                             value={unsavedQuestion.answerType || ''}
                             options={answerTypeOptions}
                             fullWidth={true}
@@ -178,10 +184,24 @@ function NewQuestion(props) {
                     : null
                 }
 
+                {['service'].includes(unsavedQuestion.answerType) ?
+                    <div>
+                        <h3>Service HTML</h3>
+                        <MHTextField
+                            onChange={(e) => updateField(e.target.value, 'serviceHtml')}
+                            label="Enter simple text or HTML"
+                            value={unsavedQuestion.serviceHtml || ''}
+                            fullWidth={true}
+                            rows={10}
+                        />
+                    </div>
+                    : null
+                }
+
                 <Box mb={2} mt={1}
                 // mt={-4}
                 >
-                    <Button size={"large"} variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)} color={"primary"}>Save</Button>
+                   <Button size={"large"} variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)} color={"primary"}>Save</Button>
                 </Box>
                 <NotificationContainer />
             </Box>

@@ -4,15 +4,18 @@ import { DateQuestion } from './questionTypes/DateQuestion';
 import { questionType } from '../propTypes/propTypes'
 import PropTypes from 'prop-types';
 import { FreeQuestion } from './questionTypes/FreeQuestion';
+import { NumberQuestion } from './questionTypes/NumberQuestion';
+import { Service } from './questionTypes/Service';
 import { Button } from '@material-ui/core';
 
 
 const components = {
     option: RadioQuestion,
     free: FreeQuestion,
-    boolean: FreeQuestion,
+    boolean: RadioQuestion,
     date: DateQuestion,
-    number: FreeQuestion
+    number: NumberQuestion,
+    service: Service
 }
 
 // function to choose the right component type
@@ -75,7 +78,8 @@ export const FormWizardQuestions = props => {
                 question={currentQuestion}
                 input={currentUserInput}
             />
-            <Button align="right" variant="contained" color="primary" onClick={goToNextQuestion}>Next Question</Button>
+            <br />
+            {currentQuestion.answerType === 'service' ? null : <Button align="right" variant="contained" color="primary" onClick={goToNextQuestion}>Next Question</Button>}
         </div>
     )
 }

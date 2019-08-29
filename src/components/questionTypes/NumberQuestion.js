@@ -1,24 +1,30 @@
 import React from 'react';
 import { questionType } from '../../propTypes/propTypes'
 import PropTypes from 'prop-types';
+import { MHTextField } from '../Fields';
 import { TextField } from '@material-ui/core';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 
+
+
 const useStyles = makeStyles(theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
+    formControl: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+        fullWidth: true
+
     },
     textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
+        // marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(2),
+        // width: 200,
+    }
 }));
 
 
-export const DateQuestion = props => {
-    const classes = useStyles();
+export const NumberQuestion = props => {
+    const classes = useStyles()
 
     const handleChange = event => {
         // transform input into expected format for parent
@@ -31,25 +37,22 @@ export const DateQuestion = props => {
         props.updateInput(input)
     }
 
-    const dateVal = (props.input.answer.value === '') ? '2019-01-01' : props.input.answer.value
-
     return (
         <div>
-            <form className={classes.container} noValidate>
-                <TextField
-                    label="Enter Date"
-                    onChange={handleChange}
-                    value={dateVal}
-                    type='date'
-                    className={classes.textField}
-                />
-            </form>
+            <TextField
+                type='number'
+                label="Question Answer"
+                onChange={handleChange}
+                value={props.input.answer.value}
+                variant='outlined'
+                className={clsx(classes.textField, classes.formControl)}
+            />
             <br />
         </div>
     )
 }
 
-DateQuestion.propTypes = {
+NumberQuestion.propTypes = {
     updateInput: PropTypes.func,
     question: questionType,
     input: PropTypes.shape({

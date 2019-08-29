@@ -90,7 +90,7 @@ const ShowQuestions = () => {
             <br />
             <br />
 
-            <h1 style={{ display: "inline" }}>Edit Questions</h1>
+            <h1 style={{ display: "inline" }}>Edit Questions &amp; Services</h1>
             <div style={{ display: "inline" }} align="right">
                 <IconButton edge="end" aria-label="Delete" onClick={refreshData} >
                     <RefreshIcon />
