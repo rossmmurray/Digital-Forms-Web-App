@@ -100,33 +100,44 @@ afterAll(async () => {
     await deleteAllQuestions()
     await deleteFormToAPI({})
     saveQuestionRequestToApi(freeTextQuestion)
-    saveQuestionRequestToApi({ questionText: "What is your name?", answerType: 'free' })
-    saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'free' })
-    saveQuestionRequestToApi({ questionText: "How would you describe your gender?", answerType: 'free' })
-    const someQuestion = await saveQuestionRequestToApi({
-        questionText: "What is your date of birth?",
-        answerType: 'free'
-    })
-        
-    const someOptionQuestion = await saveQuestionRequestToApi({
-        questionText: "Please tell us why you have contacted the service.",
-        answerType: 'option',
-        answerOptions: [
-            { optionName: 'option 1', questionLink: someQuestion._id },
-            { optionName: 'option 1', questionLink: someQuestion._id },
-            { optionName: 'option 1', questionLink: someQuestion._id },
-        ]
-    });
-    const someOtherQuestion = await saveQuestionRequestToApi({
+
+    //    do these backwards
+
+    const finish = null
+    const feelq = await saveQuestionRequestToApi({
         questionText: "How are you feeling today?",
         answerType: 'option',
         answerOptions: [
-            { optionName: 'I feel unwell', questionLink: someOptionQuestion._id },
-            { optionName: 'I feel great', questionLink: someOptionQuestion._id },
-            { optionName: 'I feel medium', questionLink: someOptionQuestion._id },
+            { optionName: 'I feel great', questionLink: finish },
+            { optionName: 'I feel ok', questionLink: finish },
+            { optionName: 'I feel unwell', questionLink: finish},
+            { optionName: 'I feel like I may put myself in danger', questionLink: finish },
         ]
     });
-    postFormToAPI({ title: "Mental Health Triage Form", firstQuestion: someOtherQuestion._id })
-    postFormToAPI({ title: "AB4129: Student Survey", firstQuestion: someQuestion._id })
-    updateFormToAPI({ title: "Information Gathering Form III", firstQuestion: someQuestion._id })
+    const longq = await saveQuestionRequestToApi({ questionText: "How many weeks have you felt like this?", answerType: 'number', nextQuestion: feelq._id })
+    const otherq = await saveQuestionRequestToApi({ questionText: "Write down the reason", answerType: 'free', nextQuestion: longq._id })
+    const whyq = await saveQuestionRequestToApi({
+        questionText: "Please tell us why you have contacted the service.",
+        answerType: 'option',
+        answerOptions: [
+            { optionName: 'Anxiety', questionLink: longq._id },
+            { optionName: 'Depression', questionLink: longq._id },
+            { optionName: 'Panic', questionLink: longq._id },
+            { optionName: 'Alcohol abuse', questionLink: longq._id },
+            { optionName: 'Other', questionLink: otherq._id },
+        ]
+    });
+    const dobq = await saveQuestionRequestToApi({ questionText: "What is your date of Birth", answerType: 'date', nextQuestion: whyq._id })
+    const nameq = await saveQuestionRequestToApi({ questionText: "What is your name?", answerType: 'free', nextQuestion: dobq._id })
+    const selfq = await saveQuestionRequestToApi({
+        questionText: "Are you filling out this form for yourself?",
+        answerType: 'boolean',
+        answerOptions: [
+            { optionName: 'True', questionLink: nameq._id },
+            { optionName: 'False', questionLink: nameq._id },
+        ]
+    })
+    postFormToAPI({ title: "Mental Health: Initial Access Form 1", firstQuestion: selfq._id })
+    postFormToAPI({ title: "AB4129: Student Survey", firstQuestion: otherq._id })
+    updateFormToAPI({ title: "Information Gathering Form III", firstQuestion: otherq._id })
 })

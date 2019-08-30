@@ -23,7 +23,7 @@ test('submit question and get notification', async  () => {
 
     // find the input boxes
     const input = getByLabelText(/question text/i);
-    const answerTypeInput = getByLabelText(/answer type/i)
+    const answerTypeInput = getByLabelText(/type/i)
     
     // enter text
     fireEvent.change(input, {target: {value: testQuestionText}});

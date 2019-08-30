@@ -45,7 +45,7 @@ export const FormWizardQuestions = props => {
     const [currentUserInput, setCurrentUserInput] = useState(blankInput)
 
     const goToNextQuestion = () => {
-        if (typeof currentUserInput.nextQuestion === 'undefined') {
+        if (typeof currentUserInput.nextQuestion === 'undefined' || currentUserInput.nextQuestion === null) {
             console.log("finished")
             props.completeForm();
         } else {
