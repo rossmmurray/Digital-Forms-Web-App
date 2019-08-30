@@ -50,7 +50,7 @@ export const UserFormWizard = ({ match }) => {
             <MHPaper>
                 {form ? <h1 className={classes.lightText} >{form.title}</h1> : null}
                 {form && questions && !done ? <FormWizardQuestions completeForm={completeForm} form={form} questions={questions} /> : null}
-                {done ? <h1>Form Completed!</h1> : null}
+                {done ? <div><h1>Form Completed</h1><p>Somone will get in touch with you in due course.</p></div> : null}
             </MHPaper>
     
         </div>
