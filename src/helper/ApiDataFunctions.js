@@ -49,8 +49,18 @@ export const getFormsFromAPI = async () => {
     return forms.data.data
 }
 
+export const getAnswersFromAPI = async () => {
+    const answers = await axios.get(base_url + '/answers', getRequestConfig());
+    return answers.data.data
+}
+
 export const postFormToAPI = async (form) => {
     const response = await axios.post(base_url + '/form', form)
+    return response
+}
+
+export const postAnswerToAPI = async (answer) => {
+    const response = await axios.post(base_url + '/answer', answer)
     return response
 }
 

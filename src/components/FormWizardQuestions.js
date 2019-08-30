@@ -7,6 +7,9 @@ import { FreeQuestion } from './questionTypes/FreeQuestion';
 import { NumberQuestion } from './questionTypes/NumberQuestion';
 import { Service } from './questionTypes/Service';
 import { Button } from '@material-ui/core';
+import { postAnswerToAPI } from '../helper/ApiDataFunctions';
+import { getUserFromLocalStorage } from '../helper/AuthFunctions';
+
 
 
 const components = {
@@ -30,7 +33,7 @@ const getDefaultInput = question => {
         const option = question.answerOptions[0]
         return { answer: { value: option.optionName, id: option._id }, nextQuestion: option.questionLink }
     } else {
-        return { answer: { value: ''}, nextQuestion: question.nextQuestion }
+        return { answer: { value: '' }, nextQuestion: question.nextQuestion }
     }
 }
 
@@ -40,31 +43,37 @@ export const FormWizardQuestions = props => {
     const firstQuestion = props.questions.find(question => props.form.firstQuestion === question._id)
     const blankInput = getDefaultInput(firstQuestion)
 
-    // state
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
     const [currentUserInput, setCurrentUserInput] = useState(blankInput)
 
     const goToNextQuestion = () => {
         if (typeof currentUserInput.nextQuestion === 'undefined' || currentUserInput.nextQuestion === null) {
-            console.log("finished")
             props.completeForm();
         } else {
+            saveUserInputToDB()
             const nextQuestion = props.questions.find(question => question._id === currentUserInput.nextQuestion)
-            console.log(nextQuestion)
             setCurrentUserInput(blankInput)
             setCurrentQuestion(nextQuestion)
             setCurrentUserInput(getDefaultInput(nextQuestion))
         }
+    }
 
+    const saveUserInputToDB = () => {
+        const userData = getUserFromLocalStorage();
+        const answerData = {
+            value: currentUserInput,
+            form: props.form,
+            user: userData,
+            question: currentQuestion
+        }
+        postAnswerToAPI(answerData)
     }
 
     const updateInput = answer => {
-        console.log(answer)
         setCurrentUserInput(answer)
     }
 
     useEffect(() => {
-        console.log("run")
         setCurrentQuestion(firstQuestion)
         setCurrentUserInput(getDefaultInput(firstQuestion))
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,7 +88,9 @@ export const FormWizardQuestions = props => {
                 input={currentUserInput}
             />
             <br />
-            {currentQuestion.answerType === 'service' ? null : <Button align="right" variant="contained" color="primary" onClick={goToNextQuestion}>Next Question</Button>}
+            {currentQuestion.answerType === 'service' ?
+                null :
+                <Button align="right" variant="contained" color="primary" onClick={goToNextQuestion}>Next Question</Button>}
         </div>
     )
 }
