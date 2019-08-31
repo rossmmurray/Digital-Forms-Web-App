@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { getUsers, updateUser } from '../helper/ApiDataFunctions';
 import { MHSnackbar } from './notify'
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export const UserManagement = () => {
+export const UserManagement = props => {
     const classes = useStyles();
     const snackbarConfig = {
         message: "User update saved to database.",
@@ -41,6 +42,7 @@ export const UserManagement = () => {
         // show notification if change saved to database
         updateUser(newUsers[index]).then(setOpen(true))
         setUsers(newUsers)
+        props.updateAppUser()
     }
 
     const [open, setOpen] = React.useState(false);
@@ -53,6 +55,9 @@ export const UserManagement = () => {
         <div>
             <MHPaper>
                 <h1>User Management</h1>
+                {/* <h6>Note: users may need to re-log in for changes to take effect.</h6> */}
+                <Typography  >Note: users may need to re-log in for changes to take effect.</Typography>
+                <br />
                 <div className={classes.root}>
                     <List component="nav" aria-label="users list">
                         {users.map((user, index) =>

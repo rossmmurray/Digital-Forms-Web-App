@@ -91,7 +91,7 @@ export default function MHHeader(props) {
 
     // run only on initial mount
     useEffect(() => {
-        console.log('running')
+        console.log('MHHeader useeffect ran')
 
         // get forms to show
         getFormsFromAPI().then(forms => {
@@ -101,7 +101,7 @@ export default function MHHeader(props) {
         // check if user is logged in
         const user = getUserFromLocalStorage()
         setUser(user)
-    }, [props.user])
+    }, [props.updateTrigger])
 
 
     const drawer = (
@@ -111,17 +111,20 @@ export default function MHHeader(props) {
             </div>
             <Divider />
             <List>
-                {routes.map(route => (
+                {routes.map(route => 
+                    route.role.includes(user && user.role ) && 
                     <ListItem button component={Link} to={route.path} key={route.path}>
                         <ListItemIcon><route.icon /></ListItemIcon>
                         <ListItemText primary={route.name} />
-                    </ListItem>
-                ))}
+                        </ListItem>
+              
+                )}
             </List>
             <Divider />
             <List >
                 <ListSubheader >Forms</ListSubheader>
                 {forms.map(form =>
+                    user &&
                     <ListItem button key={form._id} component={Link} to={"/form/" + form._id} >
                         <ListItemIcon><Toc /></ListItemIcon>
                         <ListItemText primary={form.title} />

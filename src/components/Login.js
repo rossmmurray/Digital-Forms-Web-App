@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, IconButton, Button } from '@material-ui/core';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { base_url } from "../connections";
 import { getTokenFromLocalStorage, getUserFromLocalStorage } from '../helper/AuthFunctions'
@@ -24,10 +24,10 @@ export const Login = props => {
         console.error(error);
     };
 
-    const logout = () => {
+    const logout = async () => {
         console.log('logging out')
-        saveToken(null);
-        saveUser(null);
+        await saveToken(null);
+        await saveUser(null);
         props.updateAppUser()
         // window.location.reload()
     }
@@ -36,11 +36,13 @@ export const Login = props => {
         localStorage.setItem("jwToken", token);
         const authBool = token ? true : false;
         setIsAuthenticated(authBool)
+        return authBool
     };
 
     const saveUser = user => {
         localStorage.setItem('user', JSON.stringify(user))
         setUser(user)
+        return user
     }
 
     const setStateFromLocalStorage = () => {
@@ -88,7 +90,7 @@ export const Login = props => {
                 console.error(r)
             });
         })
-       
+
 
     }
 
@@ -103,20 +105,25 @@ export const Login = props => {
 
     const logoutButton = <GoogleLogout
         clientId="51463348971-oupg93q2h6n4ig8voa9695sh1r2e6bmj.apps.googleusercontent.com"
-        buttonText="Logout"
+        buttonText="Log out"
         onLogoutSuccess={logout}
-        onFailure={logoutFailure}
+    // onFailure={logoutFailure}
     />;
+
+    const plainLogout =  <Button variant={'contained'} color='primary' size='large' onClick={logout} aria-label="Log Out">Log out</Button>
+
+    //     <IconButton onClick={handleDrawerToggle} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+    //     <MenuIcon />
+    // </IconButton>
 
     const userInfo = user ?
         (<div>
-            <img
+            {/* <img
                 src={user.imageUrl}
                 alt="new"
-            /> <br />
-            {user.email} <br />
-            {user.givenName} <br />
-            {user.familyName} <br />
+            /> <br /> */}
+            <h4>Email: {user.email}</h4>
+            <h4>Role: {user.role}</h4>
         </div>) :
         (null)
 
@@ -128,10 +135,10 @@ export const Login = props => {
         </div>)
         :
         (<div>
-            <h1>You are now logged in</h1>
+            <h1>You are logged in as...</h1>
             {userInfo}
-            {logoutButton}
-            {loginButton}
+            {/* {logoutButton} */}
+            {plainLogout}
         </div>);
 
 

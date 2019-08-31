@@ -15,7 +15,6 @@ import { UserFormWizard } from './components/UserFormWizard';
 import { ShowAnswers } from './components/ShowAnswers';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import { getUserFromLocalStorage } from './helper/AuthFunctions';
 
 
 const drawerWidth = 240
@@ -33,12 +32,11 @@ const useStyles = makeStyles(theme => ({
 const App = () => {
     const classes = useStyles();
 
-    const [user, setUser] = useState(null)
+    const [updateTrigger, setUpdateTrigger] = useState(false)
 
     const updateAppUser = () => {
-        console.log('run update app user')
-        const user = getUserFromLocalStorage()
-        setUser(user)
+        console.log('updated user')
+        setUpdateTrigger(!updateTrigger)
     }
 
     const myNewQuestion = () => {
@@ -52,20 +50,21 @@ const App = () => {
     };
 
     const LoginWithProps = () => <Login updateAppUser={updateAppUser} />
+    const UserManagementWithProps = () => <UserManagement updateAppUser={updateAppUser} />
 
 
     return (
         <Router>
             <CssBaseline />
             <ThemeProvider theme={MHTheme} >
-                <MHHeader user={user}/>
+                <MHHeader updateTrigger={updateTrigger}/>
                 <Box className={classes.drawerMargin} >
                 <Container  maxWidth="md" >
                     <Route exact path="/" component={Start} />
                     <Route exact path="/admin/newQuestion" component={myNewQuestion} />
                     <Route exact path="/login" component={LoginWithProps} />
                     <Route exact path="/editQuestions" component={ShowQuestions} />
-                    <Route exact path="/admin/userManagement" component={UserManagement} />
+                    <Route exact path="/admin/userManagement" component={UserManagementWithProps} />
                     <Route exact path="/admin/manageForms" component={FormManagement} />
                     <Route exact path="/answers" component={ShowAnswers} />
                     <Route path="/form/:formid" component={UserFormWizard} />
