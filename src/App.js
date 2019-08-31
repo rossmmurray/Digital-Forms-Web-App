@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
@@ -13,48 +13,55 @@ import { UserManagement } from './components/UserManagement'
 import { FormManagement } from './components/FormManagement'
 import { UserFormWizard } from './components/UserFormWizard';
 import { ShowAnswers } from './components/ShowAnswers';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
 
-// process.on('unhandledRejection', (reason, p) => {
-//     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-//     // application specific logging, throwing an error, or other logic here
-//   });
 
-class App extends Component {
+const drawerWidth = 240
 
-    myNewQuestion = (props) => {
-        // const myProps = {
-        //     question: { questionText: "hello there" }
-        // }
+const useStyles = makeStyles(theme => ({
+    drawerMargin: {
+        // marginLeft: drawerWidth,
+        [theme.breakpoints.up('sm')]: {
+            // width: `calc(100% - ${drawerWidth} px)`,
+            marginLeft: drawerWidth
+        },
+    },
+}))
+
+const App = () => {
+    const classes = useStyles();
+
+    const myNewQuestion = () => {
         return (
             <div>
                 <br />
                 <h1>Add New Question</h1>
-                {/* <br /> */}
                 <NewQuestion />
-                </div>
+            </div>
         )
     };
 
-    render() {
-        return (
-            <Router>
-                <CssBaseline />
-                <ThemeProvider theme={MHTheme} >
-                    <MHHeader />
-                    <Container maxWidth="md" >
-                        <Route exact path="/" component={Start} />
-                        <Route exact path="/admin/newQuestion" component={this.myNewQuestion} />
-                        <Route exact path="/login" component={Login} />
-                        <Route exact path="/editQuestions" component={ShowQuestions} />
-                        <Route exact path="/admin/userManagement" component={UserManagement} />
-                        <Route exact path="/admin/manageForms" component={FormManagement} />
-                        <Route exact path="/answers" component={ShowAnswers} />
-                        <Route path="/form/:formid" component={UserFormWizard} />
+    return (
+        <Router>
+            <CssBaseline />
+            <ThemeProvider theme={MHTheme} >
+                <MHHeader />
+                <Box className={classes.drawerMargin} >
+                <Container  maxWidth="md" >
+                    <Route exact path="/" component={Start} />
+                    <Route exact path="/admin/newQuestion" component={myNewQuestion} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/editQuestions" component={ShowQuestions} />
+                    <Route exact path="/admin/userManagement" component={UserManagement} />
+                    <Route exact path="/admin/manageForms" component={FormManagement} />
+                    <Route exact path="/answers" component={ShowAnswers} />
+                    <Route path="/form/:formid" component={UserFormWizard} />
                     </Container>
-                </ThemeProvider>
-            </Router >
-        )
-    }
+                    </Box>
+            </ThemeProvider>
+        </Router >
+    )
 }
 
 export default App;
