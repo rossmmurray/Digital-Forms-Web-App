@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Start from './Start';
 import NewQuestion from './components/NewQuestion';
@@ -15,6 +15,7 @@ import { UserFormWizard } from './components/UserFormWizard';
 import { ShowAnswers } from './components/ShowAnswers';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import { getUserFromLocalStorage } from './helper/AuthFunctions';
 
 
 const drawerWidth = 240
@@ -32,6 +33,14 @@ const useStyles = makeStyles(theme => ({
 const App = () => {
     const classes = useStyles();
 
+    const [user, setUser] = useState(null)
+
+    const updateAppUser = () => {
+        console.log('run update app user')
+        const user = getUserFromLocalStorage()
+        setUser(user)
+    }
+
     const myNewQuestion = () => {
         return (
             <div>
@@ -42,16 +51,19 @@ const App = () => {
         )
     };
 
+    const LoginWithProps = () => <Login updateAppUser={updateAppUser} />
+
+
     return (
         <Router>
             <CssBaseline />
             <ThemeProvider theme={MHTheme} >
-                <MHHeader />
+                <MHHeader user={user}/>
                 <Box className={classes.drawerMargin} >
                 <Container  maxWidth="md" >
                     <Route exact path="/" component={Start} />
                     <Route exact path="/admin/newQuestion" component={myNewQuestion} />
-                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/login" component={LoginWithProps} />
                     <Route exact path="/editQuestions" component={ShowQuestions} />
                     <Route exact path="/admin/userManagement" component={UserManagement} />
                     <Route exact path="/admin/manageForms" component={FormManagement} />

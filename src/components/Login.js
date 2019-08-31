@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export const Login = () => {
+export const Login = props => {
     const classes = useStyles();
 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,6 +28,8 @@ export const Login = () => {
         console.log('logging out')
         saveToken(null);
         saveUser(null);
+        props.updateAppUser()
+        // window.location.reload()
     }
 
     const saveToken = token => {
@@ -78,12 +80,15 @@ export const Login = () => {
                 if (jwToken) {
                     saveUser(user);
                     saveToken(jwToken);
+                    // window.location.reload()
+                    props.updateAppUser()
                 }
             }).catch((err) => {
                 console.error(err)
                 console.error(r)
             });
         })
+       
 
     }
 
