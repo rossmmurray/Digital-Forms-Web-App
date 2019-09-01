@@ -63,7 +63,7 @@ export const FormManagement = props => {
         
     }
 
-    // todo: speak about currying in the report, reference Chris Clack
+
     const saveForm = form => event => {
             updateFormToAPI(form).then(() =>
                 props.reRenderHeader()
