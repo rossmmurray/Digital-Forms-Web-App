@@ -41,7 +41,7 @@ const App = () => {
     const UserManagementWithProps = () => <UserManagement reRenderHeader={reRenderHeader} />
     const FormManagementWithProps = () => <FormManagement reRenderHeader={reRenderHeader} />
 
-    
+
     return (
         <Router>
             <CssBaseline />
