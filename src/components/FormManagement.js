@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/display-name */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,7 +65,7 @@ export const FormManagement = props => {
         
     }
 
-
+    // send a form to the backend API, then re-render header 
     const saveForm = form => event => {
             updateFormToAPI(form).then(() =>
                 props.reRenderHeader()
