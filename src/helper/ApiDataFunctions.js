@@ -64,9 +64,9 @@ export const postAnswerToAPI = async (answer) => {
     return response
 }
 
-export const deleteFormToAPI = async (fromQuery) => {
+export const deleteFormToAPI = async formQuery => {
     // strangley, the body goes into a data param for axios.delete
-    const response = await axios.delete(base_url + '/form', {data: fromQuery})
+    const response = await axios.delete(base_url + '/form', {data: formQuery})
     return response.data.data.deletedCount
 }
 

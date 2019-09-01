@@ -101,7 +101,7 @@ export default function MHHeader(props) {
         // check if user is logged in
         const user = getUserFromLocalStorage()
         setUser(user)
-    }, [props.updateTrigger])
+    }, [props.headerRenderTrigger])
 
 
     const drawer = (

@@ -21,55 +21,44 @@ const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
     drawerMargin: {
-        // marginLeft: drawerWidth,
         [theme.breakpoints.up('sm')]: {
-            // width: `calc(100% - ${drawerWidth} px)`,
             marginLeft: drawerWidth
         },
     },
 }))
 
+// Top level of app
 const App = () => {
     const classes = useStyles();
 
-    const [updateTrigger, setUpdateTrigger] = useState(false)
+    // Method to force the header and drawer to re-render - required for login and form changes
+    const [headerRenderTrigger, setHeaderRenderTrigger] = useState(false)
+    const reRenderHeader = () => setHeaderRenderTrigger(!headerRenderTrigger)
 
-    const updateAppUser = () => {
-        console.log('updated user')
-        setUpdateTrigger(!updateTrigger)
-    }
+    // Wrappers to provide props - since <Route /> does not accept props directly
+    const AddNewQuestionPage = () => <div><h1>Add New Question</h1><NewQuestion /></div>
+    const LoginWithProps = () => <Login reRenderHeader={reRenderHeader} />
+    const UserManagementWithProps = () => <UserManagement reRenderHeader={reRenderHeader} />
+    const FormManagementWithProps = () => <FormManagement reRenderHeader={reRenderHeader} />
 
-    const myNewQuestion = () => {
-        return (
-            <div>
-                <br />
-                <h1>Add New Question</h1>
-                <NewQuestion />
-            </div>
-        )
-    };
-
-    const LoginWithProps = () => <Login updateAppUser={updateAppUser} />
-    const UserManagementWithProps = () => <UserManagement updateAppUser={updateAppUser} />
-
-
+    
     return (
         <Router>
             <CssBaseline />
             <ThemeProvider theme={MHTheme} >
-                <MHHeader updateTrigger={updateTrigger}/>
+                <MHHeader headerRenderTrigger={headerRenderTrigger} />
                 <Box className={classes.drawerMargin} >
-                <Container  maxWidth="md" >
-                    <Route exact path="/" component={Start} />
-                    <Route exact path="/admin/newQuestion" component={myNewQuestion} />
-                    <Route exact path="/login" component={LoginWithProps} />
-                    <Route exact path="/editQuestions" component={ShowQuestions} />
-                    <Route exact path="/admin/userManagement" component={UserManagementWithProps} />
-                    <Route exact path="/admin/manageForms" component={FormManagement} />
-                    <Route exact path="/answers" component={ShowAnswers} />
-                    <Route path="/form/:formid" component={UserFormWizard} />
+                    <Container maxWidth="md" >
+                        <Route exact path="/" component={Start} />
+                        <Route exact path="/admin/newQuestion" component={AddNewQuestionPage} />
+                        <Route exact path="/login" component={LoginWithProps} />
+                        <Route exact path="/editQuestions" component={ShowQuestions} />
+                        <Route exact path="/admin/userManagement" component={UserManagementWithProps} />
+                        <Route exact path="/admin/manageForms" component={FormManagementWithProps} />
+                        <Route exact path="/answers" component={ShowAnswers} />
+                        <Route path="/form/:formid" component={UserFormWizard} />
                     </Container>
-                    </Box>
+                </Box>
             </ThemeProvider>
         </Router >
     )

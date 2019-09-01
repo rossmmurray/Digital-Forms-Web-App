@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { getQuestions, updateFormToAPI, getFormsFromAPI } from '../helper/ApiDataFunctions';
+import { getQuestions, updateFormToAPI, getFormsFromAPI, deleteFormToAPI } from '../helper/ApiDataFunctions';
 import { MHPaper } from '../styling/MHPaper'
 import { MHSnackbar } from './notify'
 import List from '@material-ui/core/List';
@@ -19,6 +19,7 @@ import AddCircle from '@material-ui/icons/AddCircle'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import IconButton from '@material-ui/core/IconButton';
+import { Delete } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export const FormManagement = () => {
+export const FormManagement = props => {
     const classes = useStyles();
 
     const snackbarConfig = {
@@ -44,7 +45,6 @@ export const FormManagement = () => {
 
 
     useEffect(() => {
-        console.log('this run')
         getQuestions().then(questions => {
             setAllQuestions(questions)
         })
@@ -60,15 +60,14 @@ export const FormManagement = () => {
             [event.target.name]: event.target.value
         }
         setFormData(tempFormData)
-        console.log(event.target.value)
+        
     }
 
     // todo: speak about currying in the report, reference Chris Clack
-    const saveForm = form => async event => {
-        console.log('tried to save: ')
-        console.log(form)
-        const res = await updateFormToAPI(form)
-        console.log(res)
+    const saveForm = form => event => {
+            updateFormToAPI(form).then(() =>
+                props.reRenderHeader()
+            )
     }
 
     const addForm = () => {
@@ -77,18 +76,26 @@ export const FormManagement = () => {
         setFormData(tempFormData)
     }
 
+    const deleteForm = form => event => {
+        if (form._id) {
+            deleteFormToAPI({ _id: form._id }).then(() => {
+                props.reRenderHeader()
+            })
+        }
+    }
+
     return (
         <div className={classes.root}>
             <MHPaper >
                 <h1>Form Management</h1>
+
                 <List component="nav" aria-label="form list">
                     {formData.map( (form, index) =>
                         <div key={index}>
-                            <ListItem button>
+                            <ListItem >
                                 <ListItemIcon>
                                     <ViewList />
                                 </ListItemIcon>
-                                {/* <ListItemText primary={form.title} /> */}
                                 <ListItemText>
                                     <MHTextField
                                         label='Form Title'
@@ -115,12 +122,10 @@ export const FormManagement = () => {
                                 <IconButton onClick={saveForm(form)}>
                                     <Save />
                                 </IconButton>
-                                {/* todo: change this to use your mh select field */}
-                                {/* <MHSelectField
-                                    label='firstQuestion'
-                                    name='firstQuestion'
-                                    options={all}
-                                /> */}
+                                
+                                <IconButton onClick={deleteForm({_id: form._id})}>
+                                    <Delete />
+                                    </IconButton>
                             </ListItem>
                         </div>
                     )}

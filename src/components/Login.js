@@ -28,7 +28,7 @@ export const Login = props => {
         console.log('logging out')
         await saveToken(null);
         await saveUser(null);
-        props.updateAppUser()
+        props.reRenderHeader()
         // window.location.reload()
     }
 
@@ -83,7 +83,7 @@ export const Login = props => {
                     saveUser(user);
                     saveToken(jwToken);
                     // window.location.reload()
-                    props.updateAppUser()
+                    props.reRenderHeader()
                 }
             }).catch((err) => {
                 console.error(err)

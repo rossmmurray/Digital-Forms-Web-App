@@ -42,7 +42,7 @@ export const UserManagement = props => {
         // show notification if change saved to database
         updateUser(newUsers[index]).then(setOpen(true))
         setUsers(newUsers)
-        props.updateAppUser()
+        props.reRenderHeader()
     }
 
     const [open, setOpen] = React.useState(false);
