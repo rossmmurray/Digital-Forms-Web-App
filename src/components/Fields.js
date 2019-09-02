@@ -80,7 +80,8 @@ export const MHSelectField = (props) => {
                     // render passed options
                     props.options.map(option => {
                         return <option key={option.value} value={option.value}>{option.displayText}</option>
-                    })}
+                    })
+                }
             </Select>
         </FormControl>
     )

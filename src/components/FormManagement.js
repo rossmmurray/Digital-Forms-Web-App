@@ -62,14 +62,14 @@ export const FormManagement = props => {
             [event.target.name]: event.target.value
         }
         setFormData(tempFormData)
-        
+
     }
 
     // send a form to the backend API, then re-render header 
     const saveForm = form => event => {
-            updateFormToAPI(form).then(() =>
-                props.reRenderHeader()
-            )
+        updateFormToAPI(form).then(() =>
+            props.reRenderHeader()
+        )
     }
 
     const addForm = () => {
@@ -92,7 +92,7 @@ export const FormManagement = props => {
                 <h1>Form Management</h1>
 
                 <List component="nav" aria-label="form list">
-                    {formData.map( (form, index) =>
+                    {formData.map((form, index) =>
                         <div key={index}>
                             <ListItem >
                                 <ListItemIcon>
@@ -121,26 +121,25 @@ export const FormManagement = props => {
                                         )}
                                     </Select>
                                 </FormControl>
-                                <IconButton onClick={saveForm(form)}>
-                                    <Save />
-                                </IconButton>
                                 
-                                <IconButton onClick={deleteForm({_id: form._id})}>
+                                <IconButton onClick={saveForm(form)}><Save /></IconButton>
+
+                                <IconButton onClick={deleteForm({ _id: form._id })}>
                                     <Delete />
-                                    </IconButton>
+                                </IconButton>
                             </ListItem>
                         </div>
                     )}
                     <ListItem>
-                    <ListItemSecondaryAction>
-                        <IconButton align='right'
-                        onClick={addForm}
-                        >
-                            <AddCircle />
-                        </IconButton>
+                        <ListItemSecondaryAction>
+                            <IconButton align='right'
+                                onClick={addForm}
+                            >
+                                <AddCircle />
+                            </IconButton>
 
                         </ListItemSecondaryAction>
-                        </ListItem>
+                    </ListItem>
                 </List>
             </MHPaper>
             <MHSnackbar
