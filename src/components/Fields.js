@@ -77,7 +77,7 @@ export const MHSelectField = (props) => {
             >
                 <option value="" disabled></option>
                 {
-                    // render passed options
+                    // Render passed options
                     props.options.map(option => {
                         return <option key={option.value} value={option.value}>{option.displayText}</option>
                     })
