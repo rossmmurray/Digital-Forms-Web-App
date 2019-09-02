@@ -18,30 +18,29 @@ export const UserFormWizard = ({ match }) => {
     const classes = useStyles();
     const [form, setForm] = useState(null)
     const [questions, setQuestions] = useState(null)
-    const [done, setDone] = useState(false)
-    // console.log(form)
+    const [formCompletionFlag, setFormCompletionFlag] = useState(false)
 
-    // triggers on change of url parameter (i.e. form choice)
+    // Triggers on change of url parameter (i.e. form choice)
     useEffect(() => {
-        setDone(false)
+        setFormCompletionFlag(false)
+
+         // Get only the relevant form
         const formPromise = getFormsFromAPI().then(forms => {
-             // get only the relevant form
-            const formID = match.params.formid
-            const currentForm = forms.find(form => form._id === formID)
-            return currentForm
+            return forms.find(form => form._id === match.params.formid)
         })
+    
+        // Get all questions
         const questionsPromise = getQuestions()
 
-        // only run after received all forms and questions
+        // Only run after received all forms and questions
         Promise.all([formPromise, questionsPromise]).then(([form, questions]) => {
             setQuestions(questions)
             setForm(form)
         })
-
     }, [match.params.formid])
 
     const completeForm = () => {
-        setDone(true)
+        setFormCompletionFlag(true)
     }
 
 
@@ -49,8 +48,8 @@ export const UserFormWizard = ({ match }) => {
         <div>
             <MHPaper>
                 {form ? <h1 className={classes.lightText} >{form.title}</h1> : null}
-                {form && questions && !done ? <FormWizardQuestions completeForm={completeForm} form={form} questions={questions} /> : null}
-                {done ? <div><h1>Form Completed</h1><p>Somone will get in touch with you in due course.</p></div> : null}
+                {form && questions && !formCompletionFlag ? <FormWizardQuestions completeForm={completeForm} form={form} questions={questions} /> : null}
+                {formCompletionFlag ? <div><h1>Form Completed</h1><p>Somone will get in touch with you in due course.</p></div> : null}
             </MHPaper>
     
         </div>

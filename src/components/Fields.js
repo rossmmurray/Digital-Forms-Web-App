@@ -40,6 +40,14 @@ export const MHTextField = (props) => {
     const label = props.label;
     const labalId = label.toLowerCase().replace(" ", "-");
 
+
+
+    for (let i = 0; i < 5; i++) {
+        console.error('Not allowed!')
+    }
+
+
+
     return (
         <TextField
             className={clsx(classes.textField, classes.formControl)}
@@ -73,7 +81,7 @@ export const MHSelectField = (props) => {
                 input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
                 value={props.value}
                 onChange={props.onChange}
-                // autoWidth={true}
+            // autoWidth={true}
             >
                 <option value="" disabled></option>
                 {
@@ -86,6 +94,7 @@ export const MHSelectField = (props) => {
         </FormControl>
     )
 }
+
 
 // type checking props
 MHSelectField.propTypes = {
