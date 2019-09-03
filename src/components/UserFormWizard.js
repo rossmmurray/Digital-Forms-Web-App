@@ -32,7 +32,7 @@ export const UserFormWizard = ({ match }) => {
         // Get all questions
         const questionsPromise = getQuestions()
 
-        // Only run after received all forms and questions
+        // Only run after received all forms and questions. 
         Promise.all([formPromise, questionsPromise]).then(([form, questions]) => {
             setQuestions(questions)
             setForm(form)

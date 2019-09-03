@@ -40,14 +40,6 @@ export const MHTextField = (props) => {
     const label = props.label;
     const labalId = label.toLowerCase().replace(" ", "-");
 
-
-
-    for (let i = 0; i < 5; i++) {
-        console.error('Not allowed!')
-    }
-
-
-
     return (
         <TextField
             className={clsx(classes.textField, classes.formControl)}

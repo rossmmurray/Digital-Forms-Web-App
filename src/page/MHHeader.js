@@ -143,7 +143,7 @@ export default function MHHeader(props) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.subtitle}>
-                        Digital Service
+                        Digital Forms
                     </Typography>
 
                     {user ? <Button component={Link} to={"/Login"} color="inherit">
