@@ -54,9 +54,14 @@
   },
   "jest": {
     "collectCoverageFrom": [
+      "!<rootDir>/src/serviceWorker.js",
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
       "!<rootDir>/path/to/dir/"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
     ],
     "coverageThreshold": {
       "global": {

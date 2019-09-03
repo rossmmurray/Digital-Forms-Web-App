@@ -39,12 +39,11 @@ export const FormManagement = props => {
     const [open, setOpen] = useState(false)
     const handleClose = () => {
         setOpen(false);
+        props.reRenderHeader()
     }
 
     const [allQuestions, setAllQuestions] = useState([])
     const [formData, setFormData] = useState([]);
-
-
 
     useEffect(() => {
         getQuestions().then(questions => {
@@ -67,9 +66,12 @@ export const FormManagement = props => {
 
     // send a form to the backend API, then re-render header 
     const saveForm = form => event => {
-        updateFormToAPI(form).then(() =>
-            props.reRenderHeader()
-        )
+        updateFormToAPI(form).then(() => {
+            setOpen(true)
+            // 
+        }).catch(error => {
+            console.error(error)
+        })
     }
 
     const addForm = () => {
@@ -121,8 +123,8 @@ export const FormManagement = props => {
                                         )}
                                     </Select>
                                 </FormControl>
-                                
-                                <IconButton onClick={saveForm(form)}><Save /></IconButton>
+
+                                <IconButton aria-label="save form" onClick={saveForm(form)}><Save /></IconButton>
 
                                 <IconButton onClick={deleteForm({ _id: form._id })}>
                                     <Delete />
@@ -132,9 +134,7 @@ export const FormManagement = props => {
                     )}
                     <ListItem>
                         <ListItemSecondaryAction>
-                            <IconButton align='right'
-                                onClick={addForm}
-                            >
+                            <IconButton align='right' onClick={addForm} aria-label='add form' >
                                 <AddCircle />
                             </IconButton>
 
