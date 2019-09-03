@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { saveQuestionRequestToApi, updateQuestionRequestToApi } from '../helper/ApiDataFunctions'
 import Button from '@material-ui/core/Button';
@@ -12,6 +11,7 @@ import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 import Grid from '@material-ui/core/Grid';
 import { MHCard } from '../styling/MHCard'
 import Box from '@material-ui/core/Box';
+import { MHSnackbar } from './notify'
 
 
 function NewQuestion(props) {
@@ -26,8 +26,16 @@ function NewQuestion(props) {
 
     ]
 
+
+    // state management
     const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{ optionName: '', questionLink: '' }] })
     const [allQuestions, setAllQuestions] = useState([])
+    const [open, setOpen] = useState(false)
+    const [snackbarConfig, setSnackbarConfig] = useState({ message: "", variant: "success" })
+
+    const handleClose = () => {
+        setOpen(false);
+    }
 
     useEffect(() => {
         getQuestions().then(questions => {
@@ -81,13 +89,15 @@ function NewQuestion(props) {
             } else {
                 successResponse = await saveNewQuestionToDB(question);
             }
-            NotificationManager.success(successResponse)
+            setSnackbarConfig({message: successResponse, variant: 'success'})
+            setOpen(true)
             if (typeof props.parentRefresh == 'function') {
                 props.parentRefresh()
             }
         } catch (error) {
             errorMessage = error.message ? error.message : error;
-            NotificationManager.warning(errorMessage)
+            setSnackbarConfig({message: errorMessage, variant: 'error'})
+            setOpen(true)
         }
     };
 
@@ -201,10 +211,14 @@ function NewQuestion(props) {
                 <Box mb={2} mt={1}
                 // mt={-4}
                 >
-                   <Button size={"large"} variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)} color={"primary"}>Save</Button>
+                    <Button size={"large"} variant="contained" onClick={() => saveQuestionToDB(unsavedQuestion)} color={"primary"}>Save</Button>
                 </Box>
-                <NotificationContainer />
             </Box>
+            <MHSnackbar
+                open={open}
+                onClose={handleClose}
+                {...snackbarConfig}
+            />
         </MHCard>
 
     )
