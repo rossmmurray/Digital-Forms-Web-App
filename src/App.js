@@ -12,6 +12,7 @@ import { MHTheme } from './theme/MHTheme'
 import { UserManagement } from './components/UserManagement'
 import { FormManagement } from './components/FormManagement'
 import { UserFormWizard } from './components/UserFormWizard';
+import { ShowAnswers } from './components/ShowAnswers';
 
 // process.on('unhandledRejection', (reason, p) => {
 //     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
@@ -46,6 +47,7 @@ class App extends Component {
                         <Route exact path="/editQuestions" component={ShowQuestions} />
                         <Route exact path="/admin/userManagement" component={UserManagement} />
                         <Route exact path="/admin/manageForms" component={FormManagement} />
+                        <Route exact path="/answers" component={ShowAnswers} />
                         <Route path="/form/:formid" component={UserFormWizard} />
                     </Container>
                 </ThemeProvider>

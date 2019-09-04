@@ -73,6 +73,9 @@ export default function ButtonAppBar() {
                     <Button component={Link} to={"/admin/manageForms"} color="inherit">
                         Manage Forms
                     </Button>
+                    <Button component={Link} to={"/answers"} color="inherit">
+                        View Answers
+                    </Button>
                     <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleFormsClick} color="inherit">
                         Forms
                     </Button>
