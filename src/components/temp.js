@@ -1,17 +1,4 @@
-const googleResponse = (response) => {
-    const tokenBlob = new Blob([JSON.stringify({ access_token: response.accessToken }, null, 2)], { type: 'application/json' });
-    const options = {
-        method: 'POST',
-        body: tokenBlob,
-        mode: 'cors',
-        cache: 'default'
-    };
-    fetch('http://localhost:4000/api/v1/auth/google', options).then(r => {
-        const token = r.headers.get('x-auth-token');
-        r.json().then(user => { 
-            if (token) {
-                this.setState({ isAuthenticated: true, user, token })
-            }
-        });
-    })
-}
+<h3>Drinkline</h3>
+<p>Drinkline runs a free, confidential helpline for people who are concerned about their drinking, or someone else's.</p>
+<p>The purpose of the Drinkline service is to offer free, confidential, accurate and consistent information and advice to callers who are concerned about their own or someone else`s drinking regardless of the caller`s age, gender, sexuality, ethnicity or spirituality.</p>
+<h4><strong>Free helpline: 0300 123 1110 (weekdays 9am&ndash8pm, weekends 11am&ndash4pm)</strong></h4>

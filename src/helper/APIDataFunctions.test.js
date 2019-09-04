@@ -100,10 +100,14 @@ afterAll(async () => {
     await deleteAllQuestions()
     await deleteFormToAPI({})
     saveQuestionRequestToApi(freeTextQuestion)
-
+    
     //    do these backwards
+    const emergencyHtml = `<p>We think you may be at immediate risk.</p><h1><span style="background-color: #ffff99">Please call <span style="color: #ff0000;">999</span> <em>now.&nbsp;</em></span></h1><hr /> <p><strong>If you don't want to call because:</strong></p><ul> <li>no longer feel in danger or...</li> <li>the feeling is not very strong</li> </ul> <p>you can also try:</p> <div class="nhsuk-inset-text"> <p style="padding-left: 30px;"><a title="External website" href="https://www.samaritans.org/">Samaritans</a> &ndash; for everyone <br /><strong>Call 116 123</strong> <br /><strong>Email</strong> <a href="mailto:jo@samaritans.org">jo@samaritans.org</a></p><div class="nhsuk-inset-text"> <p style="padding-left: 30px;"><a title="External website" href="https://www.thecalmzone.net/">Campaign Against Living Miserably (CALM)</a> &ndash; for men <br /><strong>Call 0800 58 58 58</strong> &ndash; 5pm to midnight every day <br /><strong>Visit</strong> the <a title="External website" href="https://www.thecalmzone.net/help/webchat/">webchat page</a>&nbsp;</p></div> </div> <div class="nhsuk-inset-text" style="padding-left: 30px;"><div class="nhsuk-inset-text"><br /> <p>&nbsp;</p> </div> <br /> <p>&nbsp;</p> </div> <p>&nbsp;</p> <p>&nbsp;</p>`
+    const drinklineHtml = `<h3>Drinkline</h3> <p>Drinkline runs a free, confidential helpline for people who are concerned about their drinking, or someone elses.</p> <p>The purpose of the Drinkline service is to offer free, confidential, accurate and consistent information and advice to callers who are concerned about their own or someone elses drinking regardless of the callers age, gender, sexuality, ethnicity or spirituality.</p> <h4><strong>Free helpline: 0300 123 1110 (weekdays 9am&ndash8pm, weekends 11am&ndash4pm)</strong></h4> `
 
     const finish = null
+    const alcos = await  saveQuestionRequestToApi({ questionText: "Alchol Abuse Services", answerType: 'service', serviceHtml: drinklineHtml }) 
+    const emergencys = await saveQuestionRequestToApi({ questionText: "Emergency Services", answerType: 'service', serviceHtml: emergencyHtml })
     const feelq = await saveQuestionRequestToApi({
         questionText: "How are you feeling today?",
         answerType: 'option',
@@ -111,7 +115,7 @@ afterAll(async () => {
             { optionName: 'I feel great', questionLink: finish },
             { optionName: 'I feel ok', questionLink: finish },
             { optionName: 'I feel unwell', questionLink: finish},
-            { optionName: 'I feel like I may put myself in danger', questionLink: finish },
+            { optionName: 'I feel like I may put myself in danger', questionLink: emergencys._id },
         ]
     });
     const longq = await saveQuestionRequestToApi({ questionText: "How many weeks have you felt like this?", answerType: 'number', nextQuestion: feelq._id })
@@ -123,7 +127,7 @@ afterAll(async () => {
             { optionName: 'Anxiety', questionLink: longq._id },
             { optionName: 'Depression', questionLink: longq._id },
             { optionName: 'Panic', questionLink: longq._id },
-            { optionName: 'Alcohol abuse', questionLink: longq._id },
+            { optionName: 'Alcohol abuse', questionLink: alcos._id },
             { optionName: 'Other', questionLink: otherq._id },
         ]
     });
