@@ -39,8 +39,10 @@ function NewQuestion(props) {
 
     useEffect(() => {
         getQuestions().then(questions => {
-            const displayQuestions = getQuestionsDropdown(questions)
-            setAllQuestions(displayQuestions)
+            if (questions.length > 0) {
+                const displayQuestions = getQuestionsDropdown(questions)
+                setAllQuestions(displayQuestions)
+            }
         })
     }, [])
 

@@ -48,7 +48,13 @@ const ShowQuestions = () => {
 
     // empty array as 2nd argument means it only runs on first render
     useEffect(() => {
-        refreshData();
+        // redefinition of refreshData func since react produces errors otherwise
+        const refreshDataForUseEffect = async () => {
+            const allQuestions = await getQuestions();
+            setVisibleQuestionsArray(allQuestions);
+            setNewQuestionFlag(false);
+        }
+        refreshDataForUseEffect();
     }, []);
 
     const deleteQuestionFromPage = async (questionId) => {
