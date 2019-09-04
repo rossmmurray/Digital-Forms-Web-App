@@ -1,7 +1,6 @@
 import React from 'react';
 import { questionType } from '../../propTypes/propTypes'
 import PropTypes from 'prop-types';
-import { MHTextField } from '../Fields';
 import { TextField } from '@material-ui/core';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';

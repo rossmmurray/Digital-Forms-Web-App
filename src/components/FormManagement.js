@@ -108,7 +108,6 @@ export const FormManagement = props => {
                                         value={form.title}
                                     />
                                 </ListItemText>
-                                {/* todo: [not loc]: why is api calls cheaper */}
                                 <FormControl>
                                     <InputLabel>First Question</InputLabel>
                                     <Select

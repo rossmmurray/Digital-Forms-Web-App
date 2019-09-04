@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, IconButton, Button } from '@material-ui/core';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { makeStyles, Button } from '@material-ui/core';
+import { GoogleLogin } from 'react-google-login';
 import { base_url } from "../connections";
 import { getTokenFromLocalStorage, getUserFromLocalStorage } from '../helper/AuthFunctions'
 
@@ -60,9 +60,6 @@ export const Login = props => {
         // eslint-disable-next-line
     }, [])
 
-    const logoutFailure = (message) => {
-        console.error(message)
-    }
 
     const responseGoogle = (response) => {
         const googleAccessToken = JSON.stringify({ access_token: response.accessToken })
@@ -103,25 +100,12 @@ export const Login = props => {
         cookiePolicy={'single_host_origin'}
     />;
 
-    const logoutButton = <GoogleLogout
-        clientId="51463348971-oupg93q2h6n4ig8voa9695sh1r2e6bmj.apps.googleusercontent.com"
-        buttonText="Log out"
-        onLogoutSuccess={logout}
-    // onFailure={logoutFailure}
-    />;
 
     const plainLogout =  <Button variant={'contained'} color='primary' size='large' onClick={logout} aria-label="Log Out">Log out</Button>
 
-    //     <IconButton onClick={handleDrawerToggle} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
-    //     <MenuIcon />
-    // </IconButton>
 
     const userInfo = user ?
         (<div>
-            {/* <img
-                src={user.imageUrl}
-                alt="new"
-            /> <br /> */}
             <h4>Email: {user.email}</h4>
             <h4>Role: {user.role}</h4>
         </div>) :

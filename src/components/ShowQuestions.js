@@ -11,7 +11,6 @@ import RefreshIcon from '@material-ui/icons/Refresh'
 import NewQuestion from './NewQuestion';
 import { getQuestionsDropdown } from '../helper/DataTransformFunctions'
 import AddCircle from '@material-ui/icons/AddCircle'
-import { MHPaper } from '../styling/MHPaper'
 import { MHCard } from '../styling/MHCard'
 import Box from '@material-ui/core/Box';
 
@@ -70,7 +69,6 @@ const ShowQuestions = () => {
         const question = props.questionObject;
         return <div>
             <MHCard>
-            {/* // todo: make this grid item, not list */}
                 <ListItem >
                     <ListItemText
                         primary={question.questionText}
@@ -120,7 +118,6 @@ const ShowQuestions = () => {
                 {newQuestionFlag ?
                     <NewQuestion parentRefresh={refreshData} />
                     :
-                    // todo: make this grid item, not list
                     <ListItem>
                         <div>
                             <br />

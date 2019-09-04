@@ -5,10 +5,8 @@ import { questionType } from '../propTypes/propTypes'
 import AddCircle from '@material-ui/icons/AddCircle'
 import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
-import red from '@material-ui/core/colors/red';
 
 export const AnswerOptions = (props) => {
-
 
     const [question, setQuestion] = useState(props.question)
     const optionsCheck = question.answerOptions && question.answerOptions.length > 0;

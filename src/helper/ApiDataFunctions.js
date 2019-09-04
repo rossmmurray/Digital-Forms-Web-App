@@ -13,14 +13,9 @@ const getRequestConfig = () => {
 }
 
 export const getUsers = async () => {
-    // try {
         const users = await axios.get(base_url + '/users', getRequestConfig())
         if (users.data.success === false) throw new Error(users.data.error)
         return users.data.data
-    // } catch (error) {
-    //     console.error(error)
-    //     throw new Error(error)
-    // }
 }
 
 export const getQuestions = async () => {
@@ -65,13 +60,13 @@ export const postAnswerToAPI = async (answer) => {
 }
 
 export const deleteFormToAPI = async formQuery => {
-    // strangley, the body goes into a data param for axios.delete
+    // strangeley, the body goes into a data param for axios.delete
     const response = await axios.delete(base_url + '/form', {data: formQuery})
     return response.data.data.deletedCount
 }
 
 export const deleteQuestion = async (questionId) => {
-    // strangley, the body goes into a data param for axios.delete
+    // strangeley, the body goes into a data param for axios.delete
     const response = await axios.delete(base_url + '/question', {
         data: { id: questionId }
     });

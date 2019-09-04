@@ -74,15 +74,13 @@ function NewQuestion(props) {
         })
     }
 
-    // const update
-
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
         let errorMessage = '';
 
         // remove empty options
         if (question.answerOptions) {
-            question.answerOptions = question.answerOptions.filter(option => option.questionLink != '')
+            question.answerOptions = question.answerOptions.filter(option => option.questionLink !== '')
         }
 
         try {
@@ -132,10 +130,8 @@ function NewQuestion(props) {
             return successMessage;
         } catch (err) {
             if (err.data) {
-                // console.error(err.data.error.messge)
                 throw new Error(err.data.error.message)
             } else {
-                // console.error(err)
                 throw new Error(err)
             }
         }
