@@ -18,7 +18,6 @@ import { UserFormWizard } from './components/UserFormWizard';
 //     // application specific logging, throwing an error, or other logic here
 //   });
 
-
 class App extends Component {
 
     myNewQuestion = (props) => {
