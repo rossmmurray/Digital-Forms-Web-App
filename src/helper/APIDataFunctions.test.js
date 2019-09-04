@@ -12,7 +12,6 @@ test('get questions array', async () => {
     const result = await getQuestions();
     const arrayCheckString = Object.prototype.toString.call(result);
     expect(arrayCheckString).toEqual('[object Array]');
-    // expect(result.length).not.toEqual(0);
 });
 
 test('get users array', async () => {
