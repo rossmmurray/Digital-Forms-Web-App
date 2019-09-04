@@ -2,7 +2,6 @@ import { updateFormToAPI, deleteFormToAPI, postFormToAPI, updateUser, getUsers, 
 import { deleteAllQuestions } from '../helper/ApiDataFunctions'
 // jest.mock("./APIDataFunctions.js");
 
-// at the end, add some sample questions so they stay up
 
 const freeTextQuestion = {
     questionText: "Standard qustions text",

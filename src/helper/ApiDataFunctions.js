@@ -26,7 +26,7 @@ export const getUsers = async () => {
 export const getQuestions = async () => {
     let questionsApiData = {};
     try {
-        questionsApiData = await axios.get(base_url + '/getQuestions', getRequestConfig());
+        questionsApiData = await axios.get(base_url + '/questions', getRequestConfig());
         return questionsApiData.data.data;
     } catch (error) {
         console.error(error)
@@ -36,7 +36,7 @@ export const getQuestions = async () => {
 
 export const saveQuestionRequestToApi = async (question) => {
     // should return saved question if successful
-    const response = await axios.post(base_url + '/putQuestion', question)
+    const response = await axios.post(base_url + '/question', question)
     if (response.data.success) {
         return response.data.questionAdded;
     } else {
@@ -85,7 +85,7 @@ export const updateFormToAPI = async (form) => {
 
 export const updateQuestionRequestToApi = async (questionId, question) => {
     try {
-        const response = await axios.put(base_url + '/updateQuestion/' + questionId, question);
+        const response = await axios.put(base_url + '/question/' + questionId, question);
         return response.data;
     } catch (err) {
         console.error(err)
@@ -95,7 +95,7 @@ export const updateQuestionRequestToApi = async (questionId, question) => {
 
 export const updateUser = async (updatedUser) => {
     try {
-        const response = await axios.put(base_url + '/updateUser', updatedUser);
+        const response = await axios.put(base_url + '/user', updatedUser);
         return response.data;
     } catch (err) {
         console.error(err)
