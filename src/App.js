@@ -17,7 +17,6 @@ import { UserFormWizard } from './components/UserFormWizard';
 //     console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 //     // application specific logging, throwing an error, or other logic here
 //   });
-
 class App extends Component {
 
     myNewQuestion = (props) => {
