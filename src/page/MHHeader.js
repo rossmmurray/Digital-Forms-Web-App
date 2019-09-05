@@ -16,9 +16,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
-import routes from '../routes/routes';
-import { Toc } from '@material-ui/icons';
-import { ListSubheader } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
