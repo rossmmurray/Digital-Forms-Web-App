@@ -14,14 +14,15 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ViewList from '@material-ui/icons/ViewList'
 import Save from '@material-ui/icons/Save'
-import { MHTextField } from './Fields'
+import { MHTextField, MHSelectField } from './Fields'
 import { InputLabel } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import AddCircle from '@material-ui/icons/AddCircle'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import Delete from '@material-ui/icons/Delete'
+import { getQuestionsDropdown } from '../helper/DataTransformFunctions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -43,11 +44,13 @@ export const FormManagement = props => {
     }
 
     const [allQuestions, setAllQuestions] = useState([])
+    const [allDisplayQuestions, setAllDisplayQuestions] = useState([])
     const [formData, setFormData] = useState([]);
 
     useEffect(() => {
         getQuestions().then(questions => {
             setAllQuestions(questions)
+            setAllDisplayQuestions(getQuestionsDropdown(questions))
         })
         getFormsFromAPI().then(forms => {
             setFormData(forms)
@@ -101,14 +104,37 @@ export const FormManagement = props => {
                                     <ViewList />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <MHTextField
-                                        label='Form Title'
-                                        onChange={handleChange(index)}
-                                        name='title'
-                                        value={form.title}
-                                    />
+
+                                    <Grid container spacing={3}>
+
+                                    <Grid item sm={12} md={6}>
+                                            <MHTextField
+                                                label='Form Title'
+                                                onChange={handleChange(index)}
+                                                name='title'
+                                                value={form.title}
+                                                fullWidth={true}
+                                            />
+                                        </Grid>
+
+                                    <Grid item sm={12} md={6}>
+
+                                            <MHSelectField
+                                                onChange={handleChange(index)}
+                                                label="Choose next question"
+                                                value={form.firstQuestion}
+                                                options={allDisplayQuestions}
+                                                // fullWidth={false}
+                                            />
+                                        </Grid>
+
+
+                                    </Grid>
+
                                 </ListItemText>
-                                <FormControl>
+
+
+                                {/* <FormControl>
                                     <InputLabel>First Question</InputLabel>
                                     <Select
                                         label={'First Question'}
@@ -121,7 +147,7 @@ export const FormManagement = props => {
                                             <MenuItem key={question._id} value={question._id}>{question.questionText}</MenuItem>
                                         )}
                                     </Select>
-                                </FormControl>
+                                </FormControl> */}
 
                                 <IconButton aria-label="save form" onClick={saveForm(form)}><Save /></IconButton>
 
