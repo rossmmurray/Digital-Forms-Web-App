@@ -73,6 +73,7 @@ export const MHSelectField = (props) => {
                 input={<OutlinedInput labelWidth={labelWidth} id={labalId} />}
                 value={props.value}
                 onChange={props.onChange}
+                name={props.name}
             >
                 <option value="" disabled></option>
                 {

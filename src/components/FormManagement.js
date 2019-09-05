@@ -121,19 +121,15 @@ export const FormManagement = props => {
 
                                             <MHSelectField
                                                 onChange={handleChange(index)}
-                                                label="Choose next question"
+                                                label="First Question"
                                                 value={form.firstQuestion}
                                                 options={allDisplayQuestions}
-                                                // fullWidth={false}
+                                                name={'firstQuestion'}
+                                                placeholder="Pick the first question"
                                             />
                                         </Grid>
-
-
                                     </Grid>
-
                                 </ListItemText>
-
-
                                 {/* <FormControl>
                                     <InputLabel>First Question</InputLabel>
                                     <Select

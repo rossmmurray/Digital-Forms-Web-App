@@ -29,7 +29,7 @@ function NewQuestion(props) {
 
     // state management
     const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{ optionName: '', questionLink: '' }] })
-    const [allQuestions, setAllQuestions] = useState([])
+    const [allQuestions, setAllQuestions] = useState(props.allQuestions || [])
     const [open, setOpen] = useState(false)
     const [snackbarConfig, setSnackbarConfig] = useState({ message: "", variant: "success" })
 
@@ -38,6 +38,10 @@ function NewQuestion(props) {
     }
 
     useEffect(() => {
+        // if component is passed questions, don't re-retrieve
+        if (props.allQuestions) {
+            return;
+        }
         getQuestions().then(questions => {
             if (questions.length > 0) {
                 const displayQuestions = getQuestionsDropdown(questions)
