@@ -78,6 +78,35 @@ function NewQuestion(props) {
         })
     }
 
+    const validateQuestion = question => {
+        const errorArray = []
+
+        if (typeof question.questionText === 'undefined' || ['', null].includes(question.questionText)) {
+            errorArray.push("You must enter question text!")
+        }
+
+        // must link to new question
+        if (['option', 'boolean'].includes(question.answerType)) {
+            if (question.answerOptions.length < 1) {
+                errorArray.push("You must enter at least one option with link.")
+            }
+        } else {
+            if (typeof question.nextQuestion === 'undefined' || question.nextQuestion === null) {
+                errorArray.push("You must enter the next question!")
+            }
+        }
+
+        // if there are errors, notify and return false
+        if (errorArray.length > 0) {
+            const errorMessages = errorArray.join('\n ')
+            setSnackbarConfig({ message: errorMessages, variant: 'error' })
+            setOpen(true)
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
         let errorMessage = '';
@@ -87,20 +116,25 @@ function NewQuestion(props) {
             question.answerOptions = question.answerOptions.filter(option => option.questionLink !== '')
         }
 
+        // exit if you can't validate question
+        if (!validateQuestion(question)) {
+            return;
+        }
+
         try {
             if (updateFlag) {
                 successResponse = await saveExistingQuestionToDB(question);
             } else {
                 successResponse = await saveNewQuestionToDB(question);
             }
-            setSnackbarConfig({message: successResponse, variant: 'success'})
+            setSnackbarConfig({ message: successResponse, variant: 'success' })
             setOpen(true)
             if (typeof props.parentRefresh == 'function') {
                 props.parentRefresh()
             }
         } catch (error) {
             errorMessage = error.message ? error.message : error;
-            setSnackbarConfig({message: errorMessage, variant: 'error'})
+            setSnackbarConfig({ message: errorMessage, variant: 'error' })
             setOpen(true)
         }
     };
