@@ -41,10 +41,10 @@ export const FormWizardQuestions = props => {
 
     // find first question
     const firstQuestion = props.questions.find(question => props.form.firstQuestion === question._id)
-    const blankInput = getDefaultInput(firstQuestion)
+    const defaultInput = getDefaultInput(firstQuestion)
 
     const [currentQuestion, setCurrentQuestion] = useState(firstQuestion)
-    const [currentUserInput, setCurrentUserInput] = useState(blankInput)
+    const [currentUserInput, setCurrentUserInput] = useState(defaultInput)
 
     const goToNextQuestion = () => {
         if (typeof currentUserInput.nextQuestion === 'undefined' || currentUserInput.nextQuestion === null) {
@@ -52,7 +52,7 @@ export const FormWizardQuestions = props => {
         } else {
             saveUserInputToDB()
             const nextQuestion = props.questions.find(question => question._id === currentUserInput.nextQuestion)
-            setCurrentUserInput(blankInput)
+            setCurrentUserInput(defaultInput)
             setCurrentQuestion(nextQuestion)
             setCurrentUserInput(getDefaultInput(nextQuestion))
         }
