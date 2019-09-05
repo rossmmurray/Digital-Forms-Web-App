@@ -173,7 +173,7 @@ export default function ButtonAppBar() {
                 <nav className={classes.drawer} aria-label="mailbox folders">
 
                     {/* hidden on larger screens */}
-                    <Hidden smUp implementation="css">
+                    {/* <Hidden smUp implementation="css">
                         <Drawer
                             variant="temporary"
                             // anchor={theme.direction === 'rtl' ? 'right' : 'left'}
@@ -188,10 +188,10 @@ export default function ButtonAppBar() {
                         >
                             {drawer}
                         </Drawer>
-                    </Hidden>
+                    </Hidden> */}
 
                     {/* hidden on mobile i.e. xs size and down */}
-                    <Hidden xsDown implementation="css">
+                    {/* <Hidden xsDown implementation="css">
                         <Drawer
                             classes={{
                                 paper: classes.drawerPaper,
@@ -201,7 +201,7 @@ export default function ButtonAppBar() {
                         >
                             {drawer}
                         </Drawer>
-                    </Hidden>
+                    </Hidden> */}
                 </nav>
             </div>
 
