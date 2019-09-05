@@ -33,19 +33,18 @@ const useStyles = makeStyles(theme => ({
 export const FormManagement = props => {
     const classes = useStyles();
 
-    const snackbarConfig = {
-        message: "User update saved to database.",
-        variant: "success"
-    }
     const [open, setOpen] = useState(false)
     const handleClose = () => {
         setOpen(false);
-        props.reRenderHeader()
+        if (snackbarConfig.variant === "success") {
+            props.reRenderHeader()
+        }
     }
 
     const [allQuestions, setAllQuestions] = useState([])
     const [allDisplayQuestions, setAllDisplayQuestions] = useState([])
     const [formData, setFormData] = useState([]);
+    const [snackbarConfig, setSnackbarConfig] = useState({ message: "Form update saved to database.", variant: "success" })
 
     useEffect(() => {
         getQuestions().then(questions => {
@@ -64,14 +63,27 @@ export const FormManagement = props => {
             [event.target.name]: event.target.value
         }
         setFormData(tempFormData)
+    }
 
+    const validateForm = form => {
+        if (!(form.title && form.firstQuestion)) {
+            setSnackbarConfig({ message: "Forms must have a title and first question!", variant: "error" })
+            setOpen(true)
+            return false;
+        }
+        return true;
     }
 
     // send a form to the backend API, then re-render header 
     const saveForm = form => event => {
+
+        // exit if not validated
+        if (!validateForm(form)) {
+            return;
+        }
         updateFormToAPI(form).then(() => {
+            setSnackbarConfig({ message: "Form Saved: " + form.title, variant: "success" })
             setOpen(true)
-            // 
         }).catch(error => {
             console.error(error)
         })
@@ -86,7 +98,9 @@ export const FormManagement = props => {
     const deleteForm = form => event => {
         if (form._id) {
             deleteFormToAPI({ _id: form._id }).then(() => {
-                props.reRenderHeader()
+                setSnackbarConfig({ message: "Form deleted" , variant: "success" })
+                setOpen(true) 
+                // props.reRenderHeader()
             })
         }
     }
@@ -107,7 +121,7 @@ export const FormManagement = props => {
 
                                     <Grid container spacing={3}>
 
-                                    <Grid item sm={12} md={6}>
+                                        <Grid item sm={12} md={6}>
                                             <MHTextField
                                                 label='Form Title'
                                                 onChange={handleChange(index)}
@@ -117,7 +131,7 @@ export const FormManagement = props => {
                                             />
                                         </Grid>
 
-                                    <Grid item sm={12} md={6}>
+                                        <Grid item sm={12} md={6}>
 
                                             <MHSelectField
                                                 onChange={handleChange(index)}
