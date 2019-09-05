@@ -6,7 +6,6 @@ export const routes = [
   {
     path: "/",
     name: 'Home',
-    icon: Home,
-  }
+    icon: Home
   }
 ]
