@@ -16,7 +16,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import routes from '../routes/routes';
-import { Toc, AccountCircle } from '@material-ui/icons';
+import Toc from '@material-ui/icons/Toc'
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import { ListSubheader } from '@material-ui/core';
 import { getUserFromLocalStorage } from '../helper/AuthFunctions';
 

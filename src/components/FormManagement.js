@@ -21,7 +21,7 @@ import AddCircle from '@material-ui/icons/AddCircle'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import IconButton from '@material-ui/core/IconButton';
-import { Delete } from '@material-ui/icons';
+import Delete from '@material-ui/icons/Delete'
 
 const useStyles = makeStyles(theme => ({
     root: {
