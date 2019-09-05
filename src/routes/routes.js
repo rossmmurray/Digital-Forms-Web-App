@@ -1,13 +1,12 @@
-import { Home, AccountCircle, AddCircle, PeopleOutline, ListAlt, QuestionAnswer, Edit, AddComment, AddCommentTwoTone, AddCommentSharp, AddCommentRounded, AddCommentOutlined } from '@material-ui/icons';
+import { Home, AccountCircle, PeopleOutline, ListAlt, QuestionAnswer, Edit, AddComment } from '@material-ui/icons';
 
 
-const routes = [
+export const routes = [
   {
     path: "/",
     name: 'Home',
     icon: Home,
   },
-
   {
     path: '/Login',
     name: 'Login',
@@ -37,11 +36,5 @@ const routes = [
     path: "/admin/manageForms",
     name: 'Manage Forms',
     icon: ListAlt,
-  },
-
-
-  
-
-];
-
-export default routes;
+  }
+]
