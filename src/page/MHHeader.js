@@ -23,57 +23,17 @@ import routes from '../routes/routes';
 import { Toc } from '@material-ui/icons';
 import { ListSubheader } from '@material-ui/core';
 
-
-const drawerWidth = 240
-
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
-    title: {
-        flexGrow: 1,
-        fontWeight: 900,
-        fontStyle: "italic"
-    },
-    subtitle: {
-        flexGrow: 1,
-        fontWeight: 200,
-        // fontStyle: "italic"
-    },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            flexShrink: 0,
-        },
-    },
-    appBar: {
-        marginLeft: drawerWidth,
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-        },
-    },
-    //   don't display menu button if small
     menuButton: {
         marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
         },
-    },
-    toolbar: {
-        display: 'flex',
-        backgroundColor: "primary",
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: theme.spacing(0, 1),
-        ...theme.mixins.toolbar,
-
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
+        title: {
+            flexGrow: 1,
+            fontWeight: "bold",
+            fontStyle: "italic"
     },
 }));
 
@@ -83,12 +43,6 @@ export default function ButtonAppBar() {
 
     const [forms, setForms] = useState([])
     const [menuAnchor, setMenuAnchor] = useState(null)
-        // const theme = useTheme();
-        const [mobileOpen, setMobileOpen] = React.useState(false);
-
-        function handleDrawerToggle() {
-            setMobileOpen(!mobileOpen);
-        }
 
     useEffect(() => {
         getFormsFromAPI().then(forms => {
@@ -101,7 +55,7 @@ export default function ButtonAppBar() {
         setMenuAnchor(event.currentTarget)
     }
 
-    const handleClose = () => {
+    const handleClose = event => {
         setMenuAnchor(null)
     }
 
