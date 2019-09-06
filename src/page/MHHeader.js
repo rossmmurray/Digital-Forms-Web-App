@@ -110,13 +110,13 @@ export default function MHHeader(props) {
             </div>
             <Divider />
             <List>
-                {routes.map(route => 
-                    route.role.includes(user && user.role ) && 
+                {routes.map(route =>
+                    route.role.includes(user && user.role) &&
                     <ListItem button component={Link} to={route.path} key={route.path}>
                         <ListItemIcon><route.icon /></ListItemIcon>
                         <ListItemText primary={route.name} />
-                        </ListItem>
-              
+                    </ListItem>
+
                 )}
             </List>
             <Divider />
@@ -141,9 +141,11 @@ export default function MHHeader(props) {
                     <IconButton onClick={handleDrawerToggle} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.subtitle}>
-                        Digital Forms
+                    <Hidden xsDown implementation="css">
+                        <Typography variant="h6" className={classes.subtitle}>
+                            Digital Forms
                     </Typography>
+                    </Hidden>
 
                     {user ? <Button component={Link} to={"/Login"} color="inherit">
                         {user.email} ({user.role})

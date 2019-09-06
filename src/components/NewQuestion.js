@@ -184,7 +184,7 @@ function NewQuestion(props) {
             <Box m={2} mr={1}>
                 <h3>{title()}</h3>
                 <Grid container spacing={3}>
-                    <Grid item xs>
+                    <Grid item xs={12} sm={8}>
                         <MHTextField
                             label={textLabel()}
                             onChange={(e) => updateField(e.target.value, 'questionText')}
@@ -192,7 +192,7 @@ function NewQuestion(props) {
                             fullWidth={true}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} sm={4}>
                         <MHSelectField
                             onChange={(e) => updateField(e.target.value, 'answerType')}
                             label="Type"

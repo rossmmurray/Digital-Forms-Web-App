@@ -10,14 +10,15 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
+        padding: theme.spacing(0, 3, 0, 0)
     },
     paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
     },
-  }));
+}));
 
 // shows single answer option and related next question link
 export const SingleAnswerOption = (props) => {
@@ -25,7 +26,7 @@ export const SingleAnswerOption = (props) => {
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
-                <Grid item xs>
+                <Grid item xs={12} sm={6} >
                     <MHTextField
                         label="Option Name"
                         onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'optionName')}
@@ -33,7 +34,7 @@ export const SingleAnswerOption = (props) => {
                         fullWidth={true}
                     />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={10} sm={5} >
                     <MHSelectField
                         onChange={(e) => props.updateAnswerOption(props.optionIndex, e.target.value, 'questionLink')}
                         label="Question Link"
@@ -41,11 +42,9 @@ export const SingleAnswerOption = (props) => {
                         options={props.allQuestions}
                     />
                 </Grid>
-                <Grid item xs={1}>
-                    <IconButton edge="end" aria-label="Delete Option" onClick={() => props.deleteAnswerOption(props.optionIndex)}  >
-                        <DeleteIcon
-                            // style={{ color: '#a02725' }}
-                        />
+                <Grid item xs={2} sm={1} >
+                    <IconButton edge="false" aria-label="Delete Option" onClick={() => props.deleteAnswerOption(props.optionIndex)}  >
+                        <DeleteIcon />
                     </IconButton>
                 </Grid>
             </Grid>
