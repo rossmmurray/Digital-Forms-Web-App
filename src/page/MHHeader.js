@@ -141,11 +141,13 @@ export default function MHHeader(props) {
                     <IconButton onClick={handleDrawerToggle} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
-                    <Hidden xsDown implementation="css">
-                        <Typography variant="h6" className={classes.subtitle}>
+                    
+                    <Typography variant="h6" className={classes.subtitle}>
+                    <Hidden xsDown>
                             Digital Forms
+                            </Hidden>
                     </Typography>
-                    </Hidden>
+                    
 
                     {user ? <Button component={Link} to={"/Login"} color="inherit">
                         {user.email} ({user.role})
