@@ -91,7 +91,7 @@ function NewQuestion(props) {
                 errorArray.push("You must enter at least one option with link.")
             }
         } else {
-            if (typeof question.nextQuestion === 'undefined' || question.nextQuestion === null) {
+            if (question.answerType !== 'service' && (typeof question.nextQuestion === 'undefined' || question.nextQuestion === null)) {
                 errorArray.push("You must enter the next question!")
             }
         }
