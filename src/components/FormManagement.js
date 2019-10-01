@@ -14,14 +14,15 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import ViewList from '@material-ui/icons/ViewList'
 import Save from '@material-ui/icons/Save'
-import { MHTextField } from './Fields'
+import { MHTextField, MHSelectField } from './Fields'
 import { InputLabel } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import AddCircle from '@material-ui/icons/AddCircle'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-
+import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
-import { Delete } from '@material-ui/icons';
+import Delete from '@material-ui/icons/Delete'
+import { getQuestionsDropdown } from '../helper/DataTransformFunctions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,22 +33,23 @@ const useStyles = makeStyles(theme => ({
 export const FormManagement = props => {
     const classes = useStyles();
 
-    const snackbarConfig = {
-        message: "User update saved to database.",
-        variant: "success"
-    }
     const [open, setOpen] = useState(false)
     const handleClose = () => {
         setOpen(false);
-        props.reRenderHeader()
+        if (snackbarConfig.variant === "success") {
+            props.reRenderHeader()
+        }
     }
 
     const [allQuestions, setAllQuestions] = useState([])
+    const [allDisplayQuestions, setAllDisplayQuestions] = useState([])
     const [formData, setFormData] = useState([]);
+    const [snackbarConfig, setSnackbarConfig] = useState({ message: "Form update saved to database.", variant: "success" })
 
     useEffect(() => {
         getQuestions().then(questions => {
             setAllQuestions(questions)
+            setAllDisplayQuestions(getQuestionsDropdown(questions))
         })
         getFormsFromAPI().then(forms => {
             setFormData(forms)
@@ -61,14 +63,27 @@ export const FormManagement = props => {
             [event.target.name]: event.target.value
         }
         setFormData(tempFormData)
+    }
 
+    const validateForm = form => {
+        if (!(form.title && form.firstQuestion)) {
+            setSnackbarConfig({ message: "Forms must have a title and first question!", variant: "error" })
+            setOpen(true)
+            return false;
+        }
+        return true;
     }
 
     // send a form to the backend API, then re-render header 
     const saveForm = form => event => {
+
+        // exit if not validated
+        if (!validateForm(form)) {
+            return;
+        }
         updateFormToAPI(form).then(() => {
+            setSnackbarConfig({ message: "Form Saved: " + form.title, variant: "success" })
             setOpen(true)
-            // 
         }).catch(error => {
             console.error(error)
         })
@@ -83,7 +98,9 @@ export const FormManagement = props => {
     const deleteForm = form => event => {
         if (form._id) {
             deleteFormToAPI({ _id: form._id }).then(() => {
-                props.reRenderHeader()
+                setSnackbarConfig({ message: "Form deleted" , variant: "success" })
+                setOpen(true) 
+                // props.reRenderHeader()
             })
         }
     }
@@ -101,14 +118,33 @@ export const FormManagement = props => {
                                     <ViewList />
                                 </ListItemIcon>
                                 <ListItemText>
-                                    <MHTextField
-                                        label='Form Title'
-                                        onChange={handleChange(index)}
-                                        name='title'
-                                        value={form.title}
-                                    />
+
+                                    <Grid container spacing={3}>
+
+                                        <Grid item sm={12} md={6}>
+                                            <MHTextField
+                                                label='Form Title'
+                                                onChange={handleChange(index)}
+                                                name='title'
+                                                value={form.title}
+                                                fullWidth={true}
+                                            />
+                                        </Grid>
+
+                                        <Grid item sm={12} md={6}>
+
+                                            <MHSelectField
+                                                onChange={handleChange(index)}
+                                                label="First Question"
+                                                value={form.firstQuestion}
+                                                options={allDisplayQuestions}
+                                                name={'firstQuestion'}
+                                                placeholder="Pick the first question"
+                                            />
+                                        </Grid>
+                                    </Grid>
                                 </ListItemText>
-                                <FormControl>
+                                {/* <FormControl>
                                     <InputLabel>First Question</InputLabel>
                                     <Select
                                         label={'First Question'}
@@ -121,7 +157,7 @@ export const FormManagement = props => {
                                             <MenuItem key={question._id} value={question._id}>{question.questionText}</MenuItem>
                                         )}
                                     </Select>
-                                </FormControl>
+                                </FormControl> */}
 
                                 <IconButton aria-label="save form" onClick={saveForm(form)}><Save /></IconButton>
 

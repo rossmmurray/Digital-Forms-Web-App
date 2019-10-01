@@ -1,4 +1,10 @@
-import { Home, AccountCircle, PeopleOutline, ListAlt, QuestionAnswer, Edit, AddComment, } from '@material-ui/icons';
+import Home from '@material-ui/icons/Home';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import AddComment from '@material-ui/icons/AddComment';
+import Edit from '@material-ui/icons/Edit';
+import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
+import PeopleOutline from '@material-ui/icons/PeopleOutline';
+import ListAlt from '@material-ui/icons/ListAlt';
 
 
 const routes = [
@@ -8,7 +14,6 @@ const routes = [
     icon: Home,
     role: ['admin', 'patient', 'clinician', null],
   },
-
   {
     path: '/Login',
     name: 'Login',

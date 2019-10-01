@@ -29,7 +29,7 @@ function NewQuestion(props) {
 
     // state management
     const [unsavedQuestion, setUnsavedQuestionField] = useState(props.question || { answerOptions: [{ optionName: '', questionLink: '' }] })
-    const [allQuestions, setAllQuestions] = useState([])
+    const [allQuestions, setAllQuestions] = useState(props.allQuestions || [])
     const [open, setOpen] = useState(false)
     const [snackbarConfig, setSnackbarConfig] = useState({ message: "", variant: "success" })
 
@@ -38,6 +38,10 @@ function NewQuestion(props) {
     }
 
     useEffect(() => {
+        // if component is passed questions, don't re-retrieve
+        if (props.allQuestions) {
+            return;
+        }
         getQuestions().then(questions => {
             if (questions.length > 0) {
                 const displayQuestions = getQuestionsDropdown(questions)
@@ -74,6 +78,35 @@ function NewQuestion(props) {
         })
     }
 
+    const validateQuestion = question => {
+        const errorArray = []
+
+        if (typeof question.questionText === 'undefined' || ['', null].includes(question.questionText)) {
+            errorArray.push("You must enter question text!")
+        }
+
+        // must link to new question
+        if (['option', 'boolean'].includes(question.answerType)) {
+            if (question.answerOptions.length < 1) {
+                errorArray.push("You must enter at least one option with link.")
+            }
+        } else {
+            if (question.answerType !== 'service' && (typeof question.nextQuestion === 'undefined' || question.nextQuestion === null)) {
+                errorArray.push("You must enter the next question!")
+            }
+        }
+
+        // if there are errors, notify and return false
+        if (errorArray.length > 0) {
+            const errorMessages = errorArray.join('\n ')
+            setSnackbarConfig({ message: errorMessages, variant: 'error' })
+            setOpen(true)
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     const saveQuestionToDB = async (question) => {
         let successResponse = '';
         let errorMessage = '';
@@ -83,20 +116,25 @@ function NewQuestion(props) {
             question.answerOptions = question.answerOptions.filter(option => option.questionLink !== '')
         }
 
+        // exit if you can't validate question
+        if (!validateQuestion(question)) {
+            return;
+        }
+
         try {
             if (updateFlag) {
                 successResponse = await saveExistingQuestionToDB(question);
             } else {
                 successResponse = await saveNewQuestionToDB(question);
             }
-            setSnackbarConfig({message: successResponse, variant: 'success'})
+            setSnackbarConfig({ message: successResponse, variant: 'success' })
             setOpen(true)
             if (typeof props.parentRefresh == 'function') {
                 props.parentRefresh()
             }
         } catch (error) {
             errorMessage = error.message ? error.message : error;
-            setSnackbarConfig({message: errorMessage, variant: 'error'})
+            setSnackbarConfig({ message: errorMessage, variant: 'error' })
             setOpen(true)
         }
     };
@@ -146,7 +184,7 @@ function NewQuestion(props) {
             <Box m={2} mr={1}>
                 <h3>{title()}</h3>
                 <Grid container spacing={3}>
-                    <Grid item xs>
+                    <Grid item xs={12} sm={8}>
                         <MHTextField
                             label={textLabel()}
                             onChange={(e) => updateField(e.target.value, 'questionText')}
@@ -154,7 +192,7 @@ function NewQuestion(props) {
                             fullWidth={true}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={12} sm={4}>
                         <MHSelectField
                             onChange={(e) => updateField(e.target.value, 'answerType')}
                             label="Type"

@@ -16,7 +16,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import routes from '../routes/routes';
-import { Toc, AccountCircle } from '@material-ui/icons';
+import Toc from '@material-ui/icons/Toc'
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import { ListSubheader } from '@material-ui/core';
 import { getUserFromLocalStorage } from '../helper/AuthFunctions';
 
@@ -109,13 +110,13 @@ export default function MHHeader(props) {
             </div>
             <Divider />
             <List>
-                {routes.map(route => 
-                    route.role.includes(user && user.role ) && 
+                {routes.map(route =>
+                    route.role.includes(user && user.role) &&
                     <ListItem button component={Link} to={route.path} key={route.path}>
                         <ListItemIcon><route.icon /></ListItemIcon>
                         <ListItemText primary={route.name} />
-                        </ListItem>
-              
+                    </ListItem>
+
                 )}
             </List>
             <Divider />
@@ -140,9 +141,13 @@ export default function MHHeader(props) {
                     <IconButton onClick={handleDrawerToggle} edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
                         <MenuIcon />
                     </IconButton>
+                    
                     <Typography variant="h6" className={classes.subtitle}>
-                        Digital Forms
+                    <Hidden xsDown>
+                            Digital Forms
+                            </Hidden>
                     </Typography>
+                    
 
                     {user ? <Button component={Link} to={"/Login"} color="inherit">
                         {user.email} ({user.role})
