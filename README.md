@@ -5,6 +5,9 @@
 
 This Web App was built with Javascript and React. It forms the frontend of a project that was developed for NHS Digital to triage mental health patients. 
 
+### User Manual
+View the "How-To" User Manual [here](https://rossmmurray.github.io/MHTriageFrontend/DFUserManual.pdf)
+
 ### A Look at the Web App
 
 Login:
@@ -30,10 +33,6 @@ Fill in question:
 User Management:
 
 ![user](screenshots/users.png)
-
-## User Manual
-View the "How-To" User Manual at: https://rossmmurray.github.io/MHTriageFrontend/DFUserManual.pdf
-
 
 
 # How to Run
